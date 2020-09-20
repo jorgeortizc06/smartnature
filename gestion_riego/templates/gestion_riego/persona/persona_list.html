@@ -1,0 +1,32 @@
+
+{% extends 'gestion_riego/layout.html' %}
+{% block titulo %}Lista de Personas{% endblock titulo %}
+
+{% block body %}
+<h2 id="nav-tabs">Personas</h2>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>Nombre</th>
+        <th>Apellido</th>
+        <th>Email</th>
+        <th>Telefono</th>
+        <th>Password</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for persona in object_list %}
+    <tr>
+        <td>{{persona.nombre}}</td>
+        <td>{{persona.apellido}}</td>
+        <td>{{persona.email}}</td>
+        <td>{{persona.tfno}}</td>
+        <td>{{persona.password}}</td>
+        <td><a href="{% url 'persona_update' persona.id %}">ACTUALIZAR</a>  <a href="{% url 'persona_delete' persona.id %}">ELIMINAR</a></td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+{% endblock body %}
