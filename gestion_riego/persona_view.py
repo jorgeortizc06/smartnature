@@ -3,6 +3,7 @@ from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.urls import reverse_lazy
 from .models import Persona
 from .forms import PersonaForm
+from rest_framework import viewsets
 
 #Vistas basadas en clases
 #Recomendable y haca a la aplicacion facilmente escalable

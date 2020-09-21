@@ -1,0 +1,15 @@
+
+{% extends 'gestion_riego/layout.html' %}
+{% block head %}
+<meta http-equiv="refresh" content="1">
+{% endblock head %}
+{% block titulo %}Lista de Sensores{% endblock titulo %}
+
+{% block body %}
+<h2 id="nav-tabs">Sensores</h2>
+
+{{temp_ambiente}}
+{{humed_ambiente}}
+{{humed_suelo}}
+
+{% endblock body %}

@@ -71,7 +71,7 @@ void loop() {
   Serial.print(promedioHumedadSuelo);
   Serial.println();
    
-  if (Serial.available()) 
+  if (Serial.available()>0) 
    {
       char parametro = Serial.read();
       if (parametro == '0')
@@ -83,7 +83,7 @@ void loop() {
         digitalWrite(electrovalvula, HIGH);
       }
    }
-  delay(2000);
+  delay(5000);
 /*
   if(sensorSuelo >= 700) // el valor que considero seco y hay que regar es de 700
   {
