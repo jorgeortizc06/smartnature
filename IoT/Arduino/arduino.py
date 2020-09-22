@@ -8,7 +8,7 @@ import time
 import requests
 import json
 
-arduino = serial.Serial("COM3", 9600)
+arduino = serial.Serial("/dev/ttyACM0", 9600)
 """address = 'http://192.168.0.2:8080/jorgeortiz.smartnature/srv/tipo-planta/eliminarid?id=3'"""
 sensor = 'http://127.0.0.1:8000/gestion_riego/srv/sensor/list/'
 headers = {"Content-type": "application/json"}
@@ -45,5 +45,5 @@ while True:
             print("sin conexion")
     else:
         print("Error de lectura del puerto")
-    arduino.close()
+arduino.close()
         

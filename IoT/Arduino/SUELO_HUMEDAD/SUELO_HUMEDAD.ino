@@ -30,19 +30,8 @@ void setup() {
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-  /*int lectura = analogRead(A0);
-  int sensorDH = analogRead(A1);
-  Serial.println("Sensor Suelo: ");
-  Serial.println(lectura);
-  Serial.println("Sensor Ambiental: ");
-  Serial.println(sensorDH);
 
-  int lecturaPorcentaje = map(lectura, 1023, 400, 0, 100);
-
-  Serial.print("La humedad es del: ");
-  Serial.print(lecturaPorcentaje);
-  Serial.println("%");*/
+  //int lecturaPorcentaje = map(lectura, 1023, 400, 0, 100);
 
   int sensorSuelo1 = analogRead(humedadSueloA0);
   int sensorSuelo2 = analogRead(humedadSueloA1);

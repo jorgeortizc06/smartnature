@@ -1,37 +1,4 @@
-
-{% extends 'gestion_riego/layout.html' %}
-
-{% block titulo %}Lista de Sensores{% endblock titulo %}
-{% block head %}
-<meta http-equiv="refresh" content="5">
-{% endblock head %}
-{% block body %}
-<h2 id="nav-tabs">Sensores</h2>
-
-{{id}}
-{{temp_ambiental}}
-{{humed_ambiental}}
-{{humed_suelo}}
-
-<div class="container">
-    <div class="row">
-      <div class="col-sm">
-        <figure>
-            <div id="container-speed" class="chart-container" class="col-auto"></div>
-        </figure>
-      </div>
-      <div class="col-sm">
-        <figure>
-            <div id="container-rpm" class="chart-container"></div>
-        </figure>
-      </div>
-    </div>
-</div>
-<figure>
-    <div id="container-humd-suelo" class="chart-container"></div>
-</figure>
-<script>
-    var gaugeOptions = {
+var gaugeOptions = {
     chart: {
         type: 'solidgauge'
     },
@@ -106,7 +73,7 @@ var chartTempAmbiental = Highcharts.chart('container-speed', Highcharts.merge(ga
 
     series: [{
         name: 'TemperaturaAmbiental',
-        data: [0],
+        data: [20],
         dataLabels: {
             format:
                 '<div style="text-align:center">' +
@@ -133,42 +100,13 @@ var chartHumedAmbiente = Highcharts.chart('container-rpm', Highcharts.merge(gaug
 
     series: [{
         name: 'HumedadAmbiental',
-        data: [0],
+        data: [20],
         dataLabels: {
             format:
                 '<div style="text-align:center">' +
                 '<span style="font-size:25px">{y:.1f}</span><br/>' +
                 '<span style="font-size:12px;opacity:0.4">' +
                 '* %' +
-                '</span>' +
-                '</div>'
-        },
-        tooltip: {
-            valueSuffix: '%'
-        }
-    }]
-
-}));
-
-// The RPM gauge
-var chartHumedSuelo = Highcharts.chart('container-humd-suelo', Highcharts.merge(gaugeOptions, {
-    yAxis: {
-        min: 0,
-        max: 100,
-        title: {
-            text: 'Humedad Suelo'
-        }
-    },
-
-    series: [{
-        name: 'HumedadSuelo',
-        data: [0],
-        dataLabels: {
-            format:
-                '<div style="text-align:center">' +
-                '<span style="font-size:25px">{y:.1f}</span><br/>' +
-                '<span style="font-size:12px;opacity:0.4">' +
-                '* RH' +
                 '</span>' +
                 '</div>'
         },
@@ -206,23 +144,11 @@ setInterval(function () {
 
     if (chartHumedAmbiente) {
         point = chartHumedAmbiente.series[0].points[0];
+        
+        
         newVal = {{humed_ambiental}};
+        
+        console.log(newVal);
         point.update(newVal);
     }
 }, 2000);
-
-setInterval(function () {
-    // Speed
-    var point,
-        newVal,
-        inc;
-
-    if (chartHumedSuelo) {
-        point = chartHumedSuelo.series[0].points[0];
-        newVal = {{humed_suelo}};
-        point.update(newVal);
-    }
-}, 2000);
-</script>
-
-{% endblock body %}
