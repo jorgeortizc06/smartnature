@@ -1,0 +1,27 @@
+
+{% extends 'gestion_riego/layout.html' %}
+
+{% block titulo %}Lista de Tipos de Sensores{% endblock titulo %}
+{% block body %}
+<h2 id="nav-tabs">Tipos Sensores</h2>
+<table class="table table-hover" id="myTable">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripcion</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for tipo_sensor in object_list %}
+    <tr>
+        <td>{{tipo_sensor.id}}</td>
+        <td>{{tipo_sensor.nombre}}</td>
+        <td>{{tipo_sensor.descripcion}}</td>
+        <td><a href="{% url 'tipo_sensor_update' tipo_sensor.id %}">ACTUALIZAR</a>  <a href="{% url 'tipo_sensor_delete' tipo_sensor.id %}">ELIMINAR</a></td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock body %}

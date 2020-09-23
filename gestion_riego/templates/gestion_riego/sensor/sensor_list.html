@@ -8,20 +8,20 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>Temperatura Ambiente</th>
-        <th>Humedad Ambiente</th>
-        <th>Humedad Suelo</th>
-        <th>Fecha</th>
+        <th>Valor</th>
+        <th>codigo_sensor</th>
+        <th>fecha_registro</th>
+        <th>estado</th>
     </tr>
     </thead>
     <tbody>
     {% for sensor in object_list %}
     <tr>
         <td>{{sensor.id}}</td>
-        <td>{{sensor.temp_ambiente}}</td>
-        <td>{{sensor.humed_ambiente}}</td>
-        <td>{{sensor.humed_suelo}}</td>
+        <td>{{sensor.value}}</td>
+        <td>{{sensor.codigo_sensor}}</td>
         <td>{{sensor.fecha_registro}}</td>
+        <td>{{sensor.estado}}</td>
         <td><a href="{% url 'sensor_update' sensor.id %}">ACTUALIZAR</a>  <a href="{% url 'sensor_delete' sensor.id %}">ELIMINAR</a></td>
 
     </tr>

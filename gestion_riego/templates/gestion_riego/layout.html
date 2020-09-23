@@ -58,10 +58,32 @@
         <div class="collapse navbar-collapse" id="navbarColor01">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Plantas</a>
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Personas</a>
               <div class="dropdown-menu">
                 <a class="dropdown-item" href="{% url 'persona_create' %}">Nueva Persona</a>
                 <a class="dropdown-item" href="{% url 'persona_list' %}">Lista de Personas</a>
+              </div>
+            </li>
+          </ul>          
+        </div>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dispositivo</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'device_create' %}">Nuevo Dispositivo</a>
+                <a class="dropdown-item" href="{% url 'device_list' %}">Lista de Dispositivos</a>
+              </div>
+            </li>
+          </ul>          
+        </div>
+        <div class="collapse navbar-collapse" id="navbarColor01">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Tipo Sensor</a>
+              <div class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'tipo_sensor_create' %}">Nuevo Tipo Sensor</a>
+                <a class="dropdown-item" href="{% url 'tipo_sensor_list' %}">Lista Tipos Sensores</a>
               </div>
             </li>
           </ul>          

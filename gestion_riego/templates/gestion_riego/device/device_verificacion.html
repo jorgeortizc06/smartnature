@@ -5,8 +5,8 @@
 
 <form method="POST">
     {% csrf_token %}
-    <h1>Desea eliminar este Tipo de Sensor {{ object }}</h1>
+    <h1>Desea eliminar este dispositivo {{ object }}</h1>
     <button type="submit" name="button">Confirmar</button>
-    <a href="{% url 'tipo_sensor_list' %}">Cancelar</a>
+    <a href="{% url 'device_list' %}">Cancelar</a>
 
 </form>

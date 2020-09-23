@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',#Para los archivos css
 ]
 
+CORS_ALLOW_ALL_ORIGINS = True
+
 MIDDLEWARE = [ #intermediarios, seguridad. Usuario y framework. Seguridad por defecto. ex: inyecciones sql
     'django.middleware.security.SecurityMiddleware', 
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -50,6 +52,8 @@ MIDDLEWARE = [ #intermediarios, seguridad. Usuario y framework. Seguridad por de
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'smartnature.urls' #Hace referencia a las rutas principales del proyecto
@@ -78,8 +82,12 @@ WSGI_APPLICATION = 'smartnature.wsgi.application' #enlaza a wsgi.py: para parte 
 #Configuracion de la base de datos. Por defecto utiliza sqlite3. Puede trabajar con un o varias DB
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'smartnature',                      
+        'USER': 'jorge',
+        'PASSWORD': 'jorge',
+        'HOST': '192.168.0.6',
+        'DATABASE_PORT': '5432',
     }
 }
 

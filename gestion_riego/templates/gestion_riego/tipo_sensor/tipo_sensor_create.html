@@ -1,0 +1,10 @@
+{% extends 'gestion_riego/layout.html' %}
+{% block titulo %}Formulario Persona{% endblock titulo %}
+
+{% block body %}
+<h2 id="nav-tabs">Nuevo Tipo Sensor</h2>
+<form method="post"> {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit" class="btn btn-primary">GUARDAR</button>
+</form>
+{% endblock body %}
