@@ -4,6 +4,7 @@ from django.urls import path
 from .persona_view import PersonaCreate, PersonaUpdate, PersonaDelete, PersonaList
 from .sensor_view import SensorCreate, SensorUpdate, SensorDelete, SensorList, lectura
 from .tipo_sensor_view import TipoSensorCreate, TipoSensorUpdate, TipoSensorDelete, TipoSensorList
+from .tipo_suelo_view import TipoSueloCreate, TipoSueloUpdate, TipoSueloDelete, TipoSueloList
 from .device_view import DeviceCreate, DeviceUpdate, DeviceDelete, DeviceList
 from .sensor_api import SensorViewSet
 from rest_framework.routers import DefaultRouter
@@ -30,6 +31,11 @@ urlpatterns += [
     path('tipo_sensor_update/<int:pk>/', TipoSensorUpdate.as_view(), name='tipo_sensor_update'),
     path('tipo_sensor_delete/<int:pk>/', TipoSensorDelete.as_view(), name='tipo_sensor_delete'),
     path('tipo_sensor_list/', TipoSensorList.as_view(), name='tipo_sensor_list'),
+
+    path('tipo_suelo_create/', TipoSueloCreate.as_view(), name='tipo_suelo_create'),
+    path('tipo_suelo_update/<int:pk>/', TipoSueloUpdate.as_view(), name='tipo_suelo_update'),
+    path('tipo_suelo_delete/<int:pk>/', TipoSueloDelete.as_view(), name='tipo_suelo_delete'),
+    path('tipo_suelo_list/', TipoSueloList.as_view(), name='tipo_suelo_list'),
 
     path('device_create/', DeviceCreate.as_view(), name='device_create'),
     path('device_update/<int:pk>/', DeviceUpdate.as_view(), name='device_update'),

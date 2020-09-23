@@ -53,9 +53,17 @@ void loop() {
     return;
   }
  
+  Serial.print("Humedad Ambiental: ");
   Serial.print(humedadAmb);
   Serial.print(";");
+  Serial.print("Temperatura Ambiental: ");
   Serial.print(hic);
+  Serial.print(";");
+  Serial.print(sensorSuelo1);
+  Serial.print(";");
+  Serial.print(sensorSuelo2);
+  Serial.print(";");
+  Serial.print(sensorSuelo3);
   Serial.print(";");
   Serial.print(promedioHumedadSuelo);
   Serial.println();

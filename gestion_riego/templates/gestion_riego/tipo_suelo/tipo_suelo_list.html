@@ -1,0 +1,29 @@
+
+{% extends 'gestion_riego/layout.html' %}
+
+{% block titulo %}Lista de Tipos de Sensores{% endblock titulo %}
+{% block body %}
+<h2 id="nav-tabs">Tipos Suelos</h2>
+<table class="table table-hover" id="myTable">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Descripcion</th>
+        <th>Densidad</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for tipo_suelo in object_list %}
+    <tr>
+        <td>{{tipo_suelo.id}}</td>
+        <td>{{tipo_suelo.nombre}}</td>
+        <td>{{tipo_suelo.descripcion}}</td>
+        <td>{{tipo_suelo.densidad}}</td>
+        <td><a href="{% url 'tipo_suelo_update' tipo_suelo.id %}">ACTUALIZAR</a>  <a href="{% url 'tipo_suelo_delete' tipo_suelo.id %}">ELIMINAR</a></td>
+
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock body %}
