@@ -26,6 +26,9 @@ class Planta(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.CharField(max_length=300)
 
+    def __str__(self):
+        return self.nombre
+
 class TipoSuelo(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)

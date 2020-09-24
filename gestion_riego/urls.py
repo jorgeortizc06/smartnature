@@ -6,6 +6,7 @@ from .sensor_view import SensorCreate, SensorUpdate, SensorDelete, SensorList, l
 from .tipo_sensor_view import TipoSensorCreate, TipoSensorUpdate, TipoSensorDelete, TipoSensorList
 from .tipo_suelo_view import TipoSueloCreate, TipoSueloUpdate, TipoSueloDelete, TipoSueloList
 from .device_view import DeviceCreate, DeviceUpdate, DeviceDelete, DeviceList
+from .planta_view import PlantaCreate, PlantaUpdate, PlantaDelete, PlantaList
 from .sensor_api import SensorViewSet
 from rest_framework.routers import DefaultRouter
 
@@ -36,6 +37,11 @@ urlpatterns += [
     path('tipo_suelo_update/<int:pk>/', TipoSueloUpdate.as_view(), name='tipo_suelo_update'),
     path('tipo_suelo_delete/<int:pk>/', TipoSueloDelete.as_view(), name='tipo_suelo_delete'),
     path('tipo_suelo_list/', TipoSueloList.as_view(), name='tipo_suelo_list'),
+
+    path('planta_create/', PlantaCreate.as_view(), name='planta_create'),
+    path('planta_update/<int:pk>/', PlantaUpdate.as_view(), name='planta_update'),
+    path('planta_delete/<int:pk>/', PlantaDelete.as_view(), name='planta_delete'),
+    path('planta_list/', PlantaList.as_view(), name='planta_list'),
 
     path('device_create/', DeviceCreate.as_view(), name='device_create'),
     path('device_update/<int:pk>/', DeviceUpdate.as_view(), name='device_update'),
