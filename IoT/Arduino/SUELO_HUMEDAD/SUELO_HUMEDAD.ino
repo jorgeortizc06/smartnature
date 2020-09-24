@@ -7,7 +7,7 @@
 #include <DHT.h>//Libreria del sensor DHT11
 
 int sensorAmbiental = 2; //Pin 2 Digital
-float tempAmb, humedadAmb; //Variables para sensor ambiental
+float tempAmb, humedadAmb, f;//Variables para sensor ambiental
 const int electrovalvula = 13; //Pin 13 Digital: HIGH O LOW
 const int humedadSueloA0 = A0; //Pin A0 analogico.
 const int humedadSueloA1 = A1; //Pin A1 analogico.
@@ -15,7 +15,7 @@ const int humedadSueloA2 = A2; //Pin A2 analogico.
 const int idDevice = 100;
 const String device = "Dispositivo codigo 100";
 
-DHT dht (sensorAmbiental, DHT11); //Funcion para dht11
+DHT dht (sensorAmbiental, DHT22); //Funcion para dht11
 
 void setup() {
   // put your setup code here, to run once:
@@ -40,23 +40,25 @@ void loop() {
   int promedioHumedadSuelo = (sensorSuelo1 + sensorSuelo2 + sensorSuelo3) / 3;
 
   humedadAmb = dht.readHumidity(); //Obtengo la humedad ambiental
-  tempAmb = dht.readTemperature(); //Temperatura ambiental
-
-   // Calcular el índice de calor en grados centígrados
-  float hic = dht.computeHeatIndex(tempAmb, humedadAmb, false);
+  tempAmb = dht.readTemperature(); //Lee Temperatura ambiental
 
   //Serial.print("Temperatura ambiental: "); Serial.print(tempAmb);
   //Serial.print("C Humedad ambiental: "); Serial.print(humedadAmb); Serial.println("%");
   //Verificando error del sensor DHT11
   if(isnan(humedadAmb) || isnan(tempAmb)){
-    //Serial.print("Error al obtener datos del sensor DHT11");
+    Serial.print("Error al obtener datos del sensor DHT11");
     return;
   }
+
+  // Calcular el índice de calor en grados centígrados
+  float hic = dht.computeHeatIndex(tempAmb, humedadAmb, false);
  
   Serial.print("Humedad Ambiental: ");
   Serial.print(humedadAmb);
-  Serial.print(";");
   Serial.print("Temperatura Ambiental: ");
+  Serial.print(tempAmb);
+  Serial.print(";");
+  Serial.print("Indice de Calor: ");
   Serial.print(hic);
   Serial.print(";");
   Serial.print(sensorSuelo1);
