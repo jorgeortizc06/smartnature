@@ -1,0 +1,10 @@
+{% extends 'gestion_riego/layout.html' %}
+{% block titulo %}Formulario Plataformas{% endblock titulo %}
+
+{% block body %}
+<h2 id="nav-tabs">Nueva Plataforma</h2>
+<form method="post"> {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit" class="btn btn-primary">GUARDAR</button>
+</form>
+{% endblock body %}
