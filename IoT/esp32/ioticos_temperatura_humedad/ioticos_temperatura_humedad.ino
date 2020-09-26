@@ -9,12 +9,12 @@
 //**************************************
 //*********** MQTT CONFIG **************
 //**************************************
-const char *mqtt_server = "ioticos.org";
+const char *mqtt_server = "192.168.0.6";
 const int mqtt_port = 1883;
 const char *mqtt_user = "nOkjkvS9JJPhbRN";
 const char *mqtt_pass = "AlmjrvUeyfxygz4";
-const char *root_topic_subscribe = "ZWTjfeO8oyRdP35/electrovalvula";
-const char *root_topic_publish = "ZWTjfeO8oyRdP35";
+const char *root_topic_subscribe = "sala/electrovalvula";
+const char *root_topic_publish = "sala";
 
 
 //**************************************
@@ -81,15 +81,15 @@ void loop() {
     //str.toCharArray(msg,25);
     char tempstring[3];
     dtostrf(tempAmb,3,1,tempstring);
-    client.publish("ZWTjfeO8oyRdP35/sala/SensorTemperatura1",tempstring);
+    client.publish("casa/sala/SensorTemperatura1", tempstring);
 
     char humedAmbstring[3];
     dtostrf(humedAmb,3,1,humedAmbstring);
-    client.publish("ZWTjfeO8oyRdP35/sala/SensorHumedad1",humedAmbstring);
+    client.publish("casa/sala/SensorHumedad1", humedAmbstring);
 
     char sensorSuelo1string[6];
     dtostrf(sensorSuelo1,6,1,sensorSuelo1string);
-    client.publish("ZWTjfeO8oyRdP35/sala/SensorSuelo1",sensorSuelo1string);
+    client.publish("casa/sala/SensorSuelo1", sensorSuelo1string);
     
     delay(1000);
   }
