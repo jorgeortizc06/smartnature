@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions', #Sessiones
     'django.contrib.messages', #Mensajes de error
     'django.contrib.staticfiles',#Para los archivos css
+    'django_extensions', #para jupyter notebook python manage.py shell_plus --notebook
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
