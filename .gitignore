@@ -4,3 +4,5 @@ smartnature_env
 !**/__pycache__/
 __pycache__
 *.pyc
+gestion_riego/__pycache__/
+smartnature/__pycache__/
