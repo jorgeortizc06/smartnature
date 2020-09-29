@@ -2,7 +2,7 @@
 #include <PubSubClient.h>
 #include "DHT.h"
 #include <stdlib.h>
-#define DHTTYPE DHT22
+#define DHTTYPE DHT11
 
 //********SENSORES INPUT*********
 
@@ -33,6 +33,7 @@ PubSubClient client(espClient);
 int sensorAmbiental = 23;
 float tempAmb, humedAmb, f;
 int humedadSuelo = 34;
+int electrovalvula = 2;
 DHT dht(sensorAmbiental, DHTTYPE);
 char msg[25];
 
@@ -46,9 +47,13 @@ void setup_wifi();
 void setup() {
   Serial.begin(9600);
   setup_wifi();
+  pinMode(sensorAmbiental, INPUT);
+  pinMode(humedadSuelo, INPUT);
+  pinMode(electrovalvula, OUTPUT);
   dht.begin();
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback); //Cuando llega un mensaje
+  
   
 }
 
@@ -57,6 +62,8 @@ void loop() {
   if (!client.connected()) {
     reconnect();
   }
+  
+  
 
   tempAmb = dht.readTemperature();
   humedAmb = dht.readHumidity();
@@ -167,6 +174,14 @@ void callback(char* topic, byte* payload, unsigned int length){
     incoming += (char)payload[i];
   }
   incoming.trim();
+  if(incoming.equals("ON")){
+    digitalWrite(electrovalvula,HIGH);
+    Serial.println("Abierta");
+  }
+  if(incoming.equals("OFF")){
+    digitalWrite(electrovalvula,LOW);
+    Serial.println("Cerrada");
+  }
   Serial.println("Mensaje -> " + incoming);
 
 }
