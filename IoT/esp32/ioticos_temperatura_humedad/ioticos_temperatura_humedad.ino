@@ -74,8 +74,9 @@ void loop() {
     return;
   }
   int const sensorSuelo1 = analogRead(humedadSuelo);
+  int suelo1 = map(sensorSuelo1, 0, 4095, 100, 0);
   Serial.print("Humedad Suelo:");
-  Serial.print(sensorSuelo1);
+  Serial.print(suelo1);
   Serial.print(" Temperatura Ambiental:");
   Serial.print(tempAmb);
   Serial.print(" Humedad Ambiental:");
@@ -94,9 +95,9 @@ void loop() {
     dtostrf(humedAmb,3,1,humedAmbstring);
     client.publish("casa/sala/SensorHumedad1", humedAmbstring);
 
-    char sensorSuelo1string[6];
-    dtostrf(sensorSuelo1,6,1,sensorSuelo1string);
-    client.publish("casa/sala/SensorSuelo1", sensorSuelo1string);
+    char suelo1string[6];
+    dtostrf(suelo1,4,1,suelo1string);
+    client.publish("casa/sala/SensorSuelo1", suelo1string);
     
     delay(1000);
   }
@@ -140,7 +141,7 @@ void reconnect() {
   while (!client.connected()) {
     Serial.print("Intentando conexión Mqtt...");
     // Creamos un cliente ID
-    String clientId = "IOTICOS_H_W_";
+    String clientId = "RIEGO";
     clientId += String(random(0xffff), HEX);
     // Intentamos conectar
     if (client.connect(clientId.c_str(),mqtt_user,mqtt_pass)) {
@@ -173,12 +174,12 @@ void callback(char* topic, byte* payload, unsigned int length){
   for (int i = 0; i < length; i++) {
     incoming += (char)payload[i];
   }
-  incoming.trim();
-  if(incoming.equals("ON")){
+  incoming.trim(); //el rele funciona al revez, jqc 3ff sz
+  if(incoming.equals("OFF")){
     digitalWrite(electrovalvula,HIGH);
     Serial.println("Abierta");
   }
-  if(incoming.equals("OFF")){
+  if(incoming.equals("ON")){
     digitalWrite(electrovalvula,LOW);
     Serial.println("Cerrada");
   }
