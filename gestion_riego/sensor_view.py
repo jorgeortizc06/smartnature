@@ -36,9 +36,6 @@ def lectura(request):
     sensor = Sensor.objects.first()
     print(sensor)
     contexto = {
-        'id': sensor.id,
-        'temp_ambiental': sensor.temp_ambiente,
-        'humed_ambiental' : sensor.humed_ambiente,
-        'humed_suelo' : sensor.humed_suelo,
+        
     }
     return render(request, 'gestion_riego/sensor/dashboard.html', contexto)
