@@ -18,7 +18,7 @@
         <td>{{tipo_sensor.id}}</td>
         <td>{{tipo_sensor.nombre}}</td>
         <td>{{tipo_sensor.descripcion}}</td>
-        <td><a href="{% url 'tipo_sensor_update' tipo_sensor.id %}">ACTUALIZAR</a>  <a href="{% url 'tipo_sensor_delete' tipo_sensor.id %}">ELIMINAR</a></td>
+        <td><a href="{% url 'tipo_sensor_update' tipo_sensor.id %}" class="btn btn-secondary">ACTUALIZAR</a>  <a href="{% url 'tipo_sensor_delete' tipo_sensor.id %}" class="btn btn-danger">ELIMINAR</a></td>
 
     </tr>
     {% endfor %}

@@ -20,7 +20,7 @@
         <td>{{tipo_suelo.nombre}}</td>
         <td>{{tipo_suelo.descripcion}}</td>
         <td>{{tipo_suelo.densidad}}</td>
-        <td><a href="{% url 'tipo_suelo_update' tipo_suelo.id %}">ACTUALIZAR</a>  <a href="{% url 'tipo_suelo_delete' tipo_suelo.id %}">ELIMINAR</a></td>
+        <td><a href="{% url 'tipo_suelo_update' tipo_suelo.id %}" class="btn btn-secondary">ACTUALIZAR</a>  <a href="{% url 'tipo_suelo_delete' tipo_suelo.id %}" class="btn btn-danger">ELIMINAR</a></td>
 
     </tr>
     {% endfor %}

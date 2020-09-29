@@ -18,7 +18,7 @@
         <td>{{device.id}}</td>
         <td>{{device.nombre}}</td>
         <td>{{device.descripcion}}</td>
-        <td><a href="{% url 'device_update' device.id %}">ACTUALIZAR</a>  <a href="{% url 'device_delete' device.id %}">ELIMINAR</a></td>
+        <td><a href="{% url 'device_update' device.id %}" class="btn btn-secondary">ACTUALIZAR</a>  <a href="{% url 'device_delete' device.id %}" class="btn btn-danger">ELIMINAR</a></td>
     </tr>
     {% endfor %}
     </tbody>

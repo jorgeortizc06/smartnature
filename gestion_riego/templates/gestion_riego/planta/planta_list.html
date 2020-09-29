@@ -18,7 +18,7 @@
         <td>{{planta.id}}</td>
         <td>{{planta.nombre}}</td>
         <td>{{planta.descripcion}}</td>
-        <td><a href="{% url 'planta_update' planta.id %}">ACTUALIZAR</a>  <a href="{% url 'planta_delete' planta.id %}">ELIMINAR</a></td>
+        <td><a href="{% url 'planta_update' planta.id %}" class="btn btn-secondary">ACTUALIZAR</a>  <a href="{% url 'planta_delete' planta.id %}" class="btn btn-danger">ELIMINAR</a></td>
 
     </tr>
     {% endfor %}

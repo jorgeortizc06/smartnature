@@ -22,7 +22,7 @@
         <td>{{persona.email}}</td>
         <td>{{persona.tfno}}</td>
         <td>{{persona.password}}</td>
-        <td><a href="{% url 'persona_update' persona.id %}">ACTUALIZAR</a>  <a href="{% url 'persona_delete' persona.id %}">ELIMINAR</a></td>
+        <td><a href="{% url 'persona_update' persona.id %}" class="btn btn-secondary">ACTUALIZAR</a>  <a href="{% url 'persona_delete' persona.id %}" class="btn btn-danger">ELIMINAR</a></td>
 
     </tr>
     {% endfor %}
