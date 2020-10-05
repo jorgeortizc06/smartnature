@@ -74,9 +74,8 @@ void loop() {
     return;
   }
   int const sensorSuelo1 = analogRead(humedadSuelo);
-  int suelo1 = map(sensorSuelo1, 0, 4095, 100, 0);
   Serial.print("Humedad Suelo:");
-  Serial.print(suelo1);
+  Serial.print(sensorSuelo1);
   Serial.print(" Temperatura Ambiental:");
   Serial.print(tempAmb);
   Serial.print(" Humedad Ambiental:");
@@ -95,11 +94,11 @@ void loop() {
     dtostrf(humedAmb,3,1,humedAmbstring);
     client.publish("casa/sala/SensorHumedad1", humedAmbstring);
 
-    char suelo1string[6];
-    dtostrf(suelo1,4,1,suelo1string);
-    client.publish("casa/sala/SensorSuelo1", suelo1string);
+    char sensorSuelo1string[6];
+    dtostrf(sensorSuelo1,6,1,sensorSuelo1string);
+    client.publish("casa/sala/SensorSuelo1", sensorSuelo1string);
     
-    delay(1000);
+    delay(5000);
   }
   client.loop();
 }
