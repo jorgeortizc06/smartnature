@@ -1,6 +1,6 @@
 var MQTTbroker = '192.168.0.6';
 var MQTTport = 9001;
-var MQTTsubTopic = 'casa/sala/#'; //works with wildcard # and + topics dynamically now
+var MQTTsubTopic = 'device1/#'; //works with wildcard # and + topics dynamically now
 var chart; // global variuable for chart
 var dataTopics = new Array();
 //mqtt broker
@@ -111,7 +111,7 @@ $(document).ready(function() {
 });
 function OnOff(dato) {
     message = new Paho.MQTT.Message(dato);
-    message.destinationName = 'sala/electrovalvula'
+    message.destinationName = 'device1/electrovalvula'
     if (dato == "ON"){
         document.getElementById("estado").textContent = "activado";
     }else{

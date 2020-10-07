@@ -13,8 +13,14 @@ const char *mqtt_server = "192.168.0.6";
 const int mqtt_port = 1883;
 const char *mqtt_user = "nOkjkvS9JJPhbRN";
 const char *mqtt_pass = "AlmjrvUeyfxygz4";
-const char *root_topic_subscribe = "sala/electrovalvula";
-const char *root_topic_publish = "sala";
+const char *root_topic_subscribe = "device1/electrovalvula";
+const char *topicSensorTemperatura1 = "device1/sensorTemperatura1";
+const char *topicSensorHumedad1 = "device1/sensorHumedad1";
+const char *topicSensorSuelo1 = "device1/sensorSuelo1";
+const char *topicSensorSuelo2 = "device1/sensorSuelo2";
+const char *topicSensorSuelo3 = "device1/sensorSuelo3";
+const char *topicSensorSuelo4 = "device1/sensorSuelo4";
+
 
 
 //**************************************
@@ -30,11 +36,14 @@ const char* password =  "ALOHOMORA";
 //**************************************
 WiFiClient espClient;
 PubSubClient client(espClient);
-int sensorAmbiental = 23;
+int pinElectrovalvula = 2;
+int pinSensorAmbiental = 4;
 float tempAmb, humedAmb, f;
-int humedadSuelo = 34;
-int electrovalvula = 2;
-DHT dht(sensorAmbiental, DHTTYPE);
+int pinHumedadSuelo1 = 32;
+int pinHumedadSuelo2 = 33;
+int pinHumedadSuelo3 = 34;
+int pinHumedadSuelo4 = 35;
+DHT dht(pinSensorAmbiental, DHTTYPE);
 char msg[25];
 
 //************************
@@ -47,9 +56,12 @@ void setup_wifi();
 void setup() {
   Serial.begin(9600);
   setup_wifi();
-  pinMode(sensorAmbiental, INPUT);
-  pinMode(humedadSuelo, INPUT);
-  pinMode(electrovalvula, OUTPUT);
+  pinMode(pinSensorAmbiental, INPUT);
+  pinMode(pinHumedadSuelo1, INPUT);
+  pinMode(pinHumedadSuelo2, INPUT);
+  pinMode(pinHumedadSuelo3, INPUT);
+  pinMode(pinHumedadSuelo4, INPUT);
+  pinMode(pinElectrovalvula, OUTPUT);
   dht.begin();
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback); //Cuando llega un mensaje
@@ -73,9 +85,18 @@ void loop() {
     delay(1000); // wait a bit
     return;
   }
-  int const sensorSuelo1 = analogRead(humedadSuelo);
-  Serial.print("Humedad Suelo:");
-  Serial.print(sensorSuelo1);
+  int const readSensorSuelo1 = analogRead(pinHumedadSuelo1);
+  int const readSensorSuelo2 = analogRead(pinHumedadSuelo2);
+  int const readSensorSuelo3 = analogRead(pinHumedadSuelo3);
+  int const readSensorSuelo4 = analogRead(pinHumedadSuelo4);
+  Serial.print("Humedad Suelo1:");
+  Serial.print(readSensorSuelo1);
+  Serial.print("Humedad Suelo2:");
+  Serial.print(readSensorSuelo2);
+  Serial.print("Humedad Suelo3:");
+  Serial.print(readSensorSuelo3);
+  Serial.print("Humedad Suelo4:");
+  Serial.print(readSensorSuelo4);
   Serial.print(" Temperatura Ambiental:");
   Serial.print(tempAmb);
   Serial.print(" Humedad Ambiental:");
@@ -88,15 +109,27 @@ void loop() {
     //str.toCharArray(msg,25);
     char tempstring[3];
     dtostrf(tempAmb,3,1,tempstring);
-    client.publish("casa/sala/SensorTemperatura1", tempstring);
+    client.publish(topicSensorTemperatura1, tempstring);
 
     char humedAmbstring[3];
     dtostrf(humedAmb,3,1,humedAmbstring);
-    client.publish("casa/sala/SensorHumedad1", humedAmbstring);
+    client.publish(topicSensorHumedad1, humedAmbstring);
 
-    char sensorSuelo1string[6];
-    dtostrf(sensorSuelo1,6,1,sensorSuelo1string);
-    client.publish("casa/sala/SensorSuelo1", sensorSuelo1string);
+    char humedadSuelo1string[6];
+    dtostrf(readSensorSuelo1,6,1,humedadSuelo1string);
+    client.publish(topicSensorSuelo1, humedadSuelo1string);
+
+    char humedadSuelo2string[6];
+    dtostrf(readSensorSuelo2,6,1,humedadSuelo2string);
+    client.publish(topicSensorSuelo2, humedadSuelo2string);
+
+    char humedadSuelo3string[6];
+    dtostrf(readSensorSuelo3,6,1,humedadSuelo3string);
+    client.publish(topicSensorSuelo3, humedadSuelo3string);
+    
+    char humedadSuelo4string[6];
+    dtostrf(readSensorSuelo4,6,1,humedadSuelo4string);
+    client.publish(topicSensorSuelo4, humedadSuelo4string);
     
     delay(3000);
   }
@@ -175,11 +208,11 @@ void callback(char* topic, byte* payload, unsigned int length){
   }
   incoming.trim(); //el rele funciona al revez, jqc 3ff sz
   if(incoming.equals("OFF")){
-    digitalWrite(electrovalvula,LOW);
+    digitalWrite(pinElectrovalvula,LOW);
     Serial.println("CERRADA");
   }
   if(incoming.equals("ON")){
-    digitalWrite(electrovalvula,HIGH);
+    digitalWrite(pinElectrovalvula,HIGH);
     Serial.println("ABIERTA");
   }
   Serial.println("Mensaje -> " + incoming);
