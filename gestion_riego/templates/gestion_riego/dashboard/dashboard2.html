@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+    <!-- https://api.cloudmqtt.com/sso/js/mqttws31.js -->
+    <script src="raphael-2.1.4.min.js"></script>
+    <script src="justgage.js"></script>
+</head>
+
+<body>
+    <div id="SensorTemperatura1" class="200x160px"></div>
+    <div id="SensorHumedad1" class="200x160px"></div>
+    <div id="SensorSuelo1" class="200x160px"></div>
+    
+    <div>
+        <a>Activar Riego: </a>
+        <button type='button' onclick='OnOff("ON")'>ON</button>
+        <button type='button' onclick='OnOff("OFF")'>OFF</button>
+        <a id="estado">-</a>
+    </div>
+    <script>
+        usuario = 'placa1';
+        contrasena = '12345678';
+
+        var gSensorTemperatura1 = new JustGage({
+            id: "SensorTemperatura1",
+            min: 0,
+            max: 50,
+            title: "Temperatura Ambiental oC"
+        });
+
+        var gSensorHumedad1 = new JustGage({
+            id: "SensorHumedad1",
+            min: 0,
+            max: 100,
+            title: "Humedad Ambiental %"
+        });
+
+        var gSensorSuelo1 = new JustGage({
+            id: "SensorSuelo1",
+            min: 0,
+            max: 4096,
+            title: "Sensor Suelo 1"
+        });
+
+        function OnOff(dato) {
+            message = new Paho.MQTT.Message(dato);
+            message.destinationName = 'sala/electrovalvula'
+            if (dato == "ON"){
+                document.getElementById("estado").textContent = "activado";
+            }else{
+                document.getElementById("estado").textContent = "desactivado";
+            }
+            client.send(message);
+        };
+
+
+        // called when the client connects
+        function onConnect() {
+            // Once a connection has been made, make a subscription and send a message.
+            console.log("onConnect");
+            client.subscribe("#");
+        }
+
+        // called when the client loses its connection
+        function onConnectionLost(responseObject) {
+            if (responseObject.errorCode !== 0) {
+                console.log("onConnectionLost:", responseObject.errorMessage);
+                setTimeout(function () { client.connect() }, 5000);
+            }
+        }
+
+        // called when a message arrives
+        function onMessageArrived(message) {
+            if (message.destinationName == 'casa/sala/SensorTemperatura1') { //acá coloco el topic
+                //document.getElementById("SensorTemperatura1").textContent = message.payloadString + " ºC";
+                gSensorTemperatura1.refresh(message.payloadString);
+            }
+            if (message.destinationName == 'casa/sala/SensorHumedad1') { //acá coloco el topic
+                //document.getElementById("SensorHumedad1").textContent = message.payloadString + " %";
+                gSensorHumedad1.refresh(message.payloadString);
+            }
+            if (message.destinationName == 'casa/sala/SensorSuelo1') { //acá coloco el topic
+                //document.getElementById("SensorSuelo1").textContent = message.payloadString + " puntos";
+                gSensorSuelo1.refresh(message.payloadString);
+                
+            }
+        }
+
+        function onFailure(invocationContext, errorCode, errorMessage) {
+            var errDiv = document.getElementById("error");
+            errDiv.textContent = "Could not connect to WebSocket server, most likely you're behind a firewall that doesn't allow outgoing connections to port 39627";
+            errDiv.style.display = "block";
+        }
+
+        var clientId = "RIEGO" + parseInt(Math.random() * 100, 10)
+        // Create a client instance
+        var client = new Paho.MQTT.Client("192.168.0.6", 9001, clientId);
+
+        // set callback handlers
+        client.onConnectionLost = onConnectionLost;
+        client.onMessageArrived = onMessageArrived;
+
+        // connect the client
+        client.connect({
+            useSSL: false,
+            userName: usuario,
+            password: contrasena,
+            onSuccess: onConnect,
+            onFailure: onFailure
+        });        
+    </script>
+</body>
+
+</html>
