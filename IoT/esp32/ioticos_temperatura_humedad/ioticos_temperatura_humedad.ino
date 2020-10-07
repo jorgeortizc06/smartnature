@@ -63,7 +63,7 @@ void loop() {
     reconnect();
   }
   
-  
+  client.loop();
 
   tempAmb = dht.readTemperature();
   humedAmb = dht.readHumidity();
@@ -98,9 +98,9 @@ void loop() {
     dtostrf(sensorSuelo1,6,1,sensorSuelo1string);
     client.publish("casa/sala/SensorSuelo1", sensorSuelo1string);
     
-    delay(5000);
+    delay(3000);
   }
-  client.loop();
+  
 }
 
 
@@ -175,12 +175,12 @@ void callback(char* topic, byte* payload, unsigned int length){
   }
   incoming.trim(); //el rele funciona al revez, jqc 3ff sz
   if(incoming.equals("OFF")){
-    digitalWrite(electrovalvula,HIGH);
-    Serial.println("Abierta");
+    digitalWrite(electrovalvula,LOW);
+    Serial.println("CERRADA");
   }
   if(incoming.equals("ON")){
-    digitalWrite(electrovalvula,LOW);
-    Serial.println("Cerrada");
+    digitalWrite(electrovalvula,HIGH);
+    Serial.println("ABIERTA");
   }
   Serial.println("Mensaje -> " + incoming);
 
