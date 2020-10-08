@@ -6,18 +6,52 @@ import numpy as np
 import skfuzzy as fuzz
 from skfuzzy import control as ctrl
 import time
+import requests
+import json
+
+apiSensor = 'http://127.0.0.1:8000/gestion_riego/srv/sensor/list/'
+headers = {"Content-type": "application/json"}
 
 def on_connect(client, userdata, flags, rc):
 	print('connected (%s)' % client._client_id)
-	client.subscribe(topic='casa/sala/#', qos=2)
+	client.subscribe(topic='device1/#', qos=2)
 	
 def on_message(client, userdata, message):
-	valor = float(message.payload)
-	print('----------------------')
-	print('topic: %s' % message.topic)
-	print('payload: ', valor)
-	if time.strftime("%H:%M") == '10:30':
-		fuzzy_logic(valor)
+	if message.topic != 'device1/electrovalvula':
+		valor = float(message.payload)
+		print('----------------------')
+		print('topic: %s' % message.topic)
+		try:
+			if message.topic == 'device1/sensorSuelo1':
+				datos = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":1,"device":1}
+				print(datos)
+				et = requests.post(apiSensor, data = json.dumps(datos), headers = headers)
+			if message.topic == 'device1/sensorSuelo2':
+				datos = {"value":float(message.payload),"codigo_sensor":int(2),"estado":"A","tipo_sensor":1,"device":1}
+				print(datos)
+				et = requests.post(apiSensor, data = json.dumps(datos), headers = headers)
+			if message.topic == 'device1/sensorSuelo3':
+				datos = {"value":float(message.payload),"codigo_sensor":int(3),"estado":"A","tipo_sensor":1,"device":1}
+				print(datos)
+				et = requests.post(apiSensor, data = json.dumps(datos), headers = headers)
+			if message.topic == 'device1/sensorSuelo4':
+				datos = {"value":float(message.payload),"codigo_sensor":int(4),"estado":"A","tipo_sensor":1,"device":1}
+				print(datos)
+				et = requests.post(apiSensor, data = json.dumps(datos), headers = headers)
+			if message.topic == 'device1/sensorHumedad1':
+				datos = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":2,"device":1}
+				print(datos)
+				et = requests.post(apiSensor, data = json.dumps(datos), headers = headers)
+
+			if message.topic == 'device1/sensorTemperatura1':
+				datos = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":3,"device":1}
+				print(datos)
+				et = requests.post(apiSensor, data = json.dumps(datos), headers = headers)
+		except:
+			print("Error en la coneccion")
+		print('payload: ', valor)
+		if time.strftime("%H:%M") == '10:30':
+			fuzzy_logic(valor)
 	
 	print('qos: %d' % message.qos)
 	

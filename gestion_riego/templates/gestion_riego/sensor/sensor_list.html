@@ -13,6 +13,7 @@
         <th>fecha_registro</th>
         <th>estado</th>
         <th>Tipo Sensor</th>
+        <th>Dispositivo</th>
         
     </tr>
     </thead>
@@ -25,6 +26,7 @@
         <td>{{sensor.fecha_registro}}</td>
         <td>{{sensor.estado}}</td>
         <td>{{sensor.tipo_sensor.nombre}}</td>
+        <td>{{sensor.device.nombre}}</td>
 
         <td><a href="{% url 'sensor_update' sensor.id %}" class="btn btn-secondary">ACTUALIZAR</a>  <a href="{% url 'sensor_delete' sensor.id %}" class="btn btn-danger">ELIMINAR</a></td>
 
