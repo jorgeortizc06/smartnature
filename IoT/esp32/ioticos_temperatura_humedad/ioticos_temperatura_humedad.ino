@@ -2,6 +2,7 @@
 #include <PubSubClient.h>
 #include "DHT.h"
 #include <stdlib.h>
+#include <WiFiManager.h>
 #define DHTTYPE DHT11
 
 //********SENSORES INPUT*********
@@ -26,8 +27,8 @@ const char *topicSensorSuelo4 = "device1/sensorSuelo4";
 //**************************************
 //*********** WIFICONFIG ***************
 //**************************************
-const char* ssid = "HOWARDS";
-const char* password =  "ALOHOMORA";
+//const char* ssid = "HOWARDS";
+//const char* password =  "ALOHOMORA";
 
 
 
@@ -36,7 +37,7 @@ const char* password =  "ALOHOMORA";
 //**************************************
 WiFiClient espClient;
 PubSubClient client(espClient);
-int pinElectrovalvula = 2;
+int pinElectrovalvula = 15;
 int pinSensorAmbiental = 4;
 float tempAmb, humedAmb, f;
 int pinHumedadSuelo1 = 32;
@@ -51,17 +52,21 @@ char msg[25];
 //************************
 void callback(char* topic, byte* payload, unsigned int length);
 void reconnect();
-void setup_wifi();
+//void setup_wifi();
 
 void setup() {
   Serial.begin(9600);
-  setup_wifi();
+  //setup_wifi();
+  WiFiManager wifiManager;
+  wifiManager.autoConnect("AutoConnectAP");
+  Serial.println("connected...yeey :)");
   pinMode(pinSensorAmbiental, INPUT);
   pinMode(pinHumedadSuelo1, INPUT);
   pinMode(pinHumedadSuelo2, INPUT);
   pinMode(pinHumedadSuelo3, INPUT);
   pinMode(pinHumedadSuelo4, INPUT);
   pinMode(pinElectrovalvula, OUTPUT);
+  digitalWrite(pinElectrovalvula,HIGH);
   dht.begin();
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback); //Cuando llega un mensaje
@@ -142,7 +147,7 @@ void loop() {
 //*****************************
 //***    CONEXION WIFI      ***
 //*****************************
-void setup_wifi(){
+/*void setup_wifi(){
   delay(10);
   // Nos conectamos a nuestra red Wifi
   Serial.println();
@@ -160,7 +165,7 @@ void setup_wifi(){
   Serial.println("Conectado a red WiFi!");
   Serial.println("Dirección IP: ");
   Serial.println(WiFi.localIP());
-}
+}*/
 
 
 
@@ -208,11 +213,11 @@ void callback(char* topic, byte* payload, unsigned int length){
   }
   incoming.trim(); //el rele funciona al revez, jqc 3ff sz
   if(incoming.equals("OFF")){
-    digitalWrite(pinElectrovalvula,LOW);
+    digitalWrite(pinElectrovalvula,HIGH);
     Serial.println("CERRADA");
   }
   if(incoming.equals("ON")){
-    digitalWrite(pinElectrovalvula,HIGH);
+    digitalWrite(pinElectrovalvula,LOW);
     Serial.println("ABIERTA");
   }
   Serial.println("Mensaje -> " + incoming);

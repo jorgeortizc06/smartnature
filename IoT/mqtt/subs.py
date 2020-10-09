@@ -18,7 +18,7 @@ def on_connect(client, userdata, flags, rc):
 	
 def on_message(client, userdata, message):
 	if message.topic != 'device1/electrovalvula':
-		valor = float(message.payload)
+		#valor = float(message.payload)
 		print('----------------------')
 		print('topic: %s' % message.topic)
 		try:
@@ -49,11 +49,11 @@ def on_message(client, userdata, message):
 				et = requests.post(apiSensor, data = json.dumps(datos), headers = headers)
 		except:
 			print("Error en la coneccion")
-		print('payload: ', valor)
-		if time.strftime("%H:%M") == '10:30':
-			fuzzy_logic(valor)
-	
-	print('qos: %d' % message.qos)
+		#print('payload: ', valor)
+		
+	if time.strftime("%H:%M") == '10:30':
+			fuzzy_logic(2500)
+	#print('qos: %d' % message.qos)
 	
 	
 def fuzzy_logic(humedadSuelo):
