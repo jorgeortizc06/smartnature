@@ -7,6 +7,7 @@ backcall==0.2.0
 bleach==3.2.1
 certifi==2020.6.20
 cffi==1.14.3
+chardet==3.0.4
 cycler==0.10.0
 decorator==4.4.2
 defusedxml==0.6.0
@@ -16,6 +17,7 @@ django-extensions==3.0.9
 django-filter==2.3.0
 djangorestframework==3.11.1
 entrypoints==0.3
+idna==2.10
 ipykernel==5.3.4
 ipython==7.18.1
 ipython-genutils==0.2.0
@@ -44,6 +46,7 @@ networkx==2.5
 notebook==6.1.4
 numpy==1.19.2
 packaging==20.4
+paho-mqtt==1.5.1
 pandocfilters==1.4.2
 parso==0.7.1
 pexpect==4.8.0
@@ -64,6 +67,7 @@ pytz==2020.1
 pyzmq==19.0.2
 qtconsole==4.7.7
 QtPy==1.9.0
+requests==2.24.0
 scikit-fuzzy==0.4.2
 scipy==1.5.2
 Send2Trash==1.5.0
@@ -74,6 +78,7 @@ testpath==0.4.4
 toml==0.10.1
 tornado==6.0.4
 traitlets==5.0.4
+urllib3==1.25.10
 wcwidth==0.2.5
 webencodings==0.5.1
 widgetsnbextension==3.5.1
