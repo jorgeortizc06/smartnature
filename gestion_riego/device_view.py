@@ -29,5 +29,5 @@ class DeviceList(ListView):
     model = Device
     template_name = 'gestion_riego/device/device_list.html'
 
-def dashboard(request):
+def device_dashboard(request):
     return render(request, 'gestion_riego/dashboard/index.html')

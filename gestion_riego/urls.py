@@ -5,10 +5,11 @@ from .persona_view import PersonaCreate, PersonaUpdate, PersonaDelete, PersonaLi
 from .sensor_view import SensorCreate, SensorUpdate, SensorDelete, SensorList, lectura
 from .tipo_sensor_view import TipoSensorCreate, TipoSensorUpdate, TipoSensorDelete, TipoSensorList
 from .tipo_suelo_view import TipoSueloCreate, TipoSueloUpdate, TipoSueloDelete, TipoSueloList
-from .device_view import DeviceCreate, DeviceUpdate, DeviceDelete, DeviceList, dashboard
+from .device_view import DeviceCreate, DeviceUpdate, DeviceDelete, DeviceList, device_dashboard
 from .planta_view import PlantaCreate, PlantaUpdate, PlantaDelete, PlantaList
 from .plataforma_view import PlataformaCreate, PlataformaUpdate, PlataformaDelete, PlataformaList
 from .sensor_api import SensorViewSet
+from .dashboard_view import dashboard
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
@@ -27,7 +28,6 @@ urlpatterns += [
     path('sensor_update/<int:pk>/', SensorUpdate.as_view(), name='sensor_update'),
     path('sensor_delete/<int:pk>/', SensorDelete.as_view(), name='sensor_delete'),
     path('sensor_list/', SensorList.as_view(), name='sensor_list'),
-    path('dashboard/', lectura, name='dashboard'),
 
     path('plataforma_create/', PlataformaCreate.as_view(), name='plataforma_create'),
     path('plataforma_update/<int:pk>/', PlataformaUpdate.as_view(), name='plataforma_update'),
@@ -53,5 +53,7 @@ urlpatterns += [
     path('device_update/<int:pk>/', DeviceUpdate.as_view(), name='device_update'),
     path('device_delete/<int:pk>/', DeviceDelete.as_view(), name='device_delete'),
     path('device_list/', DeviceList.as_view(), name='device_list'),
-    path('device_dashboard/', dashboard, name='dashboard'),
+    path('device_dashboard/', device_dashboard, name='device_dashboard'),
+
+    path('dashboard', dashboard, name='dashboard'),
 ]

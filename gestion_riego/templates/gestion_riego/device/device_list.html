@@ -10,6 +10,10 @@
         <th>ID</th>
         <th>Nombre</th>
         <th>Descripcion</th>
+        <th>IP</th>
+        <th>Topic</th>
+        <th>Puerto</th>
+
     </tr>
     </thead>
     <tbody>
@@ -18,8 +22,11 @@
         <td>{{device.id}}</td>
         <td>{{device.nombre}}</td>
         <td>{{device.descripcion}}</td>
+        <td>{{device.ip}}</td>
+        <td>{{device.topic}}</td>
+        <td>{{device.puerto}}</td>
         <td><a href="{% url 'device_update' device.id %}" class="btn btn-secondary">ACTUALIZAR</a>  <a href="{% url 'device_delete' device.id %}" class="btn btn-danger">ELIMINAR</a>
-            <a href="{% url 'dashboard' %}" class="btn btn-primary">DASHBOARD</a></td>
+            <a href="{% url 'device_dashboard' %}" class="btn btn-primary">DASHBOARD</a></td>
     </tr>
     {% endfor %}
     </tbody>
