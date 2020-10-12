@@ -10,6 +10,10 @@
         <th>ID</th>
         <th>Nombre</th>
         <th>Descripcion</th>
+        <th>Planta</th>
+        <th>Tipo Suelo</th>
+        <th>Dispositivo IoT</th>
+
     </tr>
     </thead>
     <tbody>
@@ -18,6 +22,11 @@
         <td>{{plataforma.id}}</td>
         <td>{{plataforma.nombre}}</td>
         <td>{{plataforma.descripcion}}</td>
+        <td>{{plataforma.planta.nombre}}</td>
+        <td>{{plataforma.tipo_suelo.nombre}}</td>
+        <td>{{plataforma.device.nombre}}</td>
+
+
         <td><a href="{% url 'plataforma_update' plataforma.id %}" class="btn btn-secondary">ACTUALIZAR</a>  <a href="{% url 'plataforma_delete' plataforma.id %}" class="btn btn-danger">ELIMINAR</a></td>
 
     </tr>
