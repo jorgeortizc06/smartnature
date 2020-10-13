@@ -1,7 +1,8 @@
 
-<head>
-    <meta http-equiv="refresh" content="2">
-</head>
+{% extends 'gestion_riego/layout.html' %}
+
+{% block titulo %}Lista de Tipos de Sensores{% endblock titulo %}
+{% block body %}
 
 <form method="POST">
     {% csrf_token %}
@@ -10,3 +11,5 @@
     <a href="{% url 'tipo_sensor_list' %}">Cancelar</a>
 
 </form>
+
+{% endblock body %}

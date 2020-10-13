@@ -1,12 +1,15 @@
 
-<head>
-    <meta http-equiv="refresh" content="2">
-</head>
+{% extends 'gestion_riego/layout.html' %}
+
+{% block titulo %}Lista de Tipos de Sensores{% endblock titulo %}
+{% block body %}
 
 <form method="POST">
     {% csrf_token %}
-    <h1>Desea eliminar este dispositivo {{ object }}</h1>
+    <h1>Desea eliminar este dispositivo:  {{ object }}</h1>
     <button type="submit" name="button">Confirmar</button>
     <a href="{% url 'device_list' %}">Cancelar</a>
 
 </form>
+
+{% endblock body %}

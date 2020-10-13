@@ -1,12 +1,14 @@
+{% extends 'gestion_riego/layout.html' %}
 
-<head>
-    <meta http-equiv="refresh" content="2">
-</head>
+{% block titulo %}Lista de Tipos de Sensores{% endblock titulo %}
+{% block body %}
 
 <form method="POST">
     {% csrf_token %}
-    <h1>Desea eliminar esta plataforma {{ object }}</h1>
+    <h1>Desea eliminar esta plataforma: {{ object }}</h1>
     <button type="submit" name="button">Confirmar</button>
     <a href="{% url 'plataforma_list' %}">Cancelar</a>
 
 </form>
+
+{% endblock body %}

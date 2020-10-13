@@ -22,7 +22,7 @@ class PlataformaUpdate(UpdateView):
 
 class PlataformaDelete(DeleteView):
     model = Plataforma
-    template_name = 'gestion_riego/Plataforma/Plataforma_verificacion.html'
+    template_name = 'gestion_riego/plataforma/plataforma_verificacion.html'
     success_url = reverse_lazy('plataforma_list')
 
 class PlataformaList(ListView):
