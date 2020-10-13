@@ -6,7 +6,7 @@
 
     <h1>Dashboard</h1>
     <ol>
-        {% for device in devices %}
+        {% for device in sensores %}
         <li>{{device}}</li>
         <body onload="init();"><!--Start the javascript ball rolling and connect to the mqtt broker-->
         <div id="container" style="height: 500px; min-width: 500px"></div><!-- this the placeholder for the chart-->

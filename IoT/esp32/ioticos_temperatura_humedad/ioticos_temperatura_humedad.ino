@@ -17,10 +17,13 @@ const char *mqtt_pass = "AlmjrvUeyfxygz4";
 const char *root_topic_subscribe = "device1/electrovalvula";
 const char *topicSensorTemperatura1 = "device1/sensorTemperatura1";
 const char *topicSensorHumedad1 = "device1/sensorHumedad1";
+const char *topicSensorCaudal1 = "device1/sensorCaudal1";
+const char *topicSensorConsumoAgua1 = "device1/sensorConsumoAgua1";
 const char *topicSensorSuelo1 = "device1/sensorSuelo1";
 const char *topicSensorSuelo2 = "device1/sensorSuelo2";
 const char *topicSensorSuelo3 = "device1/sensorSuelo3";
 const char *topicSensorSuelo4 = "device1/sensorSuelo4";
+const char *topicPromedioSensorSuelo = "device1/promedioSensorSuelo";
 
 
 
@@ -44,6 +47,18 @@ int pinHumedadSuelo1 = 32;
 int pinHumedadSuelo2 = 33;
 int pinHumedadSuelo3 = 34;
 int pinHumedadSuelo4 = 35;
+//Para medir el consumo de agua
+const int sensorPin = 5;
+const int measureInterval = 2500;
+volatile int pulseConter;
+// YF-S201
+const float factorK = 7.5;
+// FS300A
+//const float factorK = 5.5;
+// FS400A
+//const float factorK = 3.5;
+float volume = 0;
+long t0 = 0;
 DHT dht(pinSensorAmbiental, DHTTYPE);
 char msg[25];
 
@@ -53,10 +68,33 @@ char msg[25];
 void callback(char* topic, byte* payload, unsigned int length);
 void reconnect();
 //void setup_wifi();
-
+//Calcular consumo de agua
+void ISRCountPulse()
+{
+   pulseConter++;
+}
+ 
+float GetFrequency()
+{
+   pulseConter = 0;
+ 
+   interrupts();
+   delay(measureInterval);
+   noInterrupts();
+ 
+   return (float)pulseConter * 1000 / measureInterval;
+}
+ 
+void SumVolume(float dV)
+{
+   volume += dV / 60 * (millis() - t0) / 1000.0;
+   t0 = millis();
+}
 void setup() {
   Serial.begin(9600);
   //setup_wifi();
+  attachInterrupt(digitalPinToInterrupt(sensorPin), ISRCountPulse, RISING);
+  t0 = millis();
   WiFiManager wifiManager;
   wifiManager.autoConnect("AutoConnectAP");
   Serial.println("connected...yeey :)");
@@ -82,6 +120,19 @@ void loop() {
   
   client.loop();
 
+  // obtener frecuencia en Hz
+   float frequency = GetFrequency();
+ 
+   // calcular caudal L/min
+   float flow_Lmin = frequency / factorK;
+   SumVolume(flow_Lmin);
+ 
+   Serial.print(" Caudal: ");
+   Serial.print(flow_Lmin, 3);
+   Serial.print(" (L/min)\tConsumo:");
+   Serial.print(volume, 1);
+   Serial.println(" (L)");
+
   tempAmb = dht.readTemperature();
   humedAmb = dht.readHumidity();
   
@@ -94,6 +145,7 @@ void loop() {
   int const readSensorSuelo2 = analogRead(pinHumedadSuelo2);
   int const readSensorSuelo3 = analogRead(pinHumedadSuelo3);
   int const readSensorSuelo4 = analogRead(pinHumedadSuelo4);
+  int const promedioSensorSuelo = (readSensorSuelo1+readSensorSuelo2+readSensorSuelo3+readSensorSuelo4)/4;
   Serial.print("Humedad Suelo1:");
   Serial.print(readSensorSuelo1);
   Serial.print("Humedad Suelo2:");
@@ -102,6 +154,8 @@ void loop() {
   Serial.print(readSensorSuelo3);
   Serial.print("Humedad Suelo4:");
   Serial.print(readSensorSuelo4);
+  Serial.print("Promedio Humedad Suelo:");
+  Serial.print(promedioSensorSuelo);
   Serial.print(" Temperatura Ambiental:");
   Serial.print(tempAmb);
   Serial.print(" Humedad Ambiental:");
@@ -135,6 +189,18 @@ void loop() {
     char humedadSuelo4string[6];
     dtostrf(readSensorSuelo4,6,1,humedadSuelo4string);
     client.publish(topicSensorSuelo4, humedadSuelo4string);
+
+    char promedioHumedadSuelostring[6];
+    dtostrf(promedioSensorSuelo,6,1,promedioHumedadSuelostring);
+    client.publish(topicPromedioSensorSuelo, promedioHumedadSuelostring);
+
+    char caudalAguastring[6];
+    dtostrf(flow_Lmin,4,1,caudalAguastring);
+    client.publish(topicSensorCaudal1, caudalAguastring);
+
+    char consumoAguastring[6];
+    dtostrf(volume,4,1,consumoAguastring);
+    client.publish(topicSensorConsumoAgua1, consumoAguastring);
     
     delay(3000);
   }

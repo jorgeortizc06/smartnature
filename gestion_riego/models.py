@@ -48,6 +48,20 @@ class Device(models.Model):
     def __str__(self):
         return self.nombre
 
+class TipoRol(models.Model):
+    id = models.AutoField(primary_key=True)
+    nombre = models.CharField(max_length=100) #Humano o Logica Difusa
+    descripcion = models.CharField(max_length=300)
+    def __str__(self):
+        return self.nombre
+
+class HistorialRiego(models.Model):
+    id = models.AutoField(primary_key=True)
+    tiempo_riego = models.DecimalField(max_digits=3, decimal_places=2)
+    fecha_riego = models.DateTimeField(auto_now_add=True)
+    device = models.ForeignKey(Device, on_delete=models.CASCADE, null = True)
+    tipo_rol = models.ForeignKey(TipoRol, on_delete=models.CASCADE, null = True)
+
 class Plataforma(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)

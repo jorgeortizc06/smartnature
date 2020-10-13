@@ -9,11 +9,13 @@ from .device_view import DeviceCreate, DeviceUpdate, DeviceDelete, DeviceList, d
 from .planta_view import PlantaCreate, PlantaUpdate, PlantaDelete, PlantaList
 from .plataforma_view import PlataformaCreate, PlataformaUpdate, PlataformaDelete, PlataformaList
 from .sensor_api import SensorViewSet
+from .historial_riego_api import HistorialRiegoViewSet
 from .dashboard_view import dashboard
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register('srv/sensor/list', SensorViewSet)
+router.register('srv/sensor', SensorViewSet)
+router.register('srv/historial_riego', HistorialRiegoViewSet)
 
 urlpatterns = router.urls
 

@@ -8,9 +8,13 @@ from skfuzzy import control as ctrl
 import time
 import requests
 import json
+import datetime
 
-apiSensor = 'http://127.0.0.1:8000/gestion_riego/srv/sensor/list/'
+api_sensor = 'http://127.0.0.1:8000/gestion_riego/srv/sensor/'
+api_historial_riego = 'http://127.0.0.1:8000/gestion_riego/srv/historial_riego/'
 headers = {"Content-type": "application/json"}
+activacion = False
+fin_riego = ''
 
 def on_connect(client, userdata, flags, rc):
 	print('connected (%s)' % client._client_id)
@@ -23,38 +27,60 @@ def on_message(client, userdata, message):
 		print('topic: %s' % message.topic)
 		try:
 			if message.topic == 'device1/sensorSuelo1':
-				datos = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":1,"device":1}
-				print(datos)
-				et = requests.post(apiSensor, data = json.dumps(datos), headers = headers)
-			if message.topic == 'device1/sensorSuelo2':
-				datos = {"value":float(message.payload),"codigo_sensor":int(2),"estado":"A","tipo_sensor":1,"device":1}
-				print(datos)
-				et = requests.post(apiSensor, data = json.dumps(datos), headers = headers)
+				sensores = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":1,"device":1}
+				print(sensores)
+				regar('12:35', float(message.payload), client)
+				et_sensores = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
+				print(et_sensores)
+				
+			"""if message.topic == 'device1/sensorSuelo2':
+				sensores = {"value":float(message.payload),"codigo_sensor":int(2),"estado":"A","tipo_sensor":1,"device":1}
+				print(sensores)
+				et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
 			if message.topic == 'device1/sensorSuelo3':
-				datos = {"value":float(message.payload),"codigo_sensor":int(3),"estado":"A","tipo_sensor":1,"device":1}
-				print(datos)
-				et = requests.post(apiSensor, data = json.dumps(datos), headers = headers)
+				sensores = {"value":float(message.payload),"codigo_sensor":int(3),"estado":"A","tipo_sensor":1,"device":1}
+				print(sensores)
+				et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
 			if message.topic == 'device1/sensorSuelo4':
-				datos = {"value":float(message.payload),"codigo_sensor":int(4),"estado":"A","tipo_sensor":1,"device":1}
-				print(datos)
-				et = requests.post(apiSensor, data = json.dumps(datos), headers = headers)
+				sensores = {"value":float(message.payload),"codigo_sensor":int(4),"estado":"A","tipo_sensor":1,"device":1}
+				print(sensores)
+				et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
 			if message.topic == 'device1/sensorHumedad1':
-				datos = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":2,"device":1}
-				print(datos)
-				et = requests.post(apiSensor, data = json.dumps(datos), headers = headers)
+				sensores = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":2,"device":1}
+				print(sensores)
+				et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
 
 			if message.topic == 'device1/sensorTemperatura1':
-				datos = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":3,"device":1}
-				print(datos)
-				et = requests.post(apiSensor, data = json.dumps(datos), headers = headers)
+				sensores = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":3,"device":1}
+				print(sensores)
+				et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)"""
 		except:
 			print("Error en la coneccion")
 		#print('payload: ', valor)
 		
-	if time.strftime("%H:%M") == '10:30':
-			fuzzy_logic(2500)
-	#print('qos: %d' % message.qos)
 	
+	#print('qos: %d' % message.qos)
+
+def regar(hora, humedad_suelo, client):
+	global activacion
+	global fin_riego
+	print(activacion)
+	if time.strftime("%H:%M") == hora and activacion == False:
+		activacion = True
+		tiempo_riego = round(fuzzy_logic(humedad_suelo),2)
+		ahora = datetime.datetime.now()
+		futuro = ahora + datetime.timedelta(minutes=tiempo_riego)
+		fin_riego = futuro.strftime("%H:%M")
+		print(fin_riego)
+		historial_riego = {"tiempo_riego":float(tiempo_riego),"device":1,"tipo_rol":2}
+		print(historial_riego)
+		et_historial_riego = requests.post(api_historial_riego, data = json.dumps(historial_riego), headers = headers)
+		print(et_historial_riego)
+		client.publish("device1/electrovalvula", "ON")
+	elif time.strftime("%H:%M") == fin_riego and activacion == True:
+		print("La llave se ha cerrado")
+		activacion = False
+		client.publish("device1/electrovalvula", "OFF")
 	
 def fuzzy_logic(humedadSuelo):
 	# New Antecedent/Consequent objects hold universe variables and membership
