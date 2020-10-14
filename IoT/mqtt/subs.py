@@ -21,42 +21,47 @@ def on_connect(client, userdata, flags, rc):
 	client.subscribe(topic='device1/#', qos=2)
 	
 def on_message(client, userdata, message):
-	if message.topic != 'device1/electrovalvula':
-		#valor = float(message.payload)
-		print('----------------------')
-		print('topic: %s' % message.topic)
-		try:
-			if message.topic == 'device1/sensorSuelo1':
-				sensores = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":1,"device":1}
-				print(sensores)
-				regar('12:35', float(message.payload), client)
-				et_sensores = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
-				print(et_sensores)
-				
-			"""if message.topic == 'device1/sensorSuelo2':
-				sensores = {"value":float(message.payload),"codigo_sensor":int(2),"estado":"A","tipo_sensor":1,"device":1}
-				print(sensores)
-				et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
-			if message.topic == 'device1/sensorSuelo3':
-				sensores = {"value":float(message.payload),"codigo_sensor":int(3),"estado":"A","tipo_sensor":1,"device":1}
-				print(sensores)
-				et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
-			if message.topic == 'device1/sensorSuelo4':
-				sensores = {"value":float(message.payload),"codigo_sensor":int(4),"estado":"A","tipo_sensor":1,"device":1}
-				print(sensores)
-				et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
-			if message.topic == 'device1/sensorHumedad1':
-				sensores = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":2,"device":1}
-				print(sensores)
-				et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
+	#valor = float(message.payload)
+	print('----------------------')
+	print('topic: %s' % message.topic)
+	try:
+		if message.topic == 'device1/promedioSensorSuelo':
+			sensores = {"value":float(message.payload),"codigo_sensor":int(5),"estado":"A","tipo_sensor":1,"device":1}
+			print(sensores)
+			regar('21:00', float(message.payload), client)
+			et_sensores = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
+			print(et_sensores)
+		if message.topic == 'device1/sensorSuelo1':
+			sensores = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":1,"device":1}
+			print(sensores)
+			#regar('18:04', float(message.payload), client)
+			et_sensores = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
+			
+		"""if message.topic == 'device1/sensorSuelo2':
+			sensores = {"value":float(message.payload),"codigo_sensor":int(2),"estado":"A","tipo_sensor":1,"device":1}
+			print(sensores)
+			et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
+		if message.topic == 'device1/sensorSuelo3':
+			sensores = {"value":float(message.payload),"codigo_sensor":int(3),"estado":"A","tipo_sensor":1,"device":1}
+			print(sensores)
+			et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
+		if message.topic == 'device1/sensorSuelo4':
+			sensores = {"value":float(message.payload),"codigo_sensor":int(4),"estado":"A","tipo_sensor":1,"device":1}
+			print(sensores)
+			et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
+		if message.topic == 'device1/sensorHumedad1':
+			sensores = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":2,"device":1}
+			print(sensores)
+			et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
 
-			if message.topic == 'device1/sensorTemperatura1':
-				sensores = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":3,"device":1}
-				print(sensores)
-				et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)"""
-		except:
-			print("Error en la coneccion")
-		#print('payload: ', valor)
+		if message.topic == 'device1/sensorTemperatura1':
+			sensores = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":3,"device":1}
+			print(sensores)
+			et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)"""
+	except:
+		print("Error en la coneccion")
+	
+	print('payload: ', message.payload)
 		
 	
 	#print('qos: %d' % message.qos)
