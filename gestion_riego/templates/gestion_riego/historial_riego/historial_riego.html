@@ -1,0 +1,29 @@
+
+{% extends 'gestion_riego/layout.html' %}
+
+{% block titulo %}Reporte de Riego{% endblock titulo %}
+{% block body %}
+<h2 id="nav-tabs">Reporte de Riego</h2>
+<table class="table table-hover" id="myTable">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Tiempo</th>
+        <th>Fecha Riego</th>
+        <th>Dispositivo</th>
+        <th>Rol</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for historial_riego in object_list %}
+    <tr>
+        <td>{{historial_riego.id}}</td>
+        <td>{{historial_riego.tiempo_riego}}</td>
+        <td>{{historial_riego.fecha_riego}}</td>
+        <td>{{historial_riego.device.nombre}}</td>
+        <td>{{historial_riego.tipo_rol.nombre}}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock body %}

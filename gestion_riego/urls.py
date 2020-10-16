@@ -10,6 +10,7 @@ from .planta_view import PlantaCreate, PlantaUpdate, PlantaDelete, PlantaList
 from .plataforma_view import PlataformaCreate, PlataformaUpdate, PlataformaDelete, PlataformaList
 from .sensor_api import SensorViewSet
 from .historial_riego_api import HistorialRiegoViewSet
+from . historial_riego_view import HistorialRiegoList
 from .dashboard_view import dashboard
 from rest_framework.routers import DefaultRouter
 
@@ -56,6 +57,8 @@ urlpatterns += [
     path('device_delete/<int:pk>/', DeviceDelete.as_view(), name='device_delete'),
     path('device_list/', DeviceList.as_view(), name='device_list'),
     path('device_dashboard/', device_dashboard, name='device_dashboard'),
+
+    path('historial_riego/', HistorialRiegoList.as_view(), name = 'historial_riego'),
 
     path('dashboard', dashboard, name='dashboard'),
 ]

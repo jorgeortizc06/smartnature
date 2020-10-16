@@ -62,6 +62,11 @@ class HistorialRiego(models.Model):
     device = models.ForeignKey(Device, on_delete=models.CASCADE, null = True)
     tipo_rol = models.ForeignKey(TipoRol, on_delete=models.CASCADE, null = True)
 
+    class Meta:
+        # sort by "fecha" in descending order unless
+        # overridden in the query with order_by()
+        ordering = ['-id']
+
 class Plataforma(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
