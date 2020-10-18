@@ -202,7 +202,7 @@ void loop() {
     dtostrf(volume,4,1,consumoAguastring);
     client.publish(topicSensorConsumoAgua1, consumoAguastring);
     
-    delay(3000);
+    delay(1000);
   }
   
 }
