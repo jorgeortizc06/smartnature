@@ -1,4 +1,4 @@
-var MQTTbroker = '192.168.0.6';
+var MQTTbroker = '192.168.0.7';
 var MQTTport = 9001;
 var MQTTsubTopic = 'device1/#'; //works with wildcard # and + topics dynamically now
 var chart; // global variuable for chart
