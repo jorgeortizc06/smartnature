@@ -1,10 +1,10 @@
-
 {% extends 'gestion_riego/layout.html' %}
-{% block titulo %}Lista de Personas{% endblock titulo %}
+{% block titulo %}Formulario Persona{% endblock titulo %}
+
+{% block card_title %} Personas {% endblock card_title %}
 
 {% block body %}
-<h2 id="nav-tabs">Personas</h2>
-<table class="table table-hover">
+<table class="table table-bordered">
     <thead>
     <tr>
         <th>Nombre</th>
@@ -12,6 +12,7 @@
         <th>Email</th>
         <th>Telefono</th>
         <th>Password</th>
+        <th>Opciones</th>
     </tr>
     </thead>
     <tbody>

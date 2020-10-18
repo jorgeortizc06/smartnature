@@ -1,8 +1,9 @@
 {% extends 'gestion_riego/layout.html' %}
-{% block titulo %}Formulario Persona{% endblock titulo %}
+{% block titulo %}Formulario Plantas{% endblock titulo %}
+
+{% block card_title %} Nueva Planta {% endblock card_title %}
 
 {% block body %}
-<h2 id="nav-tabs">Nueva Planta</h2>
 <form method="post"> {% csrf_token %}
     {{form.as_p}}
     <button type="submit" class="btn btn-primary">GUARDAR</button>

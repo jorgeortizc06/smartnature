@@ -1,9 +1,6 @@
-
 {% extends 'gestion_riego/layout.html' %}
-
-{% block titulo %}Lista de Tipos de Sensores{% endblock titulo %}
+{% block titulo %}Formulario Plantas{% endblock titulo %}
 {% block body %}
-
 <form method="POST">
     {% csrf_token %}
     <h1>Desea eliminar esta planta:  {{ object }}</h1>
