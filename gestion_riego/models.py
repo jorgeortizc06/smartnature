@@ -13,6 +13,11 @@ class Persona(models.Model):
     def __str__(self):
         return self.nombre
 
+    class Meta:
+        verbose_name = 'Persona'
+        verbose_name_plural = 'Personas'
+        ordering = ['id']
+
 class TipoSensor(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
@@ -21,6 +26,11 @@ class TipoSensor(models.Model):
     def __str__(self):
         return self.nombre
 
+    class Meta:
+        verbose_name = 'TipoSensor'
+        verbose_name_plural = 'TipoSensores'
+        ordering = ['id']
+
 class Planta(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
@@ -28,6 +38,11 @@ class Planta(models.Model):
 
     def __str__(self):
         return self.nombre
+
+    class Meta:
+        verbose_name = 'Planta'
+        verbose_name_plural = 'Plantas'
+        ordering = ['id']
 
 class TipoSuelo(models.Model):
     id = models.AutoField(primary_key=True)
@@ -38,6 +53,11 @@ class TipoSuelo(models.Model):
     def __str__(self):
         return self.nombre
 
+    class Meta:
+        verbose_name = 'TipoSuelo'
+        verbose_name_plural = 'TipoSuelos'
+        ordering = ['id']
+
 class Device(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
@@ -47,6 +67,10 @@ class Device(models.Model):
     puerto = models.IntegerField(default=9001)
     def __str__(self):
         return self.nombre
+    class Meta:
+        verbose_name = 'Device'
+        verbose_name_plural = 'Devices'
+        ordering = ['id']
 
 class TipoRol(models.Model):
     id = models.AutoField(primary_key=True)
@@ -54,6 +78,11 @@ class TipoRol(models.Model):
     descripcion = models.CharField(max_length=300)
     def __str__(self):
         return self.nombre
+    
+    class Meta:
+        verbose_name = 'TipoRol'
+        verbose_name_plural = 'TipoRoles'
+        ordering = ['id']
 
 class HistorialRiego(models.Model):
     id = models.AutoField(primary_key=True)
@@ -65,6 +94,8 @@ class HistorialRiego(models.Model):
     class Meta:
         # sort by "fecha" in descending order unless
         # overridden in the query with order_by()
+        verbose_name = 'HistorialRiego'
+        verbose_name_plural = 'HistorialRiegos'
         ordering = ['-id']
 
 class Plataforma(models.Model):
@@ -77,6 +108,11 @@ class Plataforma(models.Model):
 
     def __str__(self):
         return self.nombre
+
+    class Meta:
+        verbose_name = 'Plataforma'
+        verbose_name_plural = 'Plataformas'
+        ordering = ['id']
 
 class Sensor(models.Model):
     id = models.AutoField(primary_key=True)
