@@ -87,7 +87,7 @@ DATABASES = {
         'NAME': 'smartnature',                      
         'USER': 'jorge',
         'PASSWORD': 'jorge',
-        'HOST': '192.168.0.7',
+        'HOST': '192.168.0.254',
         'DATABASE_PORT': '5432',
     }
 }

@@ -26,7 +26,7 @@ def on_message(client, userdata, message):
 	print('topic: %s' % message.topic)
 	try:
 		if message.topic == 'device1/promedioSensorSuelo':
-			regar('17:55', float(message.payload), client)
+			regar('18:47', float(message.payload), client)
 		if message.topic == 'device1/sensorSuelo1':
 			sensores = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":1,"device":1}
 			print(sensores)
@@ -114,7 +114,7 @@ def main():
 	client = paho.mqtt.client.Client(client_id='albert-subs', clean_session=False)
 	client.on_connect = on_connect
 	client.on_message = on_message
-	client.connect(host='192.168.0.6', port=1883)
+	client.connect(host='192.168.0.254', port=1883)
 	client.loop_forever()
 	
 if __name__=='__main__':
