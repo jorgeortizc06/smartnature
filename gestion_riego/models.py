@@ -62,7 +62,7 @@ class Device(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
     descripcion = models.CharField(max_length=300)
-    ip = models.CharField(max_length = 20, default='192.168.0.6')
+    ip = models.CharField(max_length = 20, default='192.168.0.254')
     topic = models.CharField(max_length=300, default = 'device1/#')
     puerto = models.IntegerField(default=9001)
     def __str__(self):
@@ -103,6 +103,9 @@ class Plataforma(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.CharField(max_length=300)
     planta = models.ForeignKey(Planta, on_delete=models.CASCADE, null = True)
+    horario1 = models.CharField(max_length = 8, default='8:00')
+    horario2 = models.CharField(max_length = 8, default='12:00')
+    horario3 = models.CharField(max_length = 8, default='17:00')
     tipo_suelo = models.ForeignKey(TipoSuelo, on_delete=models.CASCADE, null=True)
     device = models.ForeignKey(Device, on_delete=models.CASCADE, null = True)
 

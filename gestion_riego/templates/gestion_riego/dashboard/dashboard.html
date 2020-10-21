@@ -12,8 +12,10 @@
         <!--Start the javascript ball rolling and connect to the mqtt broker-->
         <input  id="iptxt" type="text" value='{{device.ip}}'>
         <input  id="topictxt" type="text" value='{{device.topic}}'>
+        <input  id="puertotxt" type="number" value='{{device.puerto}}'>
         
         <div id="container" style="height: 500px; min-width: 500px"></div><!-- this the placeholder for the chart-->
+        <div id="container2" style="height: 500px; min-width: 500px"></div><!-- this the placeholder for the chart-->
         <div>
             <a>Activar Riego: </a>
             <button type='button' onclick='OnOff("ON")'>ON</button>

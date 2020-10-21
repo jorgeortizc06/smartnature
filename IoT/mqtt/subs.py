@@ -15,7 +15,7 @@ api_historial_riego = 'http://127.0.0.1:8000/gestion_riego/srv/historial_riego/'
 headers = {"Content-type": "application/json"}
 activacion = False
 fin_riego = ''
-
+horarios = {'horario1':'13:50', 'horario2:':'14:05', 'horario3':'14:15'}
 def on_connect(client, userdata, flags, rc):
 	print('connected (%s)' % client._client_id)
 	client.subscribe(topic='device1/#', qos=2)
@@ -26,7 +26,9 @@ def on_message(client, userdata, message):
 	print('topic: %s' % message.topic)
 	try:
 		if message.topic == 'device1/promedioSensorSuelo':
-			regar('18:47', float(message.payload), client)
+			for k,v in horarios.items():
+				regar(v, float(message.payload), client)
+			
 		if message.topic == 'device1/sensorSuelo1':
 			sensores = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":1,"device":1}
 			print(sensores)

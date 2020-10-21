@@ -9,6 +9,5 @@ def dashboard(request):
     print(data)
     contexto = {
         'devices': devices,
-        'hola': 'desde django'
     }
     return render(request, 'gestion_riego/dashboard/dashboard.html', contexto)  

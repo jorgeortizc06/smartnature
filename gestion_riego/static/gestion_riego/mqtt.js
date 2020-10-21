@@ -1,8 +1,9 @@
 var MQTTbroker = document.getElementById("iptxt").value;
-    var MQTTport = 9001;
+    var MQTTport = parseInt(document.getElementById("puertotxt").value);
     var MQTTsubTopic = document.getElementById("topictxt").value; //works with wildcard # and + topics dynamically now
     var chart; // global variuable for chart
     var dataTopics = new Array();
+    var humedadSueloTopics = new Array();
     //mqtt broker
     var client = new Paho.MQTT.Client(MQTTbroker, MQTTport,
         "myclientid_" + parseInt(Math.random() * 100, 10));
@@ -31,27 +32,54 @@ var MQTTbroker = document.getElementById("iptxt").value;
     function onMessageArrived(message) {
         console.log(message.destinationName, '', message.payloadString);
         //check if it is a new topic, if not add it to the array
-        if (dataTopics.indexOf(message.destinationName) < 0) {
+        if(message.destinationName == 'device1/sensorTemperatura1' || message.destinationName == 'device1/sensorHumedad1' || message.destinationName == 'device1/sensorCaudal1' || message.destinationName == 'device1/sensorConsumoAgua1'){
+            if (dataTopics.indexOf(message.destinationName) < 0) {
+                
+                    dataTopics.push(message.destinationName); //add new topic to array
+                    var y = dataTopics.indexOf(message.destinationName); //get the index no
 
-            dataTopics.push(message.destinationName); //add new topic to array
-            var y = dataTopics.indexOf(message.destinationName); //get the index no
-
-            //create new data series for the chart
-            var newseries = {
-                id: y,
-                name: message.destinationName,
-                data: []
+                    //create new data series for the chart
+                    var newseries = {
+                        id: y,
+                        name: message.destinationName,
+                        data: []
+                    };
+                    chart.addSeries(newseries); //add the series
+                
             };
-            chart.addSeries(newseries); //add the series
-        };
 
-        var y = dataTopics.indexOf(message.destinationName); //get the index no of the topic from the array
-        var myEpoch = new Date().getTime(); //get current epoch time
-        var thenum = message.payloadString.replace(/^\D+/g, ''); //remove any text spaces from the message
-        var plotMqtt = [myEpoch, Number(thenum)]; //create the array
-        if (isNumber(thenum)) { //check if it is a real number and not text
-            console.log('is a propper number, will send to chart.')
-            plot(plotMqtt, y);	//send it to the plot function
+            var y = dataTopics.indexOf(message.destinationName); //get the index no of the topic from the array
+            var myEpoch = new Date().getTime(); //get current epoch time
+            var thenum = message.payloadString.replace(/^\D+/g, ''); //remove any text spaces from the message
+            var plotMqtt = [myEpoch, Number(thenum)]; //create the array
+            if (isNumber(thenum)) { //check if it is a real number and not text
+                console.log('is a propper number, will send to chart.')
+                plot(plotMqtt, y);	//send it to the plot function
+            };
+        }else{
+            if (humedadSueloTopics.indexOf(message.destinationName) < 0) {
+                
+                humedadSueloTopics.push(message.destinationName); //add new topic to array
+                    var y = humedadSueloTopics.indexOf(message.destinationName); //get the index no
+
+                    //create new data series for the chart
+                    var newseries = {
+                        id: y,
+                        name: message.destinationName,
+                        data: []
+                    };
+                    chart2.addSeries(newseries); //add the series
+                
+            };
+
+            var y = humedadSueloTopics.indexOf(message.destinationName); //get the index no of the topic from the array
+            var myEpoch = new Date().getTime(); //get current epoch time
+            var thenum = message.payloadString.replace(/^\D+/g, ''); //remove any text spaces from the message
+            var plotMqtt = [myEpoch, Number(thenum)]; //create the array
+            if (isNumber(thenum)) { //check if it is a real number and not text
+                console.log('is a propper number, will send to chart.')
+                plot1(plotMqtt, y);	//send it to the plot function
+            };
         };
     };
     //check if a real number
@@ -79,6 +107,15 @@ var MQTTbroker = document.getElementById("iptxt").value;
         // add the point
         chart.series[chartno].addPoint(point, true, shift);
     };
+    function plot1(point, chartno) {
+        console.log("Punto: " + point);
+
+        var series = chart.series[0],
+            shift = series.data.length > 20; // shift if the series is
+        // longer than 20
+        // add the point
+        chart2.series[chartno].addPoint(point, true, shift);
+    };
     //settings for the chart
     $(document).ready(function () {
         
@@ -88,7 +125,7 @@ var MQTTbroker = document.getElementById("iptxt").value;
                 defaultSeriesType: 'spline'
             },
             title: {
-                text: 'Dashboard'
+                text: 'Sensores ambientales y Consumo de Agua'
             },
             subtitle: {
                 text: 'broker: ' + MQTTbroker + ' | port: ' + MQTTport + ' | topic : ' + MQTTsubTopic
@@ -108,6 +145,34 @@ var MQTTbroker = document.getElementById("iptxt").value;
             },
             series: []
         });
+
+        chart2 = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container2',
+                defaultSeriesType: 'spline'
+            },
+            title: {
+                text: 'Sensores de Humedad'
+            },
+            subtitle: {
+                text: 'broker: ' + MQTTbroker + ' | port: ' + MQTTport + ' | topic : ' + MQTTsubTopic
+            },
+            xAxis: {
+                type: 'datetime',
+                tickPixelInterval: 300,
+                maxZoom: 20 * 1000
+            },
+            yAxis: {
+                minPadding: 0.2,
+                maxPadding: 0.2,
+                title: {
+                    text: 'Value',
+                    margin: 80
+                }
+            },
+            series: []
+        });
+        
 
     });
     function OnOff(dato) {
