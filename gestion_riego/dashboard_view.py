@@ -4,10 +4,11 @@ from .models import Device
 from django.core import serializers
 
 def dashboard(request):
-    sensores = Device.objects.all()
-    data = serializers.serialize('json', sensores)
+    devices = Device.objects.all()
+    data = serializers.serialize('json', devices)
     print(data)
     contexto = {
-        'sensores': sensores
+        'devices': devices,
+        'hola': 'desde django'
     }
     return render(request, 'gestion_riego/dashboard/dashboard.html', contexto)  

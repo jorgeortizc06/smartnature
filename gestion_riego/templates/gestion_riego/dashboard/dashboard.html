@@ -1,14 +1,18 @@
-
 {% extends 'gestion_riego/layout.html' %}
+{% block titulo %}Formulario Dashboard{% endblock titulo %}
 
-{% block titulo %}Lista de Tipos de Sensores{% endblock titulo %}
+{% block card_title %} Dashboard {% endblock card_title %}
+
 {% block body %}
+<ol>
+    {% for device in devices %}
+    <li>{{device}} </li>
 
-    <h1>Dashboard</h1>
-    <ol>
-        {% for device in sensores %}
-        <li>{{device}}</li>
-        <body onload="init();"><!--Start the javascript ball rolling and connect to the mqtt broker-->
+    <body onload="init();">
+        <!--Start the javascript ball rolling and connect to the mqtt broker-->
+        <input  id="iptxt" type="text" value='{{device.ip}}'>
+        <input  id="topictxt" type="text" value='{{device.topic}}'>
+        
         <div id="container" style="height: 500px; min-width: 500px"></div><!-- this the placeholder for the chart-->
         <div>
             <a>Activar Riego: </a>
@@ -16,12 +20,12 @@
             <button type='button' onclick='OnOff("OFF")'>OFF</button>
             <a id="estado">-</a>
         </div>
-        </body>
-        {% endfor %}
-        
-
-    </ol>
-        
+    </body>
     
+    {% endfor %}
+</ol>
+
+
+
 
 {% endblock body %}
