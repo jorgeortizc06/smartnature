@@ -4,6 +4,60 @@ var MQTTbroker = document.getElementById("iptxt").value;
     var chart; // global variuable for chart
     var dataTopics = new Array();
     var humedadSueloTopics = new Array();
+    var gSensorTemperatura1 = new JustGage({
+        id: "SensorTemperatura1",
+        min: 0,
+        max: 50,
+        title: "Temperatura Ambiental oC"
+    });
+    var gSensorHumedad1 = new JustGage({
+        id: "SensorHumedad1",
+        min: 0,
+        max: 100,
+        title: "Humedad Ambiental %"
+    });
+    var gSensorCaudal1 = new JustGage({
+        id: "SensorCaudal1",
+        min: 0,
+        max: 30,
+        title: "Caudal de Agua en Litros"
+    });
+    var gSensorConsumoAgua1 = new JustGage({
+        id: "SensorConsumoAgua1",
+        min: 0,
+        max: 300,
+        title: "Consumo de Agua en Litros"
+    });
+    var gSensorSuelo1 = new JustGage({
+        id: "SensorSuelo1",
+        min: 0,
+        max: 4095,
+        title: "Humedad del Suelo 1"
+    });
+    var gSensorSuelo2 = new JustGage({
+        id: "SensorSuelo2",
+        min: 0,
+        max: 4095,
+        title: "Humedad del Suelo 2"
+    });
+    var gSensorSuelo3 = new JustGage({
+        id: "SensorSuelo3",
+        min: 0,
+        max: 4095,
+        title: "Humedad del Suelo 3"
+    });
+    var gSensorSuelo4 = new JustGage({
+        id: "SensorSuelo4",
+        min: 0,
+        max: 4095,
+        title: "Humedad del Suelo 4"
+    });
+    var gPromedioSensorSuelo = new JustGage({
+        id: "PromedioSensorSuelo",
+        min: 0,
+        max: 4095,
+        title: "Promedio de los sensores"
+    });
     //mqtt broker
     var client = new Paho.MQTT.Client(MQTTbroker, MQTTport,
         "myclientid_" + parseInt(Math.random() * 100, 10));
@@ -56,6 +110,22 @@ var MQTTbroker = document.getElementById("iptxt").value;
                 console.log('is a propper number, will send to chart.')
                 plot(plotMqtt, y);	//send it to the plot function
             };
+            if (message.destinationName == 'device1/sensorTemperatura1') { //acá coloco el topic
+                //document.getElementById("SensorTemperatura1").textContent = message.payloadString + " ºC";
+                gSensorTemperatura1.refresh(message.payloadString);
+            }
+            if (message.destinationName == 'device1/sensorHumedad1') { //acá coloco el topic
+                //document.getElementById("SensorHumedad1").textContent = message.payloadString + " %";
+                gSensorHumedad1.refresh(message.payloadString);
+            }
+            if (message.destinationName == 'device1/sensorCaudal1') { //acá coloco el topic
+                //document.getElementById("SensorHumedad1").textContent = message.payloadString + " %";
+                gSensorCaudal1.refresh(message.payloadString);
+            }
+            if (message.destinationName == 'device1/sensorConsumoAgua1') { //acá coloco el topic
+                //document.getElementById("SensorHumedad1").textContent = message.payloadString + " %";
+                gSensorConsumoAgua1.refresh(message.payloadString);
+            }
         }else{
             if (humedadSueloTopics.indexOf(message.destinationName) < 0) {
                 
@@ -80,6 +150,26 @@ var MQTTbroker = document.getElementById("iptxt").value;
                 console.log('is a propper number, will send to chart.')
                 plot1(plotMqtt, y);	//send it to the plot function
             };
+            if (message.destinationName == 'device1/sensorSuelo1') { //acá coloco el topic
+                //document.getElementById("SensorHumedad1").textContent = message.payloadString + " %";
+                gSensorSuelo1.refresh(message.payloadString);
+            }
+            if (message.destinationName == 'device1/sensorSuelo2') { //acá coloco el topic
+                //document.getElementById("SensorHumedad1").textContent = message.payloadString + " %";
+                gSensorSuelo2.refresh(message.payloadString);
+            }
+            if (message.destinationName == 'device1/sensorSuelo3') { //acá coloco el topic
+                //document.getElementById("SensorHumedad1").textContent = message.payloadString + " %";
+                gSensorSuelo3.refresh(message.payloadString);
+            }
+            if (message.destinationName == 'device1/sensorSuelo4') { //acá coloco el topic
+                //document.getElementById("SensorHumedad1").textContent = message.payloadString + " %";
+                gSensorSuelo4.refresh(message.payloadString);
+            }
+            if (message.destinationName == 'device1/promedioSensorSuelo') { //acá coloco el topic
+                //document.getElementById("SensorHumedad1").textContent = message.payloadString + " %";
+                gPromedioSensorSuelo.refresh(message.payloadString);
+            }
         };
     };
     //check if a real number
