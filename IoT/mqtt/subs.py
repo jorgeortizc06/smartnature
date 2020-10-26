@@ -15,7 +15,7 @@ api_historial_riego = 'http://127.0.0.1:8000/gestion_riego/srv/historial_riego/'
 headers = {"Content-type": "application/json"}
 activacion = False
 fin_riego = ''
-horarios = {'horario1':'13:50', 'horario2:':'14:05', 'horario3':'14:15'}
+horarios = {'horario1':'13:50', 'horario2:':'14:05', 'horario3':'15:00'}
 def on_connect(client, userdata, flags, rc):
 	print('connected (%s)' % client._client_id)
 	client.subscribe(topic='device1/#', qos=2)
@@ -77,7 +77,7 @@ def regar(hora, humedad_suelo, client):
 		futuro = ahora + datetime.timedelta(minutes=tiempo_riego)
 		fin_riego = futuro.strftime("%H:%M")
 		print(fin_riego)
-		historial_riego = {"tiempo_riego":float(tiempo_riego),"device":1,"tipo_rol":2}
+		historial_riego = {"tiempo_riego":float(tiempo_riego),"siembra":1,"tipo_rol":2}
 		print(historial_riego)
 		et_historial_riego = requests.post(api_historial_riego, data = json.dumps(historial_riego), headers = headers)
 		print(et_historial_riego)

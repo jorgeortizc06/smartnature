@@ -12,6 +12,7 @@
         <th>Tiempo</th>
         <th>Fecha Riego</th>
         <th>Dispositivo</th>
+        <th>Encargado</th>
         <th>Rol</th>
     </tr>
     </thead>
@@ -21,7 +22,8 @@
         <td>{{historial_riego.id}}</td>
         <td>{{historial_riego.tiempo_riego}}</td>
         <td>{{historial_riego.fecha_riego}}</td>
-        <td>{{historial_riego.device.nombre}}</td>
+        <td>{{historial_riego.siembra.plataforma.device.nombre}}</td>
+        <td>{{historial_riego.siembra.plataforma.persona.nombre}} {{historial_riego.siembra.plataforma.persona.apellido}}</td>
         <td>{{historial_riego.tipo_rol.nombre}}</td>
     </tr>
     {% endfor %}

@@ -1,5 +1,5 @@
 from django import forms
-from .models import Persona, Sensor, TipoSensor, Device, TipoSuelo, Planta, Plataforma
+from .models import Persona, Sensor, TipoSensor, Device, TipoSuelo, Planta, Plataforma, Siembra
 
 class PersonaForm(forms.ModelForm):
     class Meta:
@@ -29,6 +29,11 @@ class TipoSensorForm(forms.ModelForm):
 class PlantaForm(forms.ModelForm):
     class Meta:
         model = Planta
+        fields = '__all__'
+
+class SiembraForm(forms.ModelForm):
+    class Meta:
+        model = Siembra
         fields = '__all__'
 
 class DeviceForm(forms.ModelForm):

@@ -109,10 +109,11 @@ class Siembra(models.Model):
     fecha_siembra = models.DateTimeField(auto_now_add=True)
     cantidad_plantas = models.IntegerField()
     distancia_siembra = models.DecimalField(max_digits=3, decimal_places=2)
-    tamanio_parcela = models.DecimalField(max_digits=3, decimal_places=2)
     plataforma = models.ForeignKey(Plataforma, on_delete=models.CASCADE, null = True)
     planta = models.ForeignKey(Planta, on_delete=models.CASCADE, null = True)
 
+    def __str__(self):
+        return str(self.id)
 
 
 class HistorialRiego(models.Model):

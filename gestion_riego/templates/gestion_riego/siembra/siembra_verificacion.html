@@ -1,0 +1,13 @@
+{% extends 'gestion_riego/layout.html' %}
+{% block titulo %}Formulario Plataforma{% endblock titulo %}
+{% block body %}
+
+<form method="POST">
+    {% csrf_token %}
+    <h1>Desea eliminar esta siembra: {{ object }}</h1>
+    <button type="submit" name="button">Confirmar</button>
+    <a href="{% url 'siembra_list' %}">Cancelar</a>
+
+</form>
+
+{% endblock body %}

@@ -8,6 +8,7 @@ from .tipo_suelo_view import TipoSueloCreate, TipoSueloUpdate, TipoSueloDelete, 
 from .device_view import DeviceCreate, DeviceUpdate, DeviceDelete, DeviceList, device_dashboard
 from .planta_view import PlantaCreate, PlantaUpdate, PlantaDelete, PlantaList
 from .plataforma_view import PlataformaCreate, PlataformaUpdate, PlataformaDelete, PlataformaList
+from .siembra_view import SiembraCreate, SiembraUpdate, SiembraDelete, SiembraList
 from .sensor_api import SensorViewSet
 from .historial_riego_api import HistorialRiegoViewSet
 from . historial_riego_view import HistorialRiegoList
@@ -51,6 +52,11 @@ urlpatterns += [
     path('planta_update/<int:pk>/', PlantaUpdate.as_view(), name='planta_update'),
     path('planta_delete/<int:pk>/', PlantaDelete.as_view(), name='planta_delete'),
     path('planta_list/', PlantaList.as_view(), name='planta_list'),
+
+    path('siembra_create/', SiembraCreate.as_view(), name='siembra_create'),
+    path('siembra_update/<int:pk>/', SiembraUpdate.as_view(), name='siembra_update'),
+    path('siembra_delete/<int:pk>/', SiembraDelete.as_view(), name='siembra_delete'),
+    path('siembra_list/', SiembraList.as_view(), name='siembra_list'),
 
     path('device_create/', DeviceCreate.as_view(), name='device_create'),
     path('device_update/<int:pk>/', DeviceUpdate.as_view(), name='device_update'),
