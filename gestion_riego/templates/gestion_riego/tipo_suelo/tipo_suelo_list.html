@@ -2,13 +2,15 @@
 {% block titulo %}Formulario Tipo Suelo{% endblock titulo %}
 {% block card_title %} Tipos Suelos {% endblock card_title %}
 {% block body %}
-<table class="table table-hover" id="myTable">
+<table class="table table-hover" id="data">
     <thead>
     <tr>
         <th>ID</th>
         <th>Nombre</th>
         <th>Descripcion</th>
         <th>Densidad</th>
+        <th>Opciones</th>
+
     </tr>
     </thead>
     <tbody>
@@ -24,4 +26,12 @@
     {% endfor %}
     </tbody>
 </table>
+
+<script type="application/javascript">
+    $(document).ready(function () {
+      $("#data").DataTable({
+        responsive: true,
+      });
+    });
+  </script>
 {% endblock body %}

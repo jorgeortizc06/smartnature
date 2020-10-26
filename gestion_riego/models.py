@@ -35,6 +35,7 @@ class Planta(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
     descripcion = models.CharField(max_length=300)
+    tiempo_produccion = models.IntegerField(null=True)
 
     def __str__(self):
         return self.nombre
@@ -84,25 +85,11 @@ class TipoRol(models.Model):
         verbose_name_plural = 'TipoRoles'
         ordering = ['id']
 
-class HistorialRiego(models.Model):
-    id = models.AutoField(primary_key=True)
-    tiempo_riego = models.DecimalField(max_digits=3, decimal_places=2)
-    fecha_riego = models.DateTimeField(auto_now_add=True)
-    device = models.ForeignKey(Device, on_delete=models.CASCADE, null = True)
-    tipo_rol = models.ForeignKey(TipoRol, on_delete=models.CASCADE, null = True)
-
-    class Meta:
-        # sort by "fecha" in descending order unless
-        # overridden in the query with order_by()
-        verbose_name = 'HistorialRiego'
-        verbose_name_plural = 'HistorialRiegos'
-        ordering = ['-id']
-
 class Plataforma(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
     descripcion = models.CharField(max_length=300)
-    planta = models.ForeignKey(Planta, on_delete=models.CASCADE, null = True)
+    persona = models.ForeignKey(Persona, on_delete=models.CASCADE, null = True)
     horario1 = models.CharField(max_length = 8, default='8:00')
     horario2 = models.CharField(max_length = 8, default='12:00')
     horario3 = models.CharField(max_length = 8, default='17:00')
@@ -116,6 +103,31 @@ class Plataforma(models.Model):
         verbose_name = 'Plataforma'
         verbose_name_plural = 'Plataformas'
         ordering = ['id']
+
+class Siembra(models.Model):
+    id = models.AutoField(primary_key=True)
+    fecha_siembra = models.DateTimeField(auto_now_add=True)
+    cantidad_plantas = models.IntegerField()
+    distancia_siembra = models.DecimalField(max_digits=3, decimal_places=2)
+    tamanio_parcela = models.DecimalField(max_digits=3, decimal_places=2)
+    plataforma = models.ForeignKey(Plataforma, on_delete=models.CASCADE, null = True)
+    planta = models.ForeignKey(Planta, on_delete=models.CASCADE, null = True)
+
+
+
+class HistorialRiego(models.Model):
+    id = models.AutoField(primary_key=True)
+    tiempo_riego = models.DecimalField(max_digits=3, decimal_places=2)
+    fecha_riego = models.DateTimeField(auto_now_add=True)
+    siembra = models.ForeignKey(Siembra, on_delete=models.CASCADE, null = True)
+    tipo_rol = models.ForeignKey(TipoRol, on_delete=models.CASCADE, null = True)
+
+    class Meta:
+        # sort by "fecha" in descending order unless
+        # overridden in the query with order_by()
+        verbose_name = 'HistorialRiego'
+        verbose_name_plural = 'HistorialRiegos'
+        ordering = ['-id']
 
 class Sensor(models.Model):
     id = models.AutoField(primary_key=True)

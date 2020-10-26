@@ -30,7 +30,7 @@ class SensorList(ListView):
     template_name = 'gestion_riego/sensor/sensor_list.html'
 
     def get_queryset(self):
-        return self.model.objects.all()[:10] #Trae solo dos objetos
+        return self.model.objects.all()[:50] #Trae solo dos objetos
 
 def lectura(request):
     sensor = Sensor.objects.first()

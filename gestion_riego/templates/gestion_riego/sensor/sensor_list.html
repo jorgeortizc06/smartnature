@@ -5,7 +5,7 @@
 {% block card_title %} Sensores {% endblock card_title %}
 
 {% block body %}
-<table class="table table-hover" id="myTable">
+<table class="table table-hover" id="data">
     <thead>
     <tr>
         <th>ID</th>
@@ -15,6 +15,7 @@
         <th>estado</th>
         <th>Tipo Sensor</th>
         <th>Dispositivo</th>
+        <th>Opciones</th>
         
     </tr>
     </thead>
@@ -35,4 +36,11 @@
     {% endfor %}
     </tbody>
 </table>
+<script type="application/javascript">
+    $(document).ready(function () {
+      $("#data").DataTable({
+        responsive: true,
+      });
+    });
+  </script>
 {% endblock body %}
