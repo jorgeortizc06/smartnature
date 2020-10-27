@@ -36,11 +36,18 @@
     {% endfor %}
     </tbody>
 </table>
-<script type="application/javascript">
-    $(document).ready(function () {
-      $("#data").DataTable({
-        responsive: true,
-      });
-    });
-  </script>
+<script>
+  $(document).ready(function () {
+  $('#data').DataTable( {
+  dom: 'Bfrtip',
+  buttons: [
+      'copyHtml5',
+      'excelHtml5',
+      'csvHtml5',
+      'pdfHtml5',
+      'print'
+  ]
+  } );
+  });
+</script>
 {% endblock body %}

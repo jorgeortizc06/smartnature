@@ -6,3 +6,4 @@ __pycache__
 *.pyc
 gestion_riego/__pycache__/
 smartnature/__pycache__/
+.vscode
