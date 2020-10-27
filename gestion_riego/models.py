@@ -1,17 +1,21 @@
 from django.db import models
 from datetime import datetime
-
+from django.forms import model_to_dict
 # Create your models here.
 class Persona(models.Model):
     id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=100) #unique evitaria agregar valores repatidos
-    apellido = models.CharField(max_length=100)
+    nombre = models.CharField(max_length=100, verbose_name='Nombre') #unique evitaria agregar valores repatidos
+    apellido = models.CharField(max_length=100, verbose_name='Apellido')
     email = models.EmailField(max_length=200)
-    tfno = models.CharField(max_length=15)
-    password = models.CharField(max_length=15)
+    tfno = models.CharField(max_length=15, verbose_name='Telefono')
+    password = models.CharField(max_length=15, verbose_name='Contraseña')
 
     def __str__(self):
         return self.nombre
+
+    def toJSON(self):
+        item = model_to_dict(self) #tambien puedes excluir algunos parametros (self, exclude=['])
+        return item
 
     class Meta:
         verbose_name = 'Persona'
@@ -40,6 +44,10 @@ class Planta(models.Model):
     def __str__(self):
         return self.nombre
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
     class Meta:
         verbose_name = 'Planta'
         verbose_name_plural = 'Plantas'
@@ -54,6 +62,9 @@ class TipoSuelo(models.Model):
     def __str__(self):
         return self.nombre
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
     class Meta:
         verbose_name = 'TipoSuelo'
         verbose_name_plural = 'TipoSuelos'
@@ -61,13 +72,19 @@ class TipoSuelo(models.Model):
 
 class Device(models.Model):
     id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=100)
-    descripcion = models.CharField(max_length=300)
+    nombre = models.CharField(max_length=100, unique=True)
+    descripcion = models.CharField(max_length=300, verbose_name='Descripcion', blank=True)
     ip = models.CharField(max_length = 20, default='192.168.0.254')
     topic = models.CharField(max_length=300, default = 'device1/#')
     puerto = models.IntegerField(default=9001)
+    
     def __str__(self):
         return self.nombre
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
     class Meta:
         verbose_name = 'Device'
         verbose_name_plural = 'Devices'

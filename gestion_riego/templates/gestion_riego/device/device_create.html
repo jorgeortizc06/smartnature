@@ -3,8 +3,15 @@
 
 {% block body %}
 <h2 id="nav-tabs">Nuevo Dispositivo</h2>
-<form method="post"> {% csrf_token %}
-    {{form.as_p}}
+<form method="post" action="."> {% csrf_token %}
+    {{form.errors}}
+    {% for field in form.visible_fields %}
+        <div class="form-group">
+            <label >{{ field.label }}</label>
+            {{ field }}
+        </div>
+    {% endfor %}
+    
     <button type="submit" class="btn btn-primary">GUARDAR</button>
 </form>
 {% endblock body %}

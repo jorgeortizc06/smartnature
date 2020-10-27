@@ -1,42 +1,60 @@
-from django import forms
+from django.forms import *
 from .models import Persona, Sensor, TipoSensor, Device, TipoSuelo, Planta, Plataforma, Siembra
 
-class PersonaForm(forms.ModelForm):
+class PersonaForm(ModelForm):
     class Meta:
         model = Persona
         fields = '__all__' #tambien ('nombre', 'apellido',....)
 
-class PlataformaForm(forms.ModelForm):
+class PlataformaForm(ModelForm):
     class Meta:
         model = Plataforma
         fields = '__all__'
 
-class SensorForm(forms.ModelForm):
+class SensorForm(ModelForm):
     class Meta:
         model = Sensor
         fields = '__all__' #tambien ('nombre', 'apellido',....)
 
-class TipoSueloForm(forms.ModelForm):
+class TipoSueloForm(ModelForm):
     class Meta:
         model = TipoSuelo
         fields = '__all__'
 
-class TipoSensorForm(forms.ModelForm):
+class TipoSensorForm(ModelForm):
     class Meta:
         model = TipoSensor
         fields = '__all__'
 
-class PlantaForm(forms.ModelForm):
+class PlantaForm(ModelForm):
     class Meta:
         model = Planta
         fields = '__all__'
 
-class SiembraForm(forms.ModelForm):
+class SiembraForm(ModelForm):
     class Meta:
         model = Siembra
         fields = '__all__'
 
-class DeviceForm(forms.ModelForm):
+class DeviceForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for form in self.visible_fields():
+            form.field.widget.attrs['class'] = 'form-control'
+            form.field.widget.attrs['autocomplete'] = 'off'
+        self.fields['nombre'].widget.attrs['autofocus'] = True
     class Meta:
         model = Device
         fields = '__all__'
+        widgets = {
+            'nombre': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese el nombre al dispositivo',
+                }
+            ),
+            'descripcion': TextInput(
+                attrs={
+                    'placeholder': 'Ingrese la descripcion',
+                }
+            ),
+        }
