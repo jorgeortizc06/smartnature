@@ -12,6 +12,15 @@ class PlantaCreate(CreateView):
     form_class = PlantaForm
     template_name = 'gestion_riego/planta/planta_create.html'
     success_url = reverse_lazy('planta_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Nueva Planta'
+        context['entity'] = 'Planta'
+        context['list_url'] = reverse_lazy('planta_list')
+        context['action'] = 'add'
+        #context['object_list'] = Device.objects.all()
+        return context
     
 
 class PlantaUpdate(UpdateView):
@@ -19,6 +28,15 @@ class PlantaUpdate(UpdateView):
     form_class = PlantaForm
     template_name = 'gestion_riego/planta/planta_create.html'
     success_url = reverse_lazy('planta_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Actualizar Planta'
+        context['entity'] = 'Planta'
+        context['list_url'] = reverse_lazy('planta_list')
+        context['action'] = 'add'
+        #context['object_list'] = Device.objects.all()
+        return context
 
 class PlantaDelete(DeleteView):
     model = Planta

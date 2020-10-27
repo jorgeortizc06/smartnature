@@ -2,8 +2,8 @@
 {% extends 'gestion_riego/layout.html' %}
 
 {% block titulo %}Lista de Tipos de Sensores{% endblock titulo %}
+{% block card_title %} {{title}} {% endblock card_title %}
 {% block body %}
-<h2 id="nav-tabs">Dispositivos</h2>
 <table class="table table-striped table-bordered" id="data">
     <thead>
     <tr>
@@ -32,6 +32,9 @@
     {% endfor %}
     </tbody>
 </table>
+<a href="{% url 'device_create' %}" class="nav-link" type="button">
+    <p>Nueva Persona</p>
+</a>
 <div class="card-footer">
     <button class="btn btn-primary btn-flat new-device">
         <i></i> Nuevo dispositivo

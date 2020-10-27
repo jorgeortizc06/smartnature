@@ -12,6 +12,15 @@ class SensorCreate(CreateView):
     form_class = SensorForm
     template_name = 'gestion_riego/sensor/sensor_create.html'
     success_url = reverse_lazy('sensor_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Nuevo Sensor'
+        context['entity'] = 'Sensor'
+        context['list_url'] = reverse_lazy('sensor_list')
+        context['action'] = 'add'
+        #context['object_list'] = Device.objects.all()
+        return context
     
 
 class SensorUpdate(UpdateView):
@@ -19,6 +28,15 @@ class SensorUpdate(UpdateView):
     form_class = SensorForm
     template_name = 'gestion_riego/sensor/sensor_create.html'
     success_url = reverse_lazy('sensor_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Actualizar Sensor'
+        context['entity'] = 'Sensor'
+        context['list_url'] = reverse_lazy('sensor_list')
+        context['action'] = 'add'
+        #context['object_list'] = Device.objects.all()
+        return context
 
 class SensorDelete(DeleteView):
     model = Sensor

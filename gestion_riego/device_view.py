@@ -5,7 +5,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from .models import Device
 from .forms import DeviceForm
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
 import serial, json
 
 #Vistas basadas en clases
@@ -15,7 +15,23 @@ class DeviceCreate(CreateView):
     form_class = DeviceForm
     template_name = 'gestion_riego/device/device_create.html'
     success_url = reverse_lazy('device_list')
-    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Nuevo dispositivo'
+        context['entity'] = 'Device'
+        context['list_url'] = reverse_lazy('device_list')
+        context['action'] = 'add'
+        #context['object_list'] = Device.objects.all()
+        return context
+    """def post(self, request, *args, **kwargs):
+        print(request.POST)
+        form = DeviceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(self.success_url)
+        self.object = None
+        return render(request, self.template_name, {'form':form})"""
 
 class DeviceUpdate(UpdateView):
     model = Device
@@ -23,6 +39,14 @@ class DeviceUpdate(UpdateView):
     template_name = 'gestion_riego/device/device_create.html'
     success_url = reverse_lazy('device_list')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Edicion de dispositivo'
+        context['entity'] = 'Device'
+        context['list_url'] = reverse_lazy('device_list')
+        context['action'] = 'add'
+        #context['object_list'] = Device.objects.all()
+        return context
 class DeviceDelete(DeleteView):
     model = Device
     template_name = 'gestion_riego/device/device_verificacion.html'
@@ -52,7 +76,10 @@ class DeviceList(ListView):
     #Metodo para modificar el context
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Listado de Dispositivos'
+        context['title'] = 'Lista de dispositivos'
+        context['entity'] = 'Device'
+        context['list_url'] = reverse_lazy('device_list')
+        context['action'] = 'add'
         #context['object_list'] = Device.objects.all()
         return context
 

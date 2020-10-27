@@ -7,19 +7,20 @@ from rest_framework import viewsets
 
 #Vistas basadas en clases
 #Recomendable y haca a la aplicacion facilmente escalable
-class PersonaList(ListView):
-    model = Persona
-    template_name = 'gestion_riego/persona/persona_list.html'
-
-    """
-    def get_queryset(self):
-        return self.model.objects.all()[:2] #Trae solo dos objetos"""
-
 class PersonaCreate(CreateView):
     model = Persona
     form_class = PersonaForm
     template_name = 'gestion_riego/persona/persona_create.html'
     success_url = reverse_lazy('persona_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Nueva Persona'
+        context['entity'] = 'Persona'
+        context['list_url'] = reverse_lazy('persona_list')
+        context['action'] = 'add'
+        #context['object_list'] = Device.objects.all()
+        return context
 
 class PersonaUpdate(UpdateView):
     model = Persona
@@ -27,7 +28,28 @@ class PersonaUpdate(UpdateView):
     template_name = 'gestion_riego/persona/persona_create.html'
     success_url = reverse_lazy('persona_list')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Actualizar Persona'
+        context['entity'] = 'Persona'
+        context['list_url'] = reverse_lazy('persona_list')
+        context['action'] = 'add'
+        #context['object_list'] = Device.objects.all()
+        return context
+
 class PersonaDelete(DeleteView):
     model = Persona
     template_name = 'gestion_riego/persona/persona_verificacion.html'
     success_url = reverse_lazy('persona_list')
+
+class PersonaList(ListView):
+    model = Persona
+    template_name = 'gestion_riego/persona/persona_list.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Lista de Personas'
+        #context['object_list'] = Device.objects.all()
+        return context
+    """
+    def get_queryset(self):
+        return self.model.objects.all()[:2] #Trae solo dos objetos"""

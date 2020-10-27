@@ -75,7 +75,7 @@ class Device(models.Model):
     nombre = models.CharField(max_length=100, unique=True)
     descripcion = models.CharField(max_length=300, verbose_name='Descripcion', blank=True)
     ip = models.CharField(max_length = 20, default='192.168.0.254')
-    topic = models.CharField(max_length=300, default = 'device1/#')
+    topic = models.CharField(max_length=300, default = 'device1/#', unique=True)
     puerto = models.IntegerField(default=9001)
     
     def __str__(self):
@@ -86,8 +86,8 @@ class Device(models.Model):
         return item
 
     class Meta:
-        verbose_name = 'Device'
-        verbose_name_plural = 'Devices'
+        verbose_name = 'Dispositivo'
+        verbose_name_plural = 'Dispositivos'
         ordering = ['id']
 
 class TipoRol(models.Model):
@@ -108,8 +108,7 @@ class Plataforma(models.Model):
     descripcion = models.CharField(max_length=300)
     persona = models.ForeignKey(Persona, on_delete=models.CASCADE, null = True)
     horario1 = models.CharField(max_length = 8, default='8:00')
-    horario2 = models.CharField(max_length = 8, default='12:00')
-    horario3 = models.CharField(max_length = 8, default='17:00')
+    horario2 = models.CharField(max_length = 8, default='17:00')
     tipo_suelo = models.ForeignKey(TipoSuelo, on_delete=models.CASCADE, null=True)
     device = models.ForeignKey(Device, on_delete=models.CASCADE, null = True)
 
@@ -123,7 +122,7 @@ class Plataforma(models.Model):
 
 class Siembra(models.Model):
     id = models.AutoField(primary_key=True)
-    fecha_siembra = models.DateTimeField(auto_now_add=True)
+    fecha_siembra = models.DateTimeField()
     cantidad_plantas = models.IntegerField()
     distancia_siembra = models.DecimalField(max_digits=3, decimal_places=2)
     plataforma = models.ForeignKey(Plataforma, on_delete=models.CASCADE, null = True)

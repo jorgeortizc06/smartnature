@@ -13,12 +13,29 @@ class SiembraCreate(CreateView):
     template_name = 'gestion_riego/siembra/siembra_create.html'
     success_url = reverse_lazy('siembra_list')
     
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Nueva Siembra'
+        context['entity'] = 'Siembra'
+        context['list_url'] = reverse_lazy('siembra_list')
+        context['action'] = 'add'
+        #context['object_list'] = Device.objects.all()
+        return context
 
 class SiembraUpdate(UpdateView):
     model = Siembra
     form_class = SiembraForm
     template_name = 'gestion_riego/siembra/siembra_create.html'
     success_url = reverse_lazy('siembra_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Actualizar Siembra'
+        context['entity'] = 'Siembra'
+        context['list_url'] = reverse_lazy('siembra_list')
+        context['action'] = 'add'
+        #context['object_list'] = Device.objects.all()
+        return context
 
 class SiembraDelete(DeleteView):
     model = Siembra

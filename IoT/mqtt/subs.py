@@ -15,7 +15,7 @@ api_historial_riego = 'http://127.0.0.1:8000/gestion_riego/srv/historial_riego/'
 headers = {"Content-type": "application/json"}
 activacion = False
 fin_riego = ''
-horarios = {'horario1':'13:50', 'horario2:':'14:05', 'horario3':'15:00'}
+horarios = {'horario1':'8:00', 'horario2:':'17:12'}
 def on_connect(client, userdata, flags, rc):
 	print('connected (%s)' % client._client_id)
 	client.subscribe(topic='device1/#', qos=2)
