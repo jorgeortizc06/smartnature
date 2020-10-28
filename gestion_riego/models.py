@@ -7,7 +7,7 @@ class Persona(models.Model):
     nombre = models.CharField(max_length=100, verbose_name='Nombre') #unique evitaria agregar valores repatidos
     apellido = models.CharField(max_length=100, verbose_name='Apellido')
     email = models.EmailField(max_length=200)
-    tfno = models.CharField(max_length=15, verbose_name='Telefono')
+    tfno = models.CharField(max_length=15, verbose_name='Teléfono')
     password = models.CharField(max_length=15, verbose_name='Contraseña')
 
     def __str__(self):

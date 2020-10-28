@@ -31,31 +31,31 @@ var MQTTbroker = document.getElementById("iptxt").value;
     var gSensorSuelo1 = new JustGage({
         id: "SensorSuelo1",
         min: 0,
-        max: 4095,
+        max: 1024,
         title: "Humedad del Suelo 1"
     });
     var gSensorSuelo2 = new JustGage({
         id: "SensorSuelo2",
         min: 0,
-        max: 4095,
+        max: 1024,
         title: "Humedad del Suelo 2"
     });
     var gSensorSuelo3 = new JustGage({
         id: "SensorSuelo3",
         min: 0,
-        max: 4095,
+        max: 1024,
         title: "Humedad del Suelo 3"
     });
     var gSensorSuelo4 = new JustGage({
         id: "SensorSuelo4",
         min: 0,
-        max: 4095,
+        max: 1024,
         title: "Humedad del Suelo 4"
     });
     var gPromedioSensorSuelo = new JustGage({
         id: "PromedioSensorSuelo",
         min: 0,
-        max: 4095,
+        max: 1024,
         title: "Promedio de los sensores"
     });
     //mqtt broker

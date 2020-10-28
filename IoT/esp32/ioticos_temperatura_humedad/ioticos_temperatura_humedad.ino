@@ -141,10 +141,10 @@ void loop() {
     delay(1000); // wait a bit
     return;
   }
-  int const readSensorSuelo1 = analogRead(pinHumedadSuelo1);
-  int const readSensorSuelo2 = analogRead(pinHumedadSuelo2);
-  int const readSensorSuelo3 = analogRead(pinHumedadSuelo3);
-  int const readSensorSuelo4 = analogRead(pinHumedadSuelo4);
+  int const readSensorSuelo1 = map(analogRead(pinHumedadSuelo1), 0, 4095, 1024, 0);
+  int const readSensorSuelo2 = map(analogRead(pinHumedadSuelo2), 0, 4095, 1024, 0);
+  int const readSensorSuelo3 = map(analogRead(pinHumedadSuelo3), 0, 4095, 1024, 0);
+  int const readSensorSuelo4 = map(analogRead(pinHumedadSuelo4), 0, 4095, 1024, 0);
   int const promedioSensorSuelo = (readSensorSuelo1+readSensorSuelo2+readSensorSuelo3+readSensorSuelo4)/4;
   Serial.print("Humedad Suelo1:");
   Serial.print(readSensorSuelo1);
