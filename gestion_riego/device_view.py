@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.urls import reverse_lazy
@@ -15,6 +16,10 @@ class DeviceCreate(CreateView):
     form_class = DeviceForm
     template_name = 'gestion_riego/device/device_create.html'
     success_url = reverse_lazy('device_list')
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -47,10 +52,15 @@ class DeviceUpdate(UpdateView):
         context['action'] = 'add'
         #context['object_list'] = Device.objects.all()
         return context
+
 class DeviceDelete(DeleteView):
     model = Device
     template_name = 'gestion_riego/device/device_verificacion.html'
     success_url = reverse_lazy('device_list')
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
 class DeviceList(ListView):
     model = Device
@@ -62,6 +72,7 @@ class DeviceList(ListView):
         return Device.objects.all()
 
     @method_decorator(csrf_exempt) #Al hacer post, va a salir forbideen 404, necesitas proteger la vista
+    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 

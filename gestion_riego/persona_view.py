@@ -1,4 +1,6 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.urls import reverse_lazy
 from .models import Persona
@@ -12,6 +14,10 @@ class PersonaCreate(CreateView):
     form_class = PersonaForm
     template_name = 'gestion_riego/persona/persona_create.html'
     success_url = reverse_lazy('persona_list')
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -28,6 +34,10 @@ class PersonaUpdate(UpdateView):
     template_name = 'gestion_riego/persona/persona_create.html'
     success_url = reverse_lazy('persona_list')
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Actualizar Persona'
@@ -42,6 +52,10 @@ class PersonaDelete(DeleteView):
     template_name = 'gestion_riego/persona/persona_verificacion.html'
     success_url = reverse_lazy('persona_list')
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
 class PersonaList(ListView):
     model = Persona
     template_name = 'gestion_riego/persona/persona_list.html'
@@ -50,6 +64,10 @@ class PersonaList(ListView):
         context['title'] = 'Lista de Personas'
         #context['object_list'] = Device.objects.all()
         return context
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
     """
     def get_queryset(self):
         return self.model.objects.all()[:2] #Trae solo dos objetos"""

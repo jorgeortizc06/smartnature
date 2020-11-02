@@ -154,7 +154,10 @@ class Sensor(models.Model):
     estado = models.CharField(max_length=1)
     tipo_sensor = models.ForeignKey(TipoSensor, on_delete=models.CASCADE, null = True)
     device = models.ForeignKey(Device, on_delete=models.CASCADE, null = True)
-    
+
+    def __str__(self):
+        return str(self.id)
+
     class Meta:
         # sort by "fecha" in descending order unless
         # overridden in the query with order_by()

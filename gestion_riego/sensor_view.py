@@ -1,4 +1,6 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.urls import reverse_lazy
 from .models import Sensor
@@ -12,6 +14,10 @@ class SensorCreate(CreateView):
     form_class = SensorForm
     template_name = 'gestion_riego/sensor/sensor_create.html'
     success_url = reverse_lazy('sensor_list')
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -29,6 +35,10 @@ class SensorUpdate(UpdateView):
     template_name = 'gestion_riego/sensor/sensor_create.html'
     success_url = reverse_lazy('sensor_list')
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Actualizar Sensor'
@@ -43,9 +53,17 @@ class SensorDelete(DeleteView):
     template_name = 'gestion_riego/sensor/sensor_verificacion.html'
     success_url = reverse_lazy('sensor_list')
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
 class SensorList(ListView):
     model = Sensor
     template_name = 'gestion_riego/sensor/sensor_list.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
         return self.model.objects.all()[:50] #Trae solo dos objetos

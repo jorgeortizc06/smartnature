@@ -13,7 +13,9 @@ from .sensor_api import SensorViewSet
 from .historial_riego_api import HistorialRiegoViewSet
 from . historial_riego_view import HistorialRiegoList
 from .dashboard_view import dashboard
+from .views import LoginFormView, LogoutView
 from rest_framework.routers import DefaultRouter
+
 
 router = DefaultRouter()
 router.register('srv/sensor', SensorViewSet)
@@ -23,6 +25,9 @@ urlpatterns = router.urls
 
 urlpatterns += [
     #Vistas basadas en clases, todo lo que hice en view.py, django ya lo hace automaticamente, cambian algunas reglas. class_view.py
+    path('login/', LoginFormView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+
     path('persona_create/', PersonaCreate.as_view(), name='persona_create'),
     path('persona_update/<int:pk>/', PersonaUpdate.as_view(), name='persona_update'),
     path('persona_delete/<int:pk>/', PersonaDelete.as_view(), name='persona_delete'),

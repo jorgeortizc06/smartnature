@@ -1,6 +1,27 @@
 from django.shortcuts import render, redirect
 from .models import Persona
 from .forms import PersonaForm
+
+from django.contrib.auth.views import LoginView,LogoutView
+from django.contrib.auth import logout
+
+class LoginFormView(LoginView):
+    template_name = 'gestion_riego/login/login.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        print(request.user)
+        if request.user.is_authenticated:
+            return redirect('dashboard')
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Iniciar Sesión'
+        return context
+
+def logout_view(request):
+    logout(request)
+    return render(request, 'gestion_riego/login/logout.html')
 # Create your views here.
 #Vistas basadas en funciones. No es recomendable y hace mas dificil la escalacion
 def list_persona(request):

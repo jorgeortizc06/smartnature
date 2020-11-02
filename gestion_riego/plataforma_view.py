@@ -1,4 +1,6 @@
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.urls import reverse_lazy
 from .models import Plataforma
@@ -12,6 +14,10 @@ class PlataformaCreate(CreateView):
     form_class = PlataformaForm
     template_name = 'gestion_riego/plataforma/plataforma_create.html'
     success_url = reverse_lazy('plataforma_list')
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -29,6 +35,10 @@ class PlataformaUpdate(UpdateView):
     template_name = 'gestion_riego/plataforma/plataforma_create.html'
     success_url = reverse_lazy('plataforma_list')
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Actualizar Plataforma'
@@ -43,6 +53,14 @@ class PlataformaDelete(DeleteView):
     template_name = 'gestion_riego/plataforma/plataforma_verificacion.html'
     success_url = reverse_lazy('plataforma_list')
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
 class PlataformaList(ListView):
     model = Plataforma
     template_name = 'gestion_riego/plataforma/plataforma_list.html'
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
