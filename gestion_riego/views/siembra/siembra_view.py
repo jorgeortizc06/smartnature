@@ -1,9 +1,10 @@
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
-from django.urls import reverse_lazy
-from gestion_riego.models import Siembra
+
 from gestion_riego.forms import SiembraForm
+from gestion_riego.models import Siembra
 
 
 # Vistas basadas en clases

@@ -6,12 +6,12 @@
 {% block body %}
 
 <body onload="init();"><!--Start the javascript ball rolling and connect to the mqtt broker-->
-  <div id="container" style="height: 500px; min-width: 500px"></div><!-- this the placeholder for the chart-->
-  <div>
+<div id="container" style="height: 500px; min-width: 500px"></div><!-- this the placeholder for the chart-->
+<div>
     <a>Activar Riego: </a>
     <button type='button' onclick='OnOff("ON")'>ON</button>
     <button type='button' onclick='OnOff("OFF")'>OFF</button>
     <a id="estado">-</a>
-  </div>
+</div>
 </body>
 {% endblock body %}

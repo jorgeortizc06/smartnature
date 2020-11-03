@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
-from django.urls import reverse_lazy
-from gestion_riego.models import Sensor
+
 from gestion_riego.forms import SensorForm
+from gestion_riego.models import Sensor
 
 
 # Vistas basadas en clases

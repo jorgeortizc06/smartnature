@@ -1,4 +1,5 @@
 from django.forms import *
+
 from .models import Persona, Sensor, TipoSensor, Device, TipoSuelo, Planta, Plataforma, Siembra
 
 

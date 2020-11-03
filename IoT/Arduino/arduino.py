@@ -3,10 +3,10 @@ sudo apt install python3-pip
 pip3 install pyserial
 """
 
-import serial
-import time
-import requests
 import json
+
+import requests
+import serial
 
 arduino = serial.Serial("/dev/ttyACM0", 9600)
 """address = 'http://192.168.0.2:8080/jorgeortiz.smartnature/srv/tipo-planta/eliminarid?id=3'"""
@@ -20,12 +20,12 @@ while True:
         humedadAmbiente = val.decode().split(";")[0]
         tempAmbiente = val.decode().split(";")[1]
         humedadSuelo = val.decode().split(";")[2]
-        
-        
+
         try:
-            datos = {"temp_ambiente":float(tempAmbiente),"humed_ambiente":float(humedadAmbiente),"humed_suelo":float(humedadSuelo)}
+            datos = {"temp_ambiente": float(tempAmbiente), "humed_ambiente": float(humedadAmbiente),
+                     "humed_suelo": float(humedadSuelo)}
             print(datos)
-            et = requests.post(sensor, data = json.dumps(datos), headers = headers)
+            et = requests.post(sensor, data=json.dumps(datos), headers=headers)
             """r = requests.get(url = lastParametro, headers = headers)
             datos = r.json()
             estado = datos['estado']
@@ -46,4 +46,3 @@ while True:
     else:
         print("Error de lectura del puerto")
 arduino.close()
-        

@@ -12,7 +12,11 @@
     "amd",
     "globals"
   ],
-  "keywords": ["svg", "vml", "javascript"],
+  "keywords": [
+    "svg",
+    "vml",
+    "javascript"
+  ],
   "authors": [
     "Dmitry Baranovskiy"
   ],

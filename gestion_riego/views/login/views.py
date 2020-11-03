@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
-from gestion_riego.models import Persona
-from gestion_riego.forms import PersonaForm
-
-from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import logout
+from django.contrib.auth.views import LoginView, LogoutView
+from django.shortcuts import render, redirect
+
+from gestion_riego.forms import PersonaForm
+from gestion_riego.models import Persona
 
 
 class LoginFormView(LoginView):
@@ -19,12 +19,6 @@ class LoginFormView(LoginView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Iniciar Sesión'
         return context
-
-
-def logout_view(request):
-    logout(request)
-    return render(request, 'gestion_riego/login/logout.html')
-
 
 # Create your views here.
 # Vistas basadas en funciones. No es recomendable y hace mas dificil la escalacion

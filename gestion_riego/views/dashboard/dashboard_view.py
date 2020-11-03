@@ -1,9 +1,7 @@
+from django.core import serializers
 from django.shortcuts import render
 
-from django.utils.decorators import method_decorator
-
 from gestion_riego.models import Device
-from django.core import serializers
 
 
 def dashboard(request):

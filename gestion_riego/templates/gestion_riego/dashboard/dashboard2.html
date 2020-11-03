@@ -11,17 +11,17 @@
 </head>
 
 <body>
-    <div id="SensorTemperatura1" class="200x160px"></div>
-    <div id="SensorHumedad1" class="200x160px"></div>
-    <div id="SensorSuelo1" class="200x160px"></div>
-    
-    <div>
-        <a>Activar Riego: </a>
-        <button type='button' onclick='OnOff("ON")'>ON</button>
-        <button type='button' onclick='OnOff("OFF")'>OFF</button>
-        <a id="estado">-</a>
-    </div>
-    <script>
+<div id="SensorTemperatura1" class="200x160px"></div>
+<div id="SensorHumedad1" class="200x160px"></div>
+<div id="SensorSuelo1" class="200x160px"></div>
+
+<div>
+    <a>Activar Riego: </a>
+    <button type='button' onclick='OnOff("ON")'>ON</button>
+    <button type='button' onclick='OnOff("OFF")'>OFF</button>
+    <a id="estado">-</a>
+</div>
+<script>
         usuario = 'placa1';
         contrasena = '12345678';
 
@@ -112,7 +112,8 @@
             onSuccess: onConnect,
             onFailure: onFailure
         });        
-    </script>
+
+</script>
 </body>
 
 </html>
