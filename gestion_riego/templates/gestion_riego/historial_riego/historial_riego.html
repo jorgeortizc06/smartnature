@@ -35,6 +35,16 @@
     $(document).ready(function () {
     $('#data').DataTable( {
     dom: 'Bfrtip',
+    ordering: true,
+    language: {
+        search: "Buscar",
+        paginate: {
+            first:      "Primero",
+            previous:   "Anterior",
+            next:       "Siguiente",
+            last:       "Último"
+        },
+    },
     buttons: [
         'copyHtml5',
         'excelHtml5',

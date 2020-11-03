@@ -16,4 +16,4 @@ class HistorialRiegoList(ListView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        return self.model.objects.all()[:10]
+        return self.model.objects.all()
