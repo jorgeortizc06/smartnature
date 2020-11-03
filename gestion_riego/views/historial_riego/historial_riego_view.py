@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
-from .models import HistorialRiego
+from gestion_riego.models import HistorialRiego
 
 #Vistas basadas en clases
 #Recomendable y haca a la aplicacion facilmente escalable

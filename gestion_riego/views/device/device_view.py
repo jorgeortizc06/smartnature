@@ -4,8 +4,8 @@ from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from .models import Device
-from .forms import DeviceForm
+from gestion_riego.models import Device
+from gestion_riego.forms import DeviceForm
 from django.http import JsonResponse, HttpResponseRedirect
 import serial, json
 

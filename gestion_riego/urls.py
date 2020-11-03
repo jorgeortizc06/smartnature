@@ -1,20 +1,19 @@
-from django.contrib import admin
 from django.urls import path
 #from gestion_riego.views import list_persona, new_persona, edit_persona, delete_persona
-from .persona_view import PersonaCreate, PersonaUpdate, PersonaDelete, PersonaList
-from .sensor_view import SensorCreate, SensorUpdate, SensorDelete, SensorList, lectura
-from .tipo_sensor_view import TipoSensorCreate, TipoSensorUpdate, TipoSensorDelete, TipoSensorList
-from .tipo_suelo_view import TipoSueloCreate, TipoSueloUpdate, TipoSueloDelete, TipoSueloList
-from .device_view import DeviceCreate, DeviceUpdate, DeviceDelete, DeviceList, device_dashboard
-from .planta_view import PlantaCreate, PlantaUpdate, PlantaDelete, PlantaList
-from .plataforma_view import PlataformaCreate, PlataformaUpdate, PlataformaDelete, PlataformaList
+from gestion_riego.views.persona.persona_view import PersonaCreate, PersonaUpdate, PersonaDelete, PersonaList
+from gestion_riego.views.sensor.sensor_view import SensorCreate, SensorUpdate, SensorDelete, SensorList
+from gestion_riego.views.tipo_sensor.tipo_sensor_view import TipoSensorCreate, TipoSensorUpdate, TipoSensorDelete, TipoSensorList
+from gestion_riego.views.tipo_suelo.tipo_suelo_view import TipoSueloCreate, TipoSueloUpdate, TipoSueloDelete, TipoSueloList
+from gestion_riego.views.device.device_view import DeviceCreate, DeviceUpdate, DeviceDelete, DeviceList, device_dashboard
+from gestion_riego.views.planta.planta_view import PlantaCreate, PlantaUpdate, PlantaDelete, PlantaList
+from gestion_riego.views.plataforma.plataforma_view import PlataformaCreate, PlataformaUpdate, PlataformaDelete, PlataformaList
 from .siembra_view import SiembraCreate, SiembraUpdate, SiembraDelete, SiembraList
-from .sensor_api import SensorViewSet
-from .historial_riego_api import HistorialRiegoViewSet
-from .historial_riego_view import HistorialRiegoList
-from .plataforma_api import PlataformaViewSet
+from gestion_riego.views.sensor.sensor_api import SensorViewSet
+from gestion_riego.views.historial_riego.historial_riego_api import HistorialRiegoViewSet
+from gestion_riego.views.historial_riego.historial_riego_view import HistorialRiegoList
+from gestion_riego.views.plataforma.plataforma_api import PlataformaViewSet
 from .dashboard_view import dashboard
-from .views import LoginFormView, LogoutView
+from gestion_riego.views.login.views import LoginFormView, LogoutView
 from rest_framework.routers import DefaultRouter
 
 

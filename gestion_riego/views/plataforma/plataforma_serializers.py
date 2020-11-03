@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Plataforma
+from gestion_riego.models import Plataforma
 
 class PlataformaSerializer(serializers.ModelSerializer):
     class Meta:

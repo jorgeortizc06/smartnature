@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from .models import HistorialRiego
+from gestion_riego.models import HistorialRiego
 from .historial_riego_serializers import HistorialRiegoSerializer
 
 class HistorialRiegoViewSet(viewsets.ModelViewSet):

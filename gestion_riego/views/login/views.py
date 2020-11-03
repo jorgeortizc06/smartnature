@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
-from .models import Persona
-from .forms import PersonaForm
+from gestion_riego.models import Persona
+from gestion_riego.forms import PersonaForm
 
 from django.contrib.auth.views import LoginView,LogoutView
 from django.contrib.auth import logout

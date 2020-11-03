@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.urls import reverse_lazy
-from .models import Planta
-from .forms import PlantaForm
+from gestion_riego.models import Planta
+from gestion_riego.forms import PlantaForm
 import serial, json
 
 #Vistas basadas en clases

@@ -5,5 +5,5 @@ venv
 __pycache__
 *.pyc
 gestion_riego/__pycache__/
-smartnature/__pycache__/
+config/__pycache__/
 .vscode

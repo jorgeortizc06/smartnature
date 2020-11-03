@@ -3,17 +3,17 @@ from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.urls import reverse_lazy
-from .models import Sensor
-from .forms import SensorForm
+from gestion_riego.models import Plataforma
+from gestion_riego.forms import PlataformaForm
 import serial, json
 
 #Vistas basadas en clases
 #Recomendable y haca a la aplicacion facilmente escalable
-class SensorCreate(CreateView):
-    model = Sensor
-    form_class = SensorForm
-    template_name = 'gestion_riego/sensor/sensor_create.html'
-    success_url = reverse_lazy('sensor_list')
+class PlataformaCreate(CreateView):
+    model = Plataforma
+    form_class = PlataformaForm
+    template_name = 'gestion_riego/plataforma/plataforma_create.html'
+    success_url = reverse_lazy('plataforma_list')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -21,19 +21,19 @@ class SensorCreate(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Nuevo Sensor'
-        context['entity'] = 'Sensor'
-        context['list_url'] = reverse_lazy('sensor_list')
+        context['title'] = 'Nueva Plataforma'
+        context['entity'] = 'Plataforma'
+        context['list_url'] = reverse_lazy('plataforma_list')
         context['action'] = 'add'
         #context['object_list'] = Device.objects.all()
         return context
     
 
-class SensorUpdate(UpdateView):
-    model = Sensor
-    form_class = SensorForm
-    template_name = 'gestion_riego/sensor/sensor_create.html'
-    success_url = reverse_lazy('sensor_list')
+class PlataformaUpdate(UpdateView):
+    model = Plataforma
+    form_class = PlataformaForm
+    template_name = 'gestion_riego/plataforma/plataforma_create.html'
+    success_url = reverse_lazy('plataforma_list')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -41,37 +41,26 @@ class SensorUpdate(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Actualizar Sensor'
-        context['entity'] = 'Sensor'
-        context['list_url'] = reverse_lazy('sensor_list')
+        context['title'] = 'Actualizar Plataforma'
+        context['entity'] = 'Plataforma'
+        context['list_url'] = reverse_lazy('plataforma_list')
         context['action'] = 'add'
         #context['object_list'] = Device.objects.all()
         return context
 
-class SensorDelete(DeleteView):
-    model = Sensor
-    template_name = 'gestion_riego/sensor/sensor_verificacion.html'
-    success_url = reverse_lazy('sensor_list')
+class PlataformaDelete(DeleteView):
+    model = Plataforma
+    template_name = 'gestion_riego/plataforma/plataforma_verificacion.html'
+    success_url = reverse_lazy('plataforma_list')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-class SensorList(ListView):
-    model = Sensor
-    template_name = 'gestion_riego/sensor/sensor_list.html'
+class PlataformaList(ListView):
+    model = Plataforma
+    template_name = 'gestion_riego/plataforma/plataforma_list.html'
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
-
-    def get_queryset(self):
-        return self.model.objects.all()[:50] #Trae solo dos objetos
-
-def lectura(request):
-    sensor = Sensor.objects.first()
-    print(sensor)
-    contexto = {
-        
-    }
-    return render(request, 'gestion_riego/sensor/dashboard.html', contexto)

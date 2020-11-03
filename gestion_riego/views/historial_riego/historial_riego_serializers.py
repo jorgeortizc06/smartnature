@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import HistorialRiego
+from gestion_riego.models import HistorialRiego
 
 class HistorialRiegoSerializer(serializers.ModelSerializer):
     class Meta:

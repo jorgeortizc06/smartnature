@@ -3,8 +3,8 @@ from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.urls import reverse_lazy
-from .models import TipoSensor
-from .forms import TipoSensorForm
+from gestion_riego.models import TipoSensor
+from gestion_riego.forms import TipoSensorForm
 import serial, json
 
 #Vistas basadas en clases
