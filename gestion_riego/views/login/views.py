@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from gestion_riego.models import Persona
 from gestion_riego.forms import PersonaForm
 
-from django.contrib.auth.views import LoginView,LogoutView
+from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import logout
+
 
 class LoginFormView(LoginView):
     template_name = 'gestion_riego/login/login.html'
@@ -19,19 +20,23 @@ class LoginFormView(LoginView):
         context['title'] = 'Iniciar Sesión'
         return context
 
+
 def logout_view(request):
     logout(request)
     return render(request, 'gestion_riego/login/logout.html')
+
+
 # Create your views here.
-#Vistas basadas en funciones. No es recomendable y hace mas dificil la escalacion
+# Vistas basadas en funciones. No es recomendable y hace mas dificil la escalacion
 def list_persona(request):
-    personas = Persona.objects.all()           #select * from persona
+    personas = Persona.objects.all()  # select * from persona
     print(personas)
-    #Contexto: para enviar personas a html se almacena en un diccionario
+    # Contexto: para enviar personas a html se almacena en un diccionario
     contexto = {
-        'personas':personas
+        'personas': personas
     }
     return render(request, 'gestion_riego/list_persona.html', contexto)
+
 
 def new_persona(request):
     if request.method == 'GET':
@@ -50,15 +55,16 @@ def new_persona(request):
             return redirect('gestion_riego:list_persona')
     return render(request, 'gestion_riego/new_persona.html', contexto)
 
+
 def edit_persona(request, id):
-    persona = Persona.objects.get(id = id)
+    persona = Persona.objects.get(id=id)
     if request.method == 'GET':
-        form = PersonaForm(instance = persona)
+        form = PersonaForm(instance=persona)
         contexto = {
             'form': form
         }
     else:
-        form = PersonaForm(request.POST, instance = persona)
+        form = PersonaForm(request.POST, instance=persona)
         contexto = {
             'form': form
         }
@@ -67,9 +73,8 @@ def edit_persona(request, id):
             return redirect('gestion_riego:list_persona')
     return render(request, 'gestion_riego/new_persona.html', contexto)
 
+
 def delete_persona(request, id):
-    persona = Persona.objects.get(id = id)
+    persona = Persona.objects.get(id=id)
     persona.delete()
     return redirect('gestion_riego:list_persona')
-
-

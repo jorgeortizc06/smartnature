@@ -2,65 +2,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ title }}</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }}</title>
 
-  <!-- Google Font: Source Sans Pro -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
-  <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.5/plugins/fontawesome-free/css/all.min.css' %}">
-  <!-- icheck bootstrap -->
-  <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.5/plugins/icheck-bootstrap/icheck-bootstrap.min.css }%">
-  <!-- Theme style -->
-  <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.5/css/adminlte.min.css' %}">
-  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.5/plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.5/plugins/icheck-bootstrap/icheck-bootstrap.min.css }%">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.5/css/adminlte.min.css' %}">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
-  <div class="login-logo">
-    <a><b>GESTION DE RIEGO</b> SMARNATURE</a>
-  </div>
-  <!-- /.login-logo -->
-  <div class="card">
-    <div class="card-body login-card-body">
-      <p class="login-box-msg">Inicia Sesión para Comenzar</p>
-
-      <form action="." method="post">
-        <input type="hidden" name="next" value="{{ next }}">
-        {% csrf_token %}
-
-        <div class="input-group mb-3">
-          {{ form.username }}
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-envelope"></span>
-            </div>
-          </div>
-        </div>
-        <div class="input-group mb-3">
-          {{ form.password }}
-          <div class="input-group-append">
-            <div class="input-group-text">
-              <span class="fas fa-lock"></span>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="col-4">
-              <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
-            </div>
-          </div>
-          <!-- /.col -->
-
-          <!-- /.col -->
-        </div>
-      </form>
+    <div class="login-logo">
+        <a><b>GESTION DE RIEGO</b> SMARNATURE</a>
     </div>
-    <!-- /.login-card-body -->
-  </div>
+    <!-- /.login-logo -->
+    <div class="card">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">Inicia Sesión para Comenzar</p>
+
+            <form action="." method="post">
+                <input type="hidden" name="next" value="{{ next }}">
+                {% csrf_token %}
+
+                <div class="input-group mb-3">
+                    {{ form.username }}
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-envelope"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="input-group mb-3">
+                    {{ form.password }}
+                    <div class="input-group-append">
+                        <div class="input-group-text">
+                            <span class="fas fa-lock"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="col-4">
+                            <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
+                        </div>
+                    </div>
+                    <!-- /.col -->
+
+                    <!-- /.col -->
+                </div>
+            </form>
+        </div>
+        <!-- /.login-card-body -->
+    </div>
 
 </div>
 <!-- /.login-box -->
@@ -86,6 +87,7 @@
         icon: 'error'
       })
   {% endif %}
+
 </script>
 
 </body>

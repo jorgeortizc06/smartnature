@@ -15,7 +15,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -25,8 +24,7 @@ SECRET_KEY = 'n1_r6$u5#xurw8j+5$yx#hra-(4k*gyqyu)97(4)dn9iqp56yg'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.0.2', '192.168.0.254', '45.189.58.2'] #alojas tu ip servidor
-
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.0.2', '192.168.0.254', '45.189.58.2']  # alojas tu ip servidor
 
 # Application definition
 
@@ -34,22 +32,22 @@ INSTALLED_APPS = [
     'gestion_riego',
     'rest_framework',
     'corsheaders',
-    'django.contrib.admin', #Para el panel de control django
+    'django.contrib.admin',  # Para el panel de control django
     'django.contrib.auth',
-    'django.contrib.contenttypes', #tipo de contenido utilizado
-    'django.contrib.sessions', #Sessiones
-    'django.contrib.messages', #Mensajes de error
-    'django.contrib.staticfiles',#Para los archivos css
-    'django_extensions', #para jupyter notebook python manage.py shell_plus --notebook
+    'django.contrib.contenttypes',  # tipo de contenido utilizado
+    'django.contrib.sessions',  # Sessiones
+    'django.contrib.messages',  # Mensajes de error
+    'django.contrib.staticfiles',  # Para los archivos css
+    'django_extensions',  # para jupyter notebook python manage.py shell_plus --notebook
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-MIDDLEWARE = [ #intermediarios, seguridad. Usuario y framework. Seguridad por defecto. ex: inyecciones sql
-    'django.middleware.security.SecurityMiddleware', 
+MIDDLEWARE = [  # intermediarios, seguridad. Usuario y framework. Seguridad por defecto. ex: inyecciones sql
+    'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware', 
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -57,7 +55,7 @@ MIDDLEWARE = [ #intermediarios, seguridad. Usuario y framework. Seguridad por de
     'django.middleware.common.CommonMiddleware',
 ]
 
-ROOT_URLCONF = 'config.urls' #Hace referencia a las rutas principales del proyecto
+ROOT_URLCONF = 'config.urls'  # Hace referencia a las rutas principales del proyecto
 
 TEMPLATES = [
     {
@@ -75,12 +73,11 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'config.wsgi.application' #enlaza a wsgi.py: para parte de produccion
-
+WSGI_APPLICATION = 'config.wsgi.application'  # enlaza a wsgi.py: para parte de produccion
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-#Configuracion de la base de datos. Por defecto utiliza sqlite3. Puede trabajar con un o varias DB
+# Configuracion de la base de datos. Por defecto utiliza sqlite3. Puede trabajar con un o varias DB
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -92,10 +89,9 @@ DATABASES = {
     }
 }
 
-
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
-#Proteccion de las contraseñas comunes
+# Proteccion de las contraseñas comunes
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -111,7 +107,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -124,7 +119,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

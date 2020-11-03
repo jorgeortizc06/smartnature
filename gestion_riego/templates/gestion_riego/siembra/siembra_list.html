@@ -1,4 +1,3 @@
-
 {% extends 'gestion_riego/layout.html' %}
 {% block titulo %}{{title}}{% endblock titulo %}
 
@@ -29,7 +28,8 @@
         <td>{{siembra.planta.nombre}}</td>
 
 
-        <td><a href="{% url 'gestion_riego:siembra_update' siembra.id %}" class="btn btn-secondary">ACTUALIZAR</a>  <a href="{% url 'gestion_riego:siembra_delete' siembra.id %}" class="btn btn-danger">ELIMINAR</a></td>
+        <td><a href="{% url 'gestion_riego:siembra_update' siembra.id %}" class="btn btn-secondary">ACTUALIZAR</a> <a
+                href="{% url 'gestion_riego:siembra_delete' siembra.id %}" class="btn btn-danger">ELIMINAR</a></td>
 
     </tr>
     {% endfor %}
@@ -49,5 +49,6 @@
         responsive: true,
       });
     });
-  </script>
+
+</script>
 {% endblock body %}

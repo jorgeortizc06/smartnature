@@ -15,19 +15,18 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-#from gestion_riego.views import list_persona, new_persona, edit_persona, delete_persona
+
+# from gestion_riego.views import list_persona, new_persona, edit_persona, delete_persona
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #Vistas basadas en clases, todo lo que hice en view.py, django ya lo hace automaticamente, cambian algunas reglas. class_view.py
+    # Vistas basadas en clases, todo lo que hice en view.py, django ya lo hace automaticamente, cambian algunas reglas. class_view.py
     path('gestion_riego/', include("gestion_riego.urls"))
-    
 
-    #usado para los view.py.
-    #path('list_persona/', list_persona, name='list_persona'),
-    #path('new_persona/', new_persona, name='new_persona'),
-    #Desde django 2.0 se puede crear urls amigables <int:id>
-    #path('editar_persona/<int:id>/', edit_persona, name='edit_persona'),
-    #path('delete_persona/<int:id>/', delete_persona, name='delete_persona')
-
+    # usado para los view.py.
+    # path('list_persona/', list_persona, name='list_persona'),
+    # path('new_persona/', new_persona, name='new_persona'),
+    # Desde django 2.0 se puede crear urls amigables <int:id>
+    # path('editar_persona/<int:id>/', edit_persona, name='edit_persona'),
+    # path('delete_persona/<int:id>/', delete_persona, name='delete_persona')
 
 ]

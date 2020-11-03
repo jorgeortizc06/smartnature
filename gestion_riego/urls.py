@@ -1,13 +1,18 @@
 from django.urls import path
-#from gestion_riego.views import list_persona, new_persona, edit_persona, delete_persona
-from gestion_riego.views.persona.persona_view import PersonaCreateView, PersonaUpdateView, PersonaDeleteView, PersonaListView
+from gestion_riego.views.persona.persona_view import PersonaCreateView, PersonaUpdateView, PersonaDeleteView, \
+    PersonaListView
 from gestion_riego.views.sensor.sensor_view import SensorCreateView, SensorUpdateView, SensorDeleteView, SensorListView
-from gestion_riego.views.tipo_sensor.tipo_sensor_view import TipoSensorCreateView, TipoSensorUpdateView, TipoSensorDeleteView, TipoSensorListView
-from gestion_riego.views.tipo_suelo.tipo_suelo_view import TipoSueloCreateView, TipoSueloUpdateView, TipoSueloDeleteView, TipoSueloListView
-from gestion_riego.views.device.device_views import DeviceCreateView, DeviceUpdateView, DeviceDeleteView, DeviceListView, device_dashboard
+from gestion_riego.views.tipo_sensor.tipo_sensor_view import TipoSensorCreateView, TipoSensorUpdateView, \
+    TipoSensorDeleteView, TipoSensorListView
+from gestion_riego.views.tipo_suelo.tipo_suelo_view import TipoSueloCreateView, TipoSueloUpdateView, \
+    TipoSueloDeleteView, TipoSueloListView
+from gestion_riego.views.device.device_views import DeviceCreateView, DeviceUpdateView, DeviceDeleteView, \
+    DeviceListView, device_dashboard
 from gestion_riego.views.planta.planta_view import PlantaCreateView, PlantaUpdateView, PlantaDeleteView, PlantaListView
-from gestion_riego.views.plataforma.plataforma_view import PlataformaCreateView, PlataformaUpdateView, PlataformaDeleteView, PlataformaListView
-from gestion_riego.views.siembra.siembra_view import SiembraCreateView, SiembraUpdateView, SiembraDeleteView, SiembraListView
+from gestion_riego.views.plataforma.plataforma_view import PlataformaCreateView, PlataformaUpdateView, \
+    PlataformaDeleteView, PlataformaListView
+from gestion_riego.views.siembra.siembra_view import SiembraCreateView, SiembraUpdateView, SiembraDeleteView, \
+    SiembraListView
 from gestion_riego.views.sensor.sensor_api import SensorViewSet
 from gestion_riego.views.historial_riego.historial_riego_api import HistorialRiegoViewSet
 from gestion_riego.views.historial_riego.historial_riego_view import HistorialRiegoListView
@@ -26,7 +31,8 @@ router.register('srv/plataforma', PlataformaViewSet)
 urlpatterns = router.urls
 
 urlpatterns += [
-    #Vistas basadas en clases, todo lo que hice en view.py, django ya lo hace automaticamente, cambian algunas reglas. class_view.py
+    # Vistas basadas en clases, todo lo que hice en view.py, django ya lo hace automaticamente, cambian algunas reglas.
+    #  class_view.py
     path('login/', LoginFormView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
 
@@ -71,7 +77,7 @@ urlpatterns += [
     path('device_list/', DeviceListView.as_view(), name='device_list'),
     path('device_dashboard/', device_dashboard, name='device_dashboard'),
 
-    path('historial_riego/', HistorialRiegoListView.as_view(), name = 'historial_riego'),
+    path('historial_riego/', HistorialRiegoListView.as_view(), name='historial_riego'),
 
     path('dashboard', dashboard, name='dashboard'),
 ]

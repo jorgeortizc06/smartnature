@@ -1,14 +1,14 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.urls import reverse_lazy
 from gestion_riego.models import Sensor
 from gestion_riego.forms import SensorForm
-import serial, json
 
-#Vistas basadas en clases
-#Recomendable y haca a la aplicacion facilmente escalable
+
+# Vistas basadas en clases
+# Recomendable y haca a la aplicacion facilmente escalable
 class SensorCreateView(CreateView):
     model = Sensor
     form_class = SensorForm
@@ -25,9 +25,9 @@ class SensorCreateView(CreateView):
         context['entity'] = 'Sensor'
         context['list_url'] = reverse_lazy('gestion_riego:sensor_list')
         context['action'] = 'add'
-        #context['object_list'] = Device.objects.all()
+        # context['object_list'] = Device.objects.all()
         return context
-    
+
 
 class SensorUpdateView(UpdateView):
     model = Sensor
@@ -45,8 +45,9 @@ class SensorUpdateView(UpdateView):
         context['entity'] = 'Sensor'
         context['list_url'] = reverse_lazy('gestion_riego:sensor_list')
         context['action'] = 'add'
-        #context['object_list'] = Device.objects.all()
+        # context['object_list'] = Device.objects.all()
         return context
+
 
 class SensorDeleteView(DeleteView):
     model = Sensor
@@ -64,6 +65,7 @@ class SensorDeleteView(DeleteView):
         context['list_url'] = reverse_lazy('gestion_riego:sensor_delete')
         return context
 
+
 class SensorListView(ListView):
     model = Sensor
     template_name = 'gestion_riego/sensor/sensor_list.html'
@@ -73,7 +75,7 @@ class SensorListView(ListView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_queryset(self):
-        return self.model.objects.all()[:50] #Trae solo dos objetos
+        return self.model.objects.all()[:50]  # Trae solo dos objetos
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -83,10 +85,11 @@ class SensorListView(ListView):
         context['list_url'] = reverse_lazy('gestion_riego:sensor_list')
         return context
 
+
 def lectura(request):
     sensor = Sensor.objects.first()
     print(sensor)
     contexto = {
-        
+
     }
     return render(request, 'gestion_riego/sensor/dashboard.html', contexto)

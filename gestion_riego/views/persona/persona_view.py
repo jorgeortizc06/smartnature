@@ -1,14 +1,13 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.urls import reverse_lazy
 from gestion_riego.models import Persona
 from gestion_riego.forms import PersonaForm
-from rest_framework import viewsets
 
-#Vistas basadas en clases
-#Recomendable y haca a la aplicacion facilmente escalable
+
+# Vistas basadas en clases
+# Recomendable y haca a la aplicacion facilmente escalable
 class PersonaCreateView(CreateView):
     model = Persona
     form_class = PersonaForm
@@ -25,8 +24,9 @@ class PersonaCreateView(CreateView):
         context['entity'] = 'Persona'
         context['list_url'] = reverse_lazy('gestion_riego:persona_list')
         context['action'] = 'add'
-        #context['object_list'] = Device.objects.all()
+        # context['object_list'] = Device.objects.all()
         return context
+
 
 class PersonaUpdateView(UpdateView):
     model = Persona
@@ -44,8 +44,9 @@ class PersonaUpdateView(UpdateView):
         context['entity'] = 'Persona'
         context['list_url'] = reverse_lazy('gestion_riego:persona_list')
         context['action'] = 'edit'
-        #context['object_list'] = Device.objects.all()
+        # context['object_list'] = Device.objects.all()
         return context
+
 
 class PersonaDeleteView(DeleteView):
     model = Persona
@@ -56,6 +57,7 @@ class PersonaDeleteView(DeleteView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+
 class PersonaListView(ListView):
     model = Persona
     template_name = 'gestion_riego/persona/persona_list.html'
@@ -65,12 +67,13 @@ class PersonaListView(ListView):
         context['title'] = 'Lista de Personas'
         context['create_url'] = reverse_lazy('gestion_riego:persona_create')
         context['list_url'] = reverse_lazy('gestion_riego:persona_list')
-        #context['object_list'] = Device.objects.all()
+        # context['object_list'] = Device.objects.all()
         return context
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
+
     """
     def get_queryset(self):
         return self.model.objects.all()[:2] #Trae solo dos objetos"""

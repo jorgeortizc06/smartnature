@@ -21,7 +21,8 @@
         <td>{{planta.nombre}}</td>
         <td>{{planta.descripcion}}</td>
         <td>{{planta.tiempo_produccion}}</td>
-        <td><a href="{% url 'gestion_riego:planta_update' planta.id %}" class="btn btn-secondary">ACTUALIZAR</a>  <a href="{% url 'gestion_riego:planta_delete' planta.id %}" class="btn btn-danger">ELIMINAR</a></td>
+        <td><a href="{% url 'gestion_riego:planta_update' planta.id %}" class="btn btn-secondary">ACTUALIZAR</a> <a
+                href="{% url 'gestion_riego:planta_delete' planta.id %}" class="btn btn-danger">ELIMINAR</a></td>
 
     </tr>
     {% endfor %}
@@ -41,5 +42,6 @@
         responsive: true,
       });
     });
+
 </script>
 {% endblock body %}

@@ -1,4 +1,3 @@
-
 {% extends 'gestion_riego/layout.html' %}
 {% block titulo %}{{title}}{% endblock titulo %}
 
@@ -24,7 +23,9 @@
         <td>{{historial_riego.tiempo_riego}}</td>
         <td>{{historial_riego.fecha_riego}}</td>
         <td>{{historial_riego.siembra.plataforma.device.nombre}}</td>
-        <td>{{historial_riego.siembra.plataforma.persona.nombre}} {{historial_riego.siembra.plataforma.persona.apellido}}</td>
+        <td>{{historial_riego.siembra.plataforma.persona.nombre}}
+            {{historial_riego.siembra.plataforma.persona.apellido}}
+        </td>
         <td>{{historial_riego.tipo_rol.nombre}}</td>
     </tr>
     {% endfor %}
@@ -54,5 +55,6 @@
     ]
     } );
     });
+
 </script>
 {% endblock body %}

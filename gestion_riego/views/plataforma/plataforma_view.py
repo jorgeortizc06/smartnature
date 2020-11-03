@@ -1,14 +1,13 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.urls import reverse_lazy
 from gestion_riego.models import Plataforma
 from gestion_riego.forms import PlataformaForm
-import serial, json
 
-#Vistas basadas en clases
-#Recomendable y haca a la aplicacion facilmente escalable
+
+# Vistas basadas en clases
+# Recomendable y haca a la aplicacion facilmente escalable
 class PlataformaCreateView(CreateView):
     model = Plataforma
     form_class = PlataformaForm
@@ -25,9 +24,9 @@ class PlataformaCreateView(CreateView):
         context['entity'] = 'Plataforma'
         context['list_url'] = reverse_lazy('gestion_riego:plataforma_list')
         context['action'] = 'add'
-        #context['object_list'] = Device.objects.all()
+        # context['object_list'] = Device.objects.all()
         return context
-    
+
 
 class PlataformaUpdateView(UpdateView):
     model = Plataforma
@@ -45,8 +44,9 @@ class PlataformaUpdateView(UpdateView):
         context['entity'] = 'Plataforma'
         context['list_url'] = reverse_lazy('gestion_riego:plataforma_list')
         context['action'] = 'edit'
-        #context['object_list'] = Device.objects.all()
+        # context['object_list'] = Device.objects.all()
         return context
+
 
 class PlataformaDeleteView(DeleteView):
     model = Plataforma
@@ -62,8 +62,9 @@ class PlataformaDeleteView(DeleteView):
         context['title'] = 'Eliminar Plataforma'
         context['entity'] = 'Plataforma'
         context['list_url'] = reverse_lazy('gestion_riego:plataforma_list')
-        #context['object_list'] = Device.objects.all()
+        # context['object_list'] = Device.objects.all()
         return context
+
 
 class PlataformaListView(ListView):
     model = Plataforma
@@ -79,5 +80,5 @@ class PlataformaListView(ListView):
         context['entity'] = 'Plataforma'
         context['create_url'] = reverse_lazy('gestion_riego:plataforma_create')
         context['list_url'] = reverse_lazy('gestion_riego:plataforma_list')
-        #context['object_list'] = Device.objects.all()
+        # context['object_list'] = Device.objects.all()
         return context

@@ -1,4 +1,3 @@
-
 {% extends 'gestion_riego/layout.html' %}
 {% block titulo %}{{title}}{% endblock titulo %}
 
@@ -16,7 +15,7 @@
         <th>Tipo Sensor</th>
         <th>Dispositivo</th>
         <th>Opciones</th>
-        
+
     </tr>
     </thead>
     <tbody>
@@ -30,7 +29,8 @@
         <td>{{sensor.tipo_sensor.nombre}}</td>
         <td>{{sensor.device.nombre}}</td>
 
-        <td><a href="{% url 'gestion_riego:sensor_update' sensor.id %}" class="btn btn-secondary">ACTUALIZAR</a>  <a href="{% url 'gestion_riego:sensor_delete' sensor.id %}" class="btn btn-danger">ELIMINAR</a></td>
+        <td><a href="{% url 'gestion_riego:sensor_update' sensor.id %}" class="btn btn-secondary">ACTUALIZAR</a> <a
+                href="{% url 'gestion_riego:sensor_delete' sensor.id %}" class="btn btn-danger">ELIMINAR</a></td>
 
     </tr>
     {% endfor %}
@@ -57,5 +57,6 @@
   ]
   } );
   });
+
 </script>
 {% endblock body %}

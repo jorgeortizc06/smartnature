@@ -5,8 +5,9 @@ from django.urls import reverse_lazy
 from gestion_riego.models import TipoSuelo
 from gestion_riego.forms import TipoSueloForm
 
-#Vistas basadas en clases
-#Recomendable y haca a la aplicacion facilmente escalable
+
+# Vistas basadas en clases
+# Recomendable y haca a la aplicacion facilmente escalable
 class TipoSueloCreateView(CreateView):
     model = TipoSuelo
     form_class = TipoSueloForm
@@ -16,7 +17,7 @@ class TipoSueloCreateView(CreateView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Nuevo Tipo Suelo'
@@ -24,6 +25,7 @@ class TipoSueloCreateView(CreateView):
         context['list_url'] = reverse_lazy('gestion_riego:tipo_suelo_list')
         context['action'] = 'add'
         return context
+
 
 class TipoSueloUpdateView(UpdateView):
     model = TipoSuelo
@@ -43,6 +45,7 @@ class TipoSueloUpdateView(UpdateView):
         context['action'] = 'edit'
         return context
 
+
 class TipoSueloDeleteView(DeleteView):
     model = TipoSuelo
     template_name = 'gestion_riego/tipo_suelo/tipo_suelo_verificacion.html'
@@ -58,6 +61,7 @@ class TipoSueloDeleteView(DeleteView):
         context['entity'] = 'tipo_suelo'
         context['list_url'] = reverse_lazy('gestion_riego:tipo_suelo_list')
         return context
+
 
 class TipoSueloListView(ListView):
     model = TipoSuelo

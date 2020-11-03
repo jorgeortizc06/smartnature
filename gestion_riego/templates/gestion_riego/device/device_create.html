@@ -2,14 +2,14 @@
 {% block titulo %}{{title}}{% endblock titulo %}
 {% block card_title %} {{title}} {% endblock card_title %}
 {% block body %}
-<form method="post" action="."> {% csrf_token %}    
+<form method="post" action="."> {% csrf_token %}
     {% for field in form.visible_fields %}
-        <div class="form-group">
-            <label >{{ field.label }}</label>
-            {{ field }}
-        </div>
+    <div class="form-group">
+        <label>{{ field.label }}</label>
+        {{ field }}
+    </div>
     {% endfor %}
-    
+
     <button type="submit" class="btn btn-primary">GUARDAR</button>
 </form>
 <script>
@@ -26,6 +26,7 @@
         icon: 'error'
     })
     {% endif %}
+
 
 </script>
 {% endblock body %}

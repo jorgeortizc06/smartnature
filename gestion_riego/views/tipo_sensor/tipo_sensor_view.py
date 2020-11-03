@@ -1,14 +1,13 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.urls import reverse_lazy
 from gestion_riego.models import TipoSensor
 from gestion_riego.forms import TipoSensorForm
-import serial, json
 
-#Vistas basadas en clases
-#Recomendable y haca a la aplicacion facilmente escalable
+
+# Vistas basadas en clases
+# Recomendable y haca a la aplicacion facilmente escalable
 class TipoSensorCreateView(CreateView):
     model = TipoSensor
     form_class = TipoSensorForm
@@ -18,15 +17,16 @@ class TipoSensorCreateView(CreateView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Nuevo Tipo Sensor'
         context['entity'] = 'tipo_sensor'
         context['list_url'] = reverse_lazy('gestion_riego:tipo_sensor_list')
         context['action'] = 'add'
-        #context['object_list'] = Device.objects.all()
+        # context['object_list'] = Device.objects.all()
         return context
+
 
 class TipoSensorUpdateView(UpdateView):
     model = TipoSensor
@@ -44,8 +44,10 @@ class TipoSensorUpdateView(UpdateView):
         context['entity'] = 'tipo_sensor'
         context['list_url'] = reverse_lazy('gestion_riego:tipo_sensor_list')
         context['action'] = 'edit'
-        #context['object_list'] = Device.objects.all()
+        # context['object_list'] = Device.objects.all()
         return context
+
+
 class TipoSensorDeleteView(DeleteView):
     model = TipoSensor
     template_name = 'gestion_riego/tipo_sensor/tipo_sensor_verificacion.html'
@@ -60,8 +62,9 @@ class TipoSensorDeleteView(DeleteView):
         context['title'] = 'Eliminar Tipo Sensor'
         context['entity'] = 'tipo_sensor'
         context['action'] = 'delete'
-        #context['object_list'] = Device.objects.all()
+        # context['object_list'] = Device.objects.all()
         return context
+
 
 class TipoSensorListView(ListView):
     model = TipoSensor

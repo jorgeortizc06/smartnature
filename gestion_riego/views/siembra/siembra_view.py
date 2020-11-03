@@ -1,14 +1,13 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.urls import reverse_lazy
 from gestion_riego.models import Siembra
 from gestion_riego.forms import SiembraForm
-import serial, json
 
-#Vistas basadas en clases
-#Recomendable y haca a la aplicacion facilmente escalable
+
+# Vistas basadas en clases
+# Recomendable y haca a la aplicacion facilmente escalable
 class SiembraCreateView(CreateView):
     model = Siembra
     form_class = SiembraForm
@@ -25,8 +24,9 @@ class SiembraCreateView(CreateView):
         context['entity'] = 'Siembra'
         context['list_url'] = reverse_lazy('gestion_riego:siembra_list')
         context['action'] = 'add'
-        #context['object_list'] = Device.objects.all()
+        # context['object_list'] = Device.objects.all()
         return context
+
 
 class SiembraUpdateView(UpdateView):
     model = Siembra
@@ -44,8 +44,9 @@ class SiembraUpdateView(UpdateView):
         context['entity'] = 'Siembra'
         context['list_url'] = reverse_lazy('gestion_riego:siembra_list')
         context['action'] = 'edit'
-        #context['object_list'] = Device.objects.all()
+        # context['object_list'] = Device.objects.all()
         return context
+
 
 class SiembraDeleteView(DeleteView):
     model = Siembra
@@ -63,6 +64,7 @@ class SiembraDeleteView(DeleteView):
         context['list_url'] = reverse_lazy('gestion_riego:siembra_list')
         context['action'] = 'delete'
         return context
+
 
 class SiembraListView(ListView):
     model = Siembra
