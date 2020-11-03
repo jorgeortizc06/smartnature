@@ -80,5 +80,5 @@ urlpatterns += [
 
     path('historial_riego/', HistorialRiegoListView.as_view(), name='historial_riego'),
 
-    path('dashboard', dashboard, name='dashboard'),
+    path('dashboard/', dashboard, name='dashboard'),
 ]

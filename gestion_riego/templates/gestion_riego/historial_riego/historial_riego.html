@@ -31,7 +31,11 @@
     {% endfor %}
     </tbody>
 </table>
-
+<div class="card-footer">
+    <a href="{{ list_url }}" class="btn btn-success btn-flat" type="button">
+        <i class="fas fa-sync"></i> Actualizar
+    </a>
+</div>
 <script>
     $(document).ready(function () {
     $('#data').DataTable( {

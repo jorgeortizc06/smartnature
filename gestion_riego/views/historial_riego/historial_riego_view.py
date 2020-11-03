@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 
@@ -20,6 +21,7 @@ class HistorialRiegoListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Historial de Riego'
-        context['entity'] = 'Historial_Riego'
+        context['title'] = 'Reporte de Riego'
+        context['entity'] = 'HistorialRiego'
+        context['list_url'] = reverse_lazy('gestion_riego:historial_riego')
         return context

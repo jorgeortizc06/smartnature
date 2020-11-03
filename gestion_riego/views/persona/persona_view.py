@@ -63,17 +63,18 @@ class PersonaListView(ListView):
     model = Persona
     template_name = 'gestion_riego/persona/persona_list.html'
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Lista de Personas'
+        context['entity'] = 'Persona'
         context['create_url'] = reverse_lazy('gestion_riego:persona_create')
         context['list_url'] = reverse_lazy('gestion_riego:persona_list')
         # context['object_list'] = Device.objects.all()
         return context
-
-    @method_decorator(login_required)
-    def dispatch(self, request, *args, **kwargs):
-        return super().dispatch(request, *args, **kwargs)
 
     """
     def get_queryset(self):
