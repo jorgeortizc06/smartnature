@@ -1,12 +1,13 @@
 {% extends 'gestion_riego/layout.html' %}
-{% block titulo %}Formulario Tipo Sensor{% endblock titulo %}
+{% block titulo %}{{title}}{% endblock titulo %}
+{% block card_title %} {{ title }} {% endblock card_title %}
 {% block body %}
 
 <form method="POST">
     {% csrf_token %}
     <h1>Desea eliminar este sensor: {{ object }}</h1>
     <button type="submit" name="button">Confirmar</button>
-    <a href="{% url 'tipo_sensor_list' %}">Cancelar</a>
+    <a href="{% url 'gestion_riego:tipo_sensor_list' %}">Cancelar</a>
 
 </form>
 

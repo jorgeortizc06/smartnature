@@ -9,11 +9,11 @@ import serial, json
 
 #Vistas basadas en clases
 #Recomendable y haca a la aplicacion facilmente escalable
-class TipoSensorCreate(CreateView):
+class TipoSensorCreateView(CreateView):
     model = TipoSensor
     form_class = TipoSensorForm
     template_name = 'gestion_riego/tipo_sensor/tipo_sensor_create.html'
-    success_url = reverse_lazy('tipo_sensor_list')
+    success_url = reverse_lazy('gestion_riego:tipo_sensor_list')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -23,16 +23,16 @@ class TipoSensorCreate(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Nuevo Tipo Sensor'
         context['entity'] = 'tipo_sensor'
-        context['list_url'] = reverse_lazy('tipo_sensor_list')
+        context['list_url'] = reverse_lazy('gestion_riego:tipo_sensor_list')
         context['action'] = 'add'
         #context['object_list'] = Device.objects.all()
         return context
 
-class TipoSensorUpdate(UpdateView):
+class TipoSensorUpdateView(UpdateView):
     model = TipoSensor
     form_class = TipoSensorForm
     template_name = 'gestion_riego/tipo_sensor/tipo_sensor_create.html'
-    success_url = reverse_lazy('tipo_sensor_list')
+    success_url = reverse_lazy('gestion_riego:tipo_sensor_list')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -42,20 +42,28 @@ class TipoSensorUpdate(UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Actualizar Tipo Sensor'
         context['entity'] = 'tipo_sensor'
-        context['list_url'] = reverse_lazy('tipo_sensor_list')
-        context['action'] = 'add'
+        context['list_url'] = reverse_lazy('gestion_riego:tipo_sensor_list')
+        context['action'] = 'edit'
         #context['object_list'] = Device.objects.all()
         return context
-class TipoSensorDelete(DeleteView):
+class TipoSensorDeleteView(DeleteView):
     model = TipoSensor
     template_name = 'gestion_riego/tipo_sensor/tipo_sensor_verificacion.html'
-    success_url = reverse_lazy('tipo_sensor_list')
+    success_url = reverse_lazy('gestion_riego:tipo_sensor_list')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-class TipoSensorList(ListView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Eliminar Tipo Sensor'
+        context['entity'] = 'tipo_sensor'
+        context['action'] = 'delete'
+        #context['object_list'] = Device.objects.all()
+        return context
+
+class TipoSensorListView(ListView):
     model = TipoSensor
     template_name = 'gestion_riego/tipo_sensor/tipo_sensor_list.html'
 
@@ -67,7 +75,6 @@ class TipoSensorList(ListView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Lista Tipo de Sensores'
         context['entity'] = 'tipo_sensor'
-        context['list_url'] = reverse_lazy('tipo_sensor_list')
-        context['action'] = 'add'
-        #context['object_list'] = Device.objects.all()
+        context['create_url'] = reverse_lazy('gestion_riego:tipo_sensor_create')
+        context['list_url'] = reverse_lazy('gestion_riego:tipo_sensor_list')
         return context

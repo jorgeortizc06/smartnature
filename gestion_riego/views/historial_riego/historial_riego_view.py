@@ -7,7 +7,7 @@ from gestion_riego.models import HistorialRiego
 #Vistas basadas en clases
 #Recomendable y haca a la aplicacion facilmente escalable
 
-class HistorialRiegoList(ListView):
+class HistorialRiegoListView(ListView):
     model = HistorialRiego
     template_name = 'gestion_riego/historial_riego/historial_riego.html'
 
@@ -17,3 +17,9 @@ class HistorialRiegoList(ListView):
 
     def get_queryset(self):
         return self.model.objects.all()
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Historial de Riego'
+        context['entity'] = 'Historial_Riego'
+        return context

@@ -1,7 +1,8 @@
 {% extends 'gestion_riego/layout.html' %}
 {% block titulo %}{{title}}{% endblock titulo %}
-{% block body %}
 {% block card_title %} {{ title }} {% endblock card_title %}
+
+{% block body %}
 <form method="POST">
     {% csrf_token %}
     <h1>Desea eliminar esta plataforma: {{ object }}</h1>

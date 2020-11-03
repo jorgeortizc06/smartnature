@@ -1,6 +1,6 @@
 
 {% extends 'gestion_riego/layout.html' %}
-{% block titulo %}Formulario Tipo Sensor{% endblock titulo %}
+{% block titulo %}{{title}}{% endblock titulo %}
 
 {% block card_title %} {{ title }} {% endblock card_title %}
 
@@ -20,12 +20,20 @@
         <td>{{tipo_sensor.id}}</td>
         <td>{{tipo_sensor.nombre}}</td>
         <td>{{tipo_sensor.descripcion}}</td>
-        <td><a href="{% url 'tipo_sensor_update' tipo_sensor.id %}" class="btn btn-secondary">ACTUALIZAR</a>  <a href="{% url 'tipo_sensor_delete' tipo_sensor.id %}" class="btn btn-danger">ELIMINAR</a></td>
+        <td><a href="{% url 'gestion_riego:tipo_sensor_update' tipo_sensor.id %}" class="btn btn-secondary">ACTUALIZAR</a>  <a href="{% url 'gestion_riego:tipo_sensor_delete' tipo_sensor.id %}" class="btn btn-danger">ELIMINAR</a></td>
 
     </tr>
     {% endfor %}
     </tbody>
 </table>
+<div class="card-footer">
+    <a href="{{ create_url }}" class="btn btn-success btn-flat" type="button">
+        <i class="fas fa-plus"></i> Nuevo Tipo de Sensor
+    </a>
+    <a href="{{ list_url }}" class="btn btn-success btn-flat" type="button">
+        <i class="fas fa-sync"></i> Actualizar
+    </a>
+</div>
 <script type="application/javascript">
     $(document).ready(function () {
       $("#data").DataTable({

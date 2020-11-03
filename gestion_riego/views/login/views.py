@@ -47,7 +47,7 @@ def new_persona(request):
         }
         if form.is_valid():
             form.save()
-            return redirect('list_persona')
+            return redirect('gestion_riego:list_persona')
     return render(request, 'gestion_riego/new_persona.html', contexto)
 
 def edit_persona(request, id):
@@ -64,12 +64,12 @@ def edit_persona(request, id):
         }
         if form.is_valid():
             form.save()
-            return redirect('list_persona')
+            return redirect('gestion_riego:list_persona')
     return render(request, 'gestion_riego/new_persona.html', contexto)
 
 def delete_persona(request, id):
     persona = Persona.objects.get(id = id)
     persona.delete()
-    return redirect('list_persona')
+    return redirect('gestion_riego:list_persona')
 
 

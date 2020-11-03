@@ -9,7 +9,7 @@ import serial, json
 
 #Vistas basadas en clases
 #Recomendable y haca a la aplicacion facilmente escalable
-class PlataformaCreate(CreateView):
+class PlataformaCreateView(CreateView):
     model = Plataforma
     form_class = PlataformaForm
     template_name = 'gestion_riego/plataforma/plataforma_create.html'
@@ -29,7 +29,7 @@ class PlataformaCreate(CreateView):
         return context
     
 
-class PlataformaUpdate(UpdateView):
+class PlataformaUpdateView(UpdateView):
     model = Plataforma
     form_class = PlataformaForm
     template_name = 'gestion_riego/plataforma/plataforma_create.html'
@@ -48,7 +48,7 @@ class PlataformaUpdate(UpdateView):
         #context['object_list'] = Device.objects.all()
         return context
 
-class PlataformaDelete(DeleteView):
+class PlataformaDeleteView(DeleteView):
     model = Plataforma
     template_name = 'gestion_riego/plataforma/plataforma_verificacion.html'
     success_url = reverse_lazy('gestion_riego:plataforma_list')
@@ -65,7 +65,7 @@ class PlataformaDelete(DeleteView):
         #context['object_list'] = Device.objects.all()
         return context
 
-class PlataformaList(ListView):
+class PlataformaListView(ListView):
     model = Plataforma
     template_name = 'gestion_riego/plataforma/plataforma_list.html'
 

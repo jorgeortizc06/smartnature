@@ -9,7 +9,7 @@ import serial, json
 
 #Vistas basadas en clases
 #Recomendable y haca a la aplicacion facilmente escalable
-class PlantaCreate(CreateView):
+class PlantaCreateView(CreateView):
     model = Planta
     form_class = PlantaForm
     template_name = 'gestion_riego/planta/planta_create.html'
@@ -29,7 +29,7 @@ class PlantaCreate(CreateView):
         return context
     
 
-class PlantaUpdate(UpdateView):
+class PlantaUpdateView(UpdateView):
     model = Planta
     form_class = PlantaForm
     template_name = 'gestion_riego/planta/planta_create.html'
@@ -48,7 +48,7 @@ class PlantaUpdate(UpdateView):
         #context['object_list'] = Device.objects.all()
         return context
 
-class PlantaDelete(DeleteView):
+class PlantaDeleteView(DeleteView):
     model = Planta
     template_name = 'gestion_riego/planta/planta_verificacion.html'
     success_url = reverse_lazy('gestion_riego:planta_list')
@@ -64,7 +64,7 @@ class PlantaDelete(DeleteView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-class PlantaList(ListView):
+class PlantaListView(ListView):
     model = Planta
     template_name = 'gestion_riego/planta/planta_list.html'
 

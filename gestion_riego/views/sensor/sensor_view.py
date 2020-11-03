@@ -9,11 +9,11 @@ import serial, json
 
 #Vistas basadas en clases
 #Recomendable y haca a la aplicacion facilmente escalable
-class SensorCreate(CreateView):
+class SensorCreateView(CreateView):
     model = Sensor
     form_class = SensorForm
     template_name = 'gestion_riego/sensor/sensor_create.html'
-    success_url = reverse_lazy('sensor_list')
+    success_url = reverse_lazy('gestion_riego:sensor_list')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -23,17 +23,17 @@ class SensorCreate(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Nuevo Sensor'
         context['entity'] = 'Sensor'
-        context['list_url'] = reverse_lazy('sensor_list')
+        context['list_url'] = reverse_lazy('gestion_riego:sensor_list')
         context['action'] = 'add'
         #context['object_list'] = Device.objects.all()
         return context
     
 
-class SensorUpdate(UpdateView):
+class SensorUpdateView(UpdateView):
     model = Sensor
     form_class = SensorForm
     template_name = 'gestion_riego/sensor/sensor_create.html'
-    success_url = reverse_lazy('sensor_list')
+    success_url = reverse_lazy('gestion_riego:sensor_list')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -43,21 +43,28 @@ class SensorUpdate(UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Actualizar Sensor'
         context['entity'] = 'Sensor'
-        context['list_url'] = reverse_lazy('sensor_list')
+        context['list_url'] = reverse_lazy('gestion_riego:sensor_list')
         context['action'] = 'add'
         #context['object_list'] = Device.objects.all()
         return context
 
-class SensorDelete(DeleteView):
+class SensorDeleteView(DeleteView):
     model = Sensor
     template_name = 'gestion_riego/sensor/sensor_verificacion.html'
-    success_url = reverse_lazy('sensor_list')
+    success_url = reverse_lazy('gestion_riego:sensor_list')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-class SensorList(ListView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Eliminar Sensor'
+        context['entity'] = 'Sensor'
+        context['list_url'] = reverse_lazy('gestion_riego:sensor_delete')
+        return context
+
+class SensorListView(ListView):
     model = Sensor
     template_name = 'gestion_riego/sensor/sensor_list.html'
 
@@ -67,6 +74,14 @@ class SensorList(ListView):
 
     def get_queryset(self):
         return self.model.objects.all()[:50] #Trae solo dos objetos
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Lista de Sensores Sensor'
+        context['entity'] = 'Sensor'
+        context['create_url'] = reverse_lazy('gestion_riego:sensor_create')
+        context['list_url'] = reverse_lazy('gestion_riego:sensor_list')
+        return context
 
 def lectura(request):
     sensor = Sensor.objects.first()

@@ -9,7 +9,7 @@ from rest_framework import viewsets
 
 #Vistas basadas en clases
 #Recomendable y haca a la aplicacion facilmente escalable
-class PersonaCreate(CreateView):
+class PersonaCreateView(CreateView):
     model = Persona
     form_class = PersonaForm
     template_name = 'gestion_riego/persona/persona_create.html'
@@ -28,7 +28,7 @@ class PersonaCreate(CreateView):
         #context['object_list'] = Device.objects.all()
         return context
 
-class PersonaUpdate(UpdateView):
+class PersonaUpdateView(UpdateView):
     model = Persona
     form_class = PersonaForm
     template_name = 'gestion_riego/persona/persona_create.html'
@@ -47,7 +47,7 @@ class PersonaUpdate(UpdateView):
         #context['object_list'] = Device.objects.all()
         return context
 
-class PersonaDelete(DeleteView):
+class PersonaDeleteView(DeleteView):
     model = Persona
     template_name = 'gestion_riego/persona/persona_verificacion.html'
     success_url = reverse_lazy('gestion_riego:persona_list')
@@ -56,7 +56,7 @@ class PersonaDelete(DeleteView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-class PersonaList(ListView):
+class PersonaListView(ListView):
     model = Persona
     template_name = 'gestion_riego/persona/persona_list.html'
 

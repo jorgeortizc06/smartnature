@@ -1,8 +1,8 @@
 
 {% extends 'gestion_riego/layout.html' %}
-{% block titulo %}Formulario Sensor{% endblock titulo %}
+{% block titulo %}{{title}}{% endblock titulo %}
 
-{% block card_title %} Sensores {% endblock card_title %}
+{% block card_title %} {{title}} {% endblock card_title %}
 
 {% block body %}
 <table class="table table-hover" id="data">
@@ -30,12 +30,20 @@
         <td>{{sensor.tipo_sensor.nombre}}</td>
         <td>{{sensor.device.nombre}}</td>
 
-        <td><a href="{% url 'sensor_update' sensor.id %}" class="btn btn-secondary">ACTUALIZAR</a>  <a href="{% url 'sensor_delete' sensor.id %}" class="btn btn-danger">ELIMINAR</a></td>
+        <td><a href="{% url 'gestion_riego:sensor_update' sensor.id %}" class="btn btn-secondary">ACTUALIZAR</a>  <a href="{% url 'gestion_riego:sensor_delete' sensor.id %}" class="btn btn-danger">ELIMINAR</a></td>
 
     </tr>
     {% endfor %}
     </tbody>
 </table>
+<div class="card-footer">
+    <a href="{{ create_url }}" class="btn btn-success btn-flat" type="button">
+        <i class="fas fa-plus"></i> Nuevo Sensor
+    </a>
+    <a href="{{ list_url }}" class="btn btn-success btn-flat" type="button">
+        <i class="fas fa-sync"></i> Actualizar
+    </a>
+</div>
 <script>
   $(document).ready(function () {
   $('#data').DataTable( {
