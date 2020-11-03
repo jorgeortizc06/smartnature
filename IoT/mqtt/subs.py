@@ -12,58 +12,58 @@ import datetime
 
 api_sensor = 'http://127.0.0.1:8000/gestion_riego/srv/sensor/'
 api_historial_riego = 'http://127.0.0.1:8000/gestion_riego/srv/historial_riego/'
+api_plataforma = 'http://127.0.0.1:8000/gestion_riego/srv/plataforma/'
 headers = {"Content-type": "application/json"}
 activacion = False
 fin_riego = ''
-horarios = {'horario1':'8:00', 'horario2:':'17:12'}
+#horarios = {'horario1':'8:00', 'horario2:':'17:12'}
 def on_connect(client, userdata, flags, rc):
 	print('connected (%s)' % client._client_id)
 	client.subscribe(topic='device1/#', qos=2)
 	
 def on_message(client, userdata, message):
 	#valor = float(message.payload)
-	print('----------------------')
-	print('topic: %s' % message.topic)
+	#print('----------------------')
+	#print('topic: %s' % message.topic)
 	try:
 		if message.topic == 'device1/promedioSensorSuelo':
+
+			r = requests.get(api_plataforma, headers=headers)
+			plataforma = r.json()
+			#horarios = {'horario1': str(plataforma['horario1']),'horario2': str(plataforma['horario2'])}
+			for a in plataforma:
+				horarios = {'horario1': a['horario1'], 'horario2': a['horario2']}
+			print(horarios)
 			for k,v in horarios.items():
 				regar(v, float(message.payload), client)
 			
 		if message.topic == 'device1/sensorSuelo1':
 			sensores = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":1,"device":1}
-			print(sensores)
 			et_sensores = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)			
 		if message.topic == 'device1/sensorSuelo2':
 			sensores = {"value":float(message.payload),"codigo_sensor":int(2),"estado":"A","tipo_sensor":1,"device":1}
-			print(sensores)
 			et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
 		if message.topic == 'device1/sensorSuelo3':
 			sensores = {"value":float(message.payload),"codigo_sensor":int(3),"estado":"A","tipo_sensor":1,"device":1}
-			print(sensores)
 			et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
 		if message.topic == 'device1/sensorSuelo4':
 			sensores = {"value":float(message.payload),"codigo_sensor":int(4),"estado":"A","tipo_sensor":1,"device":1}
-			print(sensores)
 			et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
 		if message.topic == 'device1/sensorHumedad1':
 			sensores = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":2,"device":1}
-			print(sensores)
 			et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
 		if message.topic == 'device1/sensorTemperatura1':
 			sensores = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":3,"device":1}
-			print(sensores)
 			et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
 		if message.topic == 'device1/sensorCaudal1':
 			sensores = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":4,"device":1}
-			print(sensores)
 			et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
 		if message.topic == 'device1/sensorConsumoAgua1':
 			sensores = {"value":float(message.payload),"codigo_sensor":int(1),"estado":"A","tipo_sensor":5,"device":1}
-			print(sensores)
 			et = requests.post(api_sensor, data = json.dumps(sensores), headers = headers)
 	except:
-		print("Error en la coneccion")	
-	print('payload: ', message.payload)
+		print("Error en la coneccion")
+	#print('payload: ', message.payload)
 	#print('qos: %d' % message.qos)
 
 def regar(hora, humedad_suelo, client):
@@ -78,9 +78,7 @@ def regar(hora, humedad_suelo, client):
 		fin_riego = futuro.strftime("%H:%M")
 		print(fin_riego)
 		historial_riego = {"tiempo_riego":float(tiempo_riego),"siembra":1,"tipo_rol":2}
-		print(historial_riego)
 		et_historial_riego = requests.post(api_historial_riego, data = json.dumps(historial_riego), headers = headers)
-		print(et_historial_riego)
 		client.publish("device1/electrovalvula", "ON")
 	elif time.strftime("%H:%M") == fin_riego and activacion == True:
 		print("La llave se ha cerrado")

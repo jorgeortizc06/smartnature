@@ -11,7 +11,8 @@ from .plataforma_view import PlataformaCreate, PlataformaUpdate, PlataformaDelet
 from .siembra_view import SiembraCreate, SiembraUpdate, SiembraDelete, SiembraList
 from .sensor_api import SensorViewSet
 from .historial_riego_api import HistorialRiegoViewSet
-from . historial_riego_view import HistorialRiegoList
+from .historial_riego_view import HistorialRiegoList
+from .plataforma_api import PlataformaViewSet
 from .dashboard_view import dashboard
 from .views import LoginFormView, LogoutView
 from rest_framework.routers import DefaultRouter
@@ -20,6 +21,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register('srv/sensor', SensorViewSet)
 router.register('srv/historial_riego', HistorialRiegoViewSet)
+router.register('srv/plataforma', PlataformaViewSet)
 
 urlpatterns = router.urls
 

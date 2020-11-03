@@ -15,6 +15,7 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.5/css/adminlte.min.css' %}">
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
@@ -29,6 +30,7 @@
       <form action="." method="post">
         <input type="hidden" name="next" value="{{ next }}">
         {% csrf_token %}
+
         <div class="input-group mb-3">
           {{ form.username }}
           <div class="input-group-append">
@@ -59,21 +61,7 @@
     </div>
     <!-- /.login-card-body -->
   </div>
-  <script type="application/javascript">
-    {% if form.errors %}
-        var errors = '';
-        {% for field in form %}
-            {% for error in field.errors %}
-                errors+='{{ error }}\n';
-            {% endfor %}
-        {% endfor %}
-          Swal.fire({
-          title: 'Error!',
-          text: errors,
-          icon: 'error'
-        })
-    {% endif %}
-  </script>
+
 </div>
 <!-- /.login-box -->
 
@@ -83,6 +71,22 @@
 <script src="{% static 'lib/adminlte-3.0.5/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <!-- AdminLTE App -->
 <script src="{% static 'lib/adminlte-3.0.5/js/adminlte.min.js' %}"></script>
+
+<script type="application/javascript">
+  {% if form.errors %}
+      var errors = 'Credenciales fallidas';
+      {% for field in form %}
+          {% for error in field.errors %}
+              errors+='{{ error }}\n';
+          {% endfor %}
+      {% endfor %}
+        Swal.fire({
+        title: 'Error!',
+        text: errors,
+        icon: 'error'
+      })
+  {% endif %}
+</script>
 
 </body>
 </html>
