@@ -17,7 +17,7 @@ from gestion_riego.views.sensor.sensor_api import SensorViewSet
 from gestion_riego.views.historial_riego.historial_riego_api import HistorialRiegoViewSet
 from gestion_riego.views.historial_riego.historial_riego_view import HistorialRiegoListView
 from gestion_riego.views.plataforma.plataforma_api import PlataformaViewSet
-from .dashboard_view import dashboard
+from gestion_riego.views.dashboard.dashboard_view import dashboard
 from gestion_riego.views.login.views import LoginFormView, LogoutView
 from rest_framework.routers import DefaultRouter
 
