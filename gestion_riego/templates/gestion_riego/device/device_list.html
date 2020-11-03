@@ -26,20 +26,19 @@
         <td>{{device.ip}}</td>
         <td>{{device.topic}}</td>
         <td>{{device.puerto}}</td>
-        <td><a href="{% url 'device_update' device.id %}" class="btn btn-secondary">ACTUALIZAR</a>  <a href="{% url 'device_delete' device.id %}" class="btn btn-danger">ELIMINAR</a>
-            <a href="{% url 'device_dashboard' %}" class="btn btn-primary">DASHBOARD</a></td>
+        <td><a href="{% url 'gestion_riego:device_update' device.id %}" class="btn btn-secondary">ACTUALIZAR</a>  <a href="{% url 'gestion_riego:device_delete' device.id %}" class="btn btn-danger">ELIMINAR</a>
+            <a href="{% url 'gestion_riego:device_dashboard' %}" class="btn btn-primary">DASHBOARD</a></td>
     </tr>
     {% endfor %}
     </tbody>
 </table>
-<a href="{% url 'device_create' %}" class="nav-link" type="button">
-    <p>Nueva Persona</p>
-</a>
 <div class="card-footer">
-    <button class="btn btn-primary btn-flat new-device">
-        <i></i> Nuevo dispositivo
-    </button>
-
+    <a href="{{ create_url }}" class="btn btn-success btn-flat" type="button">
+        <i class="fas fa-plus"></i> Nuevo Dispositivo
+    </a>
+    <a href="{{ list_url }}" class="btn btn-success btn-flat" type="button">
+        <i class="fas fa-sync"></i> Actualizar
+    </a>
 </div>
 <script type="application/javascript">
     $(function() {
@@ -49,7 +48,7 @@
 
         $('.new-device').on('click', () => {
             $.ajax({
-                url: "{% url 'device_list' %}",
+                url: "{% url 'gestion_riego:device_list' %}",
                 type: 'POST',
                 data: {id: 1},
                 dataType: 'json'

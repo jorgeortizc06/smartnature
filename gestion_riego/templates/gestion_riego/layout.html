@@ -57,7 +57,7 @@
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+                    <a href="{% url 'gestion_riego:dashboard' %}" class="nav-link">Dashboard</a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
                     <a href="#" class="nav-link">Contacto</a>
@@ -107,13 +107,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{% url 'persona_create' %}" class="nav-link">
+                                    <a href="{% url 'gestion_riego:persona_create' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Nueva Persona</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'persona_list' %}" class="nav-link">
+                                    <a href="{% url 'gestion_riego:persona_list' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Listar Persona</p>
                                     </a>
@@ -129,13 +129,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{% url 'planta_create' %}" class="nav-link">
+                                    <a href="{% url 'gestion_riego:planta_create' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Nueva Planta</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'planta_list' %}" class="nav-link">
+                                    <a href="{% url 'gestion_riego:planta_list' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Listar Plantas</p>
                                     </a>
@@ -151,13 +151,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{% url 'tipo_suelo_create' %}" class="nav-link">
+                                    <a href="{% url 'gestion_riego:tipo_suelo_create' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Nuevo Suelo</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'tipo_suelo_list' %}" class="nav-link">
+                                    <a href="{% url 'gestion_riego:tipo_suelo_list' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Listar Suelos</p>
                                     </a>
@@ -173,13 +173,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{% url 'device_create' %}" class="nav-link">
+                                    <a href="{% url 'gestion_riego:device_create' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Nuevo Dispositivo</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'device_list' %}" class="nav-link">
+                                    <a href="{% url 'gestion_riego:device_list' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Listar Dispositivos</p>
                                     </a>
@@ -195,13 +195,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{% url 'tipo_sensor_create' %}" class="nav-link">
+                                    <a href="{% url 'gestion_riego:tipo_sensor_create' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Nuevo Tipo Sensor</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'tipo_sensor_list' %}" class="nav-link">
+                                    <a href="{% url 'gestion_riego:tipo_sensor_list' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Listar Tipo de Sensores</p>
                                     </a>
@@ -217,30 +217,30 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{% url 'plataforma_create' %}" class="nav-link">
+                                    <a href="{% url 'gestion_riego:plataforma_create' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Nueva Plataforma</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'plataforma_list' %}" class="nav-link">
+                                    <a href="{% url 'gestion_riego:plataforma_list' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Listar Plataformas</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'historial_riego' %}" class="nav-link">
+                                    <a href="{% url 'gestion_riego:historial_riego' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Reporte de Riego</p>
                                     </a>
                                 <li class="nav-item">
-                                    <a href="{% url 'siembra_create' %}" class="nav-link">
+                                    <a href="{% url 'gestion_riego:siembra_create' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Nueva Siembra</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'siembra_list' %}" class="nav-link">
+                                    <a href="{% url 'gestion_riego:siembra_list' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Listar Siembras</p>
                                     </a>
@@ -256,13 +256,13 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{% url 'sensor_create' %}" class="nav-link">
+                                    <a href="{% url 'gestion_riego:sensor_create' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Nuevo Sensor</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="{% url 'sensor_list' %}" class="nav-link">
+                                    <a href="{% url 'gestion_riego:sensor_list' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Listar Sensores</p>
                                     </a>
@@ -278,7 +278,7 @@
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="{% url 'logout' %}" class="nav-link">
+                                    <a href="{% url 'gestion_riego:logout' %}" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>Cerrar Sesión</p>
                                     </a>

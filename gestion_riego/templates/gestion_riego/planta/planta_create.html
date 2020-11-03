@@ -1,5 +1,5 @@
 {% extends 'gestion_riego/layout.html' %}
-{% block titulo %}Formulario Plantas{% endblock titulo %}
+{% block titulo %}{{title}}{% endblock titulo %}
 
 {% block card_title %} {{title}} {% endblock card_title %}
 
@@ -22,6 +22,5 @@
         icon: 'error'
     })
     {% endif %}
-
 </script>
 {% endblock body %}

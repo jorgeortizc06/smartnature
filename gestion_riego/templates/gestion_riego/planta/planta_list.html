@@ -1,7 +1,7 @@
 {% extends 'gestion_riego/layout.html' %}
-{% block titulo %}Formulario Plantas{% endblock titulo %}
+{% block titulo %}{{ title }}{% endblock titulo %}
 
-{% block card_title %} Plantas {% endblock card_title %}
+{% block card_title %} {{ title }} {% endblock card_title %}
 
 {% block body %}
 <table class="table table-hover" id="data">
@@ -10,6 +10,7 @@
         <th>ID</th>
         <th>Nombre</th>
         <th>Descripcion</th>
+        <th>Tiempo de Produccion en semanas</th>
         <th>Opciones</th>
     </tr>
     </thead>
@@ -19,17 +20,26 @@
         <td>{{planta.id}}</td>
         <td>{{planta.nombre}}</td>
         <td>{{planta.descripcion}}</td>
-        <td><a href="{% url 'planta_update' planta.id %}" class="btn btn-secondary">ACTUALIZAR</a>  <a href="{% url 'planta_delete' planta.id %}" class="btn btn-danger">ELIMINAR</a></td>
+        <td>{{planta.tiempo_produccion}}</td>
+        <td><a href="{% url 'gestion_riego:planta_update' planta.id %}" class="btn btn-secondary">ACTUALIZAR</a>  <a href="{% url 'gestion_riego:planta_delete' planta.id %}" class="btn btn-danger">ELIMINAR</a></td>
 
     </tr>
     {% endfor %}
     </tbody>
 </table>
+<div class="card-footer">
+    <a href="{{ create_url }}" class="btn btn-success btn-flat" type="button">
+        <i class="fas fa-plus"></i> Nueva Planta
+    </a>
+    <a href="{{ list_url }}" class="btn btn-success btn-flat" type="button">
+        <i class="fas fa-sync"></i> Actualizar
+    </a>
+</div>
 <script type="application/javascript">
     $(document).ready(function () {
       $("#data").DataTable({
         responsive: true,
       });
     });
-  </script>
+</script>
 {% endblock body %}

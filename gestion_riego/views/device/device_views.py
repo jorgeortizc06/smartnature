@@ -11,11 +11,11 @@ import serial, json
 
 #Vistas basadas en clases
 #Recomendable y haca a la aplicacion facilmente escalable
-class DeviceCreate(CreateView):
+class DeviceCreateView(CreateView):
     model = Device
     form_class = DeviceForm
     template_name = 'gestion_riego/device/device_create.html'
-    success_url = reverse_lazy('device_list')
+    success_url = reverse_lazy('gestion_riego:device_list')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -25,7 +25,7 @@ class DeviceCreate(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Nuevo dispositivo'
         context['entity'] = 'Device'
-        context['list_url'] = reverse_lazy('device_list')
+        context['list_url'] = reverse_lazy('gestion_riego:device_list')
         context['action'] = 'add'
         #context['object_list'] = Device.objects.all()
         return context
@@ -38,31 +38,43 @@ class DeviceCreate(CreateView):
         self.object = None
         return render(request, self.template_name, {'form':form})"""
 
-class DeviceUpdate(UpdateView):
+class DeviceUpdateView(UpdateView):
     model = Device
     form_class = DeviceForm
     template_name = 'gestion_riego/device/device_create.html'
-    success_url = reverse_lazy('device_list')
+    success_url = reverse_lazy('gestion_riego:device_list')
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Edicion de dispositivo'
         context['entity'] = 'Device'
-        context['list_url'] = reverse_lazy('device_list')
-        context['action'] = 'add'
+        context['list_url'] = reverse_lazy('gestion_riego:device_list')
+        context['action'] = 'edit'
         #context['object_list'] = Device.objects.all()
         return context
 
-class DeviceDelete(DeleteView):
+class DeviceDeleteView(DeleteView):
     model = Device
     template_name = 'gestion_riego/device/device_verificacion.html'
-    success_url = reverse_lazy('device_list')
+    success_url = reverse_lazy('gestion_riego:device_list')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-class DeviceList(ListView):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Eliminación de una Categoria'
+        context['entity'] = 'Device'
+        context['list_url'] = reverse_lazy('gestion_riego:device_list')
+        return context
+
+class DeviceListView(ListView):
     model = Device
     template_name = 'gestion_riego/device/device_list.html'
 
@@ -76,21 +88,13 @@ class DeviceList(ListView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs): #recuerda poner csrf_exempt a traves de un decorador. En este caso ya esta definido
-        data = {}
-        try:
-            data = Device.objects.get(pk=request.POST['id']).toJSON()
-        except Exception as e:
-            data['error'] = str(e)
-        return JsonResponse(data)
-
     #Metodo para modificar el context
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Lista de dispositivos'
         context['entity'] = 'Device'
-        context['list_url'] = reverse_lazy('device_list')
-        context['action'] = 'add'
+        context['create_url'] = reverse_lazy('gestion_riego:device_create')
+        context['list_url'] = reverse_lazy('gestion_riego:device_list')
         #context['object_list'] = Device.objects.all()
         return context
 

@@ -1,12 +1,12 @@
 {% extends 'gestion_riego/layout.html' %}
-{% block titulo %}Formulario Plataforma{% endblock titulo %}
+{% block titulo %}{{title}}{% endblock titulo %}
 {% block body %}
-
+{% block card_title %} {{ title }} {% endblock card_title %}
 <form method="POST">
     {% csrf_token %}
     <h1>Desea eliminar esta plataforma: {{ object }}</h1>
     <button type="submit" name="button">Confirmar</button>
-    <a href="{% url 'plataforma_list' %}">Cancelar</a>
+    <a href="{% url 'gestion_riego:plataforma_list' %}">Cancelar</a>
 
 </form>
 

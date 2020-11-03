@@ -13,7 +13,7 @@ class PersonaCreate(CreateView):
     model = Persona
     form_class = PersonaForm
     template_name = 'gestion_riego/persona/persona_create.html'
-    success_url = reverse_lazy('persona_list')
+    success_url = reverse_lazy('gestion_riego:persona_list')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -23,7 +23,7 @@ class PersonaCreate(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Nueva Persona'
         context['entity'] = 'Persona'
-        context['list_url'] = reverse_lazy('persona_list')
+        context['list_url'] = reverse_lazy('gestion_riego:persona_list')
         context['action'] = 'add'
         #context['object_list'] = Device.objects.all()
         return context
@@ -32,7 +32,7 @@ class PersonaUpdate(UpdateView):
     model = Persona
     form_class = PersonaForm
     template_name = 'gestion_riego/persona/persona_create.html'
-    success_url = reverse_lazy('persona_list')
+    success_url = reverse_lazy('gestion_riego:persona_list')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -42,15 +42,15 @@ class PersonaUpdate(UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Actualizar Persona'
         context['entity'] = 'Persona'
-        context['list_url'] = reverse_lazy('persona_list')
-        context['action'] = 'add'
+        context['list_url'] = reverse_lazy('gestion_riego:persona_list')
+        context['action'] = 'edit'
         #context['object_list'] = Device.objects.all()
         return context
 
 class PersonaDelete(DeleteView):
     model = Persona
     template_name = 'gestion_riego/persona/persona_verificacion.html'
-    success_url = reverse_lazy('persona_list')
+    success_url = reverse_lazy('gestion_riego:persona_list')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -59,9 +59,12 @@ class PersonaDelete(DeleteView):
 class PersonaList(ListView):
     model = Persona
     template_name = 'gestion_riego/persona/persona_list.html'
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Lista de Personas'
+        context['create_url'] = reverse_lazy('gestion_riego:persona_create')
+        context['list_url'] = reverse_lazy('gestion_riego:persona_list')
         #context['object_list'] = Device.objects.all()
         return context
 

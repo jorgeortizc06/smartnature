@@ -23,11 +23,11 @@
       <td>{{persona.password}}</td>
       <td>
         <a
-          href="{% url 'persona_update' persona.id %}"
+          href="{% url 'gestion_riego:persona_update' persona.id %}"
           class="btn btn-secondary"
           >ACTUALIZAR</a
         >
-        <a href="{% url 'persona_delete' persona.id %}" class="btn btn-danger"
+        <a href="{% url 'gestion_riego:persona_delete' persona.id %}" class="btn btn-danger"
           >ELIMINAR</a
         >
       </td>
@@ -35,6 +35,14 @@
     {% endfor %}
   </tbody>
 </table>
+<div class="card-footer">
+    <a href="{{ create_url }}" class="btn btn-success btn-flat" type="button">
+        <i class="fas fa-plus"></i> Nueva Persona
+    </a>
+    <a href="{{ list_url }}" class="btn btn-success btn-flat" type="button">
+        <i class="fas fa-sync"></i> Actualizar
+    </a>
+</div>
 <script type="application/javascript">
   $(document).ready(function () {
     $("#data").DataTable({

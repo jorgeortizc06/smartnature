@@ -13,7 +13,7 @@ class PlataformaCreate(CreateView):
     model = Plataforma
     form_class = PlataformaForm
     template_name = 'gestion_riego/plataforma/plataforma_create.html'
-    success_url = reverse_lazy('plataforma_list')
+    success_url = reverse_lazy('gestion_riego:plataforma_list')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -23,7 +23,7 @@ class PlataformaCreate(CreateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Nueva Plataforma'
         context['entity'] = 'Plataforma'
-        context['list_url'] = reverse_lazy('plataforma_list')
+        context['list_url'] = reverse_lazy('gestion_riego:plataforma_list')
         context['action'] = 'add'
         #context['object_list'] = Device.objects.all()
         return context
@@ -33,7 +33,7 @@ class PlataformaUpdate(UpdateView):
     model = Plataforma
     form_class = PlataformaForm
     template_name = 'gestion_riego/plataforma/plataforma_create.html'
-    success_url = reverse_lazy('plataforma_list')
+    success_url = reverse_lazy('gestion_riego:plataforma_list')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
@@ -43,19 +43,27 @@ class PlataformaUpdate(UpdateView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Actualizar Plataforma'
         context['entity'] = 'Plataforma'
-        context['list_url'] = reverse_lazy('plataforma_list')
-        context['action'] = 'add'
+        context['list_url'] = reverse_lazy('gestion_riego:plataforma_list')
+        context['action'] = 'edit'
         #context['object_list'] = Device.objects.all()
         return context
 
 class PlataformaDelete(DeleteView):
     model = Plataforma
     template_name = 'gestion_riego/plataforma/plataforma_verificacion.html'
-    success_url = reverse_lazy('plataforma_list')
+    success_url = reverse_lazy('gestion_riego:plataforma_list')
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Eliminar Plataforma'
+        context['entity'] = 'Plataforma'
+        context['list_url'] = reverse_lazy('gestion_riego:plataforma_list')
+        #context['object_list'] = Device.objects.all()
+        return context
 
 class PlataformaList(ListView):
     model = Plataforma
@@ -64,3 +72,12 @@ class PlataformaList(ListView):
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Lista de Plataformas'
+        context['entity'] = 'Plataforma'
+        context['create_url'] = reverse_lazy('gestion_riego:plataforma_create')
+        context['list_url'] = reverse_lazy('gestion_riego:plataforma_list')
+        #context['object_list'] = Device.objects.all()
+        return context
