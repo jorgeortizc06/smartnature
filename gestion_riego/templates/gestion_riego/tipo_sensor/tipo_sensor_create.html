@@ -49,7 +49,7 @@
 
     $('form').on('submit', function (e) {
         e.preventDefault();
-        var parameters = $(this).serializeArray();
+        var parameters = new FormData(this);
         submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar la siguiente acción?', parameters, function () {
             location.href = '{{ list_url }}';
         });
