@@ -15,6 +15,18 @@ class PersonaForm(ModelForm):
         model = Persona
         fields = '__all__'  # tambien ('nombre', 'apellido',....)
 
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                form.save()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data
+
 
 class PlataformaForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -27,6 +39,18 @@ class PlataformaForm(ModelForm):
     class Meta:
         model = Plataforma
         fields = '__all__'
+
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                form.save()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data
 
 
 class SensorForm(ModelForm):
@@ -41,6 +65,18 @@ class SensorForm(ModelForm):
         model = Sensor
         fields = '__all__'  # tambien ('nombre', 'apellido',....)
 
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                form.save()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data
+
 
 class TipoSueloForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -53,6 +89,18 @@ class TipoSueloForm(ModelForm):
     class Meta:
         model = TipoSuelo
         fields = '__all__'
+
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                form.save()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data
 
 
 class TipoSensorForm(ModelForm):
@@ -67,6 +115,18 @@ class TipoSensorForm(ModelForm):
         model = TipoSensor
         fields = '__all__'
 
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                form.save()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data
+
 
 class PlantaForm(ModelForm):
     def __init__(self, *args, **kwargs):
@@ -79,6 +139,18 @@ class PlantaForm(ModelForm):
     class Meta:
         model = Planta
         fields = '__all__'
+
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                form.save()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data
 
 
 class SiembraForm(ModelForm):
@@ -93,6 +165,18 @@ class SiembraForm(ModelForm):
     class Meta:
         model = Siembra
         fields = '__all__'
+
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                form.save()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data
 
 
 class DeviceForm(ModelForm):
@@ -118,3 +202,15 @@ class DeviceForm(ModelForm):
                 }
             ),
         }
+
+    def save(self, commit=True):
+        data = {}
+        form = super()
+        try:
+            if form.is_valid():
+                form.save()
+            else:
+                data['error'] = form.errors
+        except Exception as e:
+            data['error'] = str(e)
+        return data

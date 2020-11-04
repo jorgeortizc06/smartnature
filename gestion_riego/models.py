@@ -13,7 +13,7 @@ class Persona(models.Model):
 
     def __str__(self):
         return self.nombre
-
+    #Transforma mis datos del modelo Persona a JSON para mejor manejo en javascript
     def toJSON(self):
         item = model_to_dict(self)  # tambien puedes excluir algunos parametros (self, exclude=['])
         return item
@@ -31,6 +31,10 @@ class TipoSensor(models.Model):
 
     def __str__(self):
         return self.nombre
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
 
     class Meta:
         verbose_name = 'TipoSensor'
@@ -105,6 +109,10 @@ class TipoRol(models.Model):
     def __str__(self):
         return self.nombre
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
     class Meta:
         verbose_name = 'TipoRol'
         verbose_name_plural = 'TipoRoles'
@@ -124,6 +132,10 @@ class Plataforma(models.Model):
     def __str__(self):
         return self.nombre
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
     class Meta:
         verbose_name = 'Plataforma'
         verbose_name_plural = 'Plataformas'
@@ -141,6 +153,15 @@ class Siembra(models.Model):
     def __str__(self):
         return str(self.id)
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
+    class Meta:
+        verbose_name = 'Siembra'
+        verbose_name_plural = 'Siembras'
+        ordering = ['id']
+
 
 class HistorialRiego(models.Model):
     id = models.AutoField(primary_key=True)
@@ -148,6 +169,13 @@ class HistorialRiego(models.Model):
     fecha_riego = models.DateTimeField(auto_now_add=True)
     siembra = models.ForeignKey(Siembra, on_delete=models.CASCADE, null=True)
     tipo_rol = models.ForeignKey(TipoRol, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return str(self.id)
+
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
 
     class Meta:
         # sort by "fecha" in descending order unless
@@ -170,7 +198,13 @@ class Sensor(models.Model):
     def __str__(self):
         return str(self.id)
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        return item
+
     class Meta:
         # sort by "fecha" in descending order unless
         # overridden in the query with order_by()
+        verbose_name = 'Sensor'
+        verbose_name_plural = 'Sensores'
         ordering = ['-id']

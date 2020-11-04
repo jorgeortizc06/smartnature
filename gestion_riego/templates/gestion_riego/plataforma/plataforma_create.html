@@ -1,29 +1,58 @@
 {% extends 'gestion_riego/layout.html' %}
 {% block titulo %}{{title}}{% endblock titulo %}
 
-{% block card_title %} {{title}} {% endblock card_title %}
+{% block card_title %}
+<div class="card-header">
+    <h3 class="card-title">
+        {% if action == 'add' %}
+            <i class="fas fa-plus"></i>
+        {% else %}
+            <i class="fas fa-edit"></i>
+        {% endif %}
+
+        {{ title }}
+    </h3>
+</div>
+{% endblock card_title %}
 
 {% block body %}
-<form method="post"> {% csrf_token %}
+<form method="post">
+    {% csrf_token %}
+    <input type="hidden" name="action" value="{{ action }}">
     {{form.as_p}}
-    <button type="submit" class="btn btn-primary">GUARDAR</button>
+    <div class="card-footer">
+        <button type="submit" class="btn btn-primary btn-flat">
+            <i class="fas fa-save"></i> Guardar registro
+        </button>
+        <a href="{{ list_url }}" class="btn btn-danger btn-flat">
+            <i class="fas fa-times"></i> Cancelar
+        </a>
+    </div>
 </form>
 <script>
     {% if form.errors %}
         var errors = '';
         {% for field in form %}
             {% for error in field.errors %}
-                errors+='{{ error }}\n';
+                errors += '{{ error }}\n';
             {% endfor %}
         {% endfor %}
+        {% for error in form.non_field_errors %}
+            errors += '{{ error }}\n';
+        {% endfor %}
         Swal.fire({
-        title: 'Error!',
-        text: errors,
-        icon: 'error'
-    })
+            title: 'Error!',
+            text: errors,
+            icon: 'error'
+        });
     {% endif %}
 
-
-
+    $('form').on('submit', function (e) {
+        e.preventDefault();
+        var parameters = $(this).serializeArray();
+        submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar la siguiente acción?', parameters, function () {
+            location.href = '{{ list_url }}';
+        });
+    });
 </script>
 {% endblock body %}
