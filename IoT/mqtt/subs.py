@@ -5,9 +5,12 @@ import time
 
 import numpy as np
 import paho.mqtt.client
+import psycopg2
 import requests
 import skfuzzy as fuzz
 from skfuzzy import control as ctrl
+
+from promedio import calcular_promedio
 
 api_sensor = 'http://127.0.0.1:8000/gestion_riego/srv/sensor/'
 api_historial_riego = 'http://127.0.0.1:8000/gestion_riego/srv/historial_riego/'
@@ -29,7 +32,7 @@ def on_message(client, userdata, message):
     # print('topic: %s' % message.topic)
     try:
         if message.topic == 'device1/promedioSensorSuelo':
-
+            #promedioHumedAmbiental = calcular_promedio('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 2)
             r = requests.get(api_plataforma, headers=headers)
             plataforma = r.json()
             # horarios = {'horario1': str(plataforma['horario1']),'horario2': str(plataforma['horario2'])}
@@ -77,14 +80,18 @@ def on_message(client, userdata, message):
 
 # print('payload: ', message.payload)
 # print('qos: %d' % message.qos)
-
 def regar(hora, humedad_suelo, client):
     global activacion
     global fin_riego
     print(activacion)
     if time.strftime("%H:%M") == hora and activacion == False:
         activacion = True
+        promedioHumedadSuelo = calcular_promedio('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 1)
+        promedioHumedAmbiental = calcular_promedio('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 2)
+        promedioTemperatura = calcular_promedio('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 3)
+        print(humedad_suelo)
         tiempo_riego = round(fuzzy_logic(humedad_suelo), 2)
+        print(tiempo_riego)
         ahora = datetime.datetime.now()
         futuro = ahora + datetime.timedelta(minutes=tiempo_riego)
         fin_riego = futuro.strftime("%H:%M")
