@@ -1,9 +1,13 @@
 import psycopg2
 import datetime
-
+import numpy as np
+import paho.mqtt.client
+import psycopg2
+import requests
+import skfuzzy as fuzz
+from skfuzzy import control as ctrl
 
 # Tipo Sensor: 1 Humedad suelo, 2 Humedad Ambiental, 3 Temperatura Ambiental
-
 def calcular_promedio(fecha_inicio, fecha_fin, codigo_sensor, tipo_sensor):
     conexion = psycopg2.connect(host="192.168.0.254", database="smartnature", user="jorge", password="jorge")
     cur = conexion.cursor()
@@ -24,4 +28,10 @@ def calcular_promedio(fecha_inicio, fecha_fin, codigo_sensor, tipo_sensor):
     conexion.close()
 
     return datas[0]
+
+prom_hum_suelo = calcular_promedio('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 1)
+prom_hum_ambient = calcular_promedio('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 2)
+prom_temp_ambient = calcular_promedio('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 3)
+
+
 
