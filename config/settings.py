@@ -24,7 +24,7 @@ SECRET_KEY = 'n1_r6$u5#xurw8j+5$yx#hra-(4k*gyqyu)97(4)dn9iqp56yg'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.0.2', '192.168.0.254', '45.189.58.2']  # alojas tu ip servidor
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.100.2', '192.168.100.254', '45.189.58.2']  # alojas tu ip servidor
 
 # Application definition
 
@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': 'smartnature',
         'USER': 'jorge',
         'PASSWORD': 'jorge',
-        'HOST': '192.168.0.254',
+        'HOST': '192.168.100.254',
         'DATABASE_PORT': '5432',
     }
 }
