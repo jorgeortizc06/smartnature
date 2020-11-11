@@ -2,7 +2,6 @@
 #include <PubSubClient.h>
 #include "DHT.h"
 #include <stdlib.h>
-#include <WiFiManager.h>
 #define DHTTYPE DHT11
 
 //********SENSORES INPUT*********
@@ -10,7 +9,7 @@
 //**************************************
 //*********** MQTT CONFIG **************
 //**************************************
-const char *mqtt_server = "192.168.0.254";
+const char *mqtt_server = "192.168.100.254";
 const int mqtt_port = 1883;
 const char *mqtt_user = "nOkjkvS9JJPhbRN";
 const char *mqtt_pass = "AlmjrvUeyfxygz4";
@@ -30,8 +29,8 @@ const char *topicPromedioSensorSuelo = "device1/promedioSensorSuelo";
 //**************************************
 //*********** WIFICONFIG ***************
 //**************************************
-//const char* ssid = "HOWARDS";
-//const char* password =  "ALOHOMORA";
+const char* ssid = "HOWARDS";
+const char* password = "ALOHOMORA";
 
 
 
@@ -67,7 +66,7 @@ char msg[25];
 //************************
 void callback(char* topic, byte* payload, unsigned int length);
 void reconnect();
-//void setup_wifi();
+void setup_wifi();
 //Calcular consumo de agua
 void ISRCountPulse()
 {
@@ -92,12 +91,12 @@ void SumVolume(float dV)
 }
 void setup() {
   Serial.begin(9600);
-  //setup_wifi();
+  setup_wifi();
   attachInterrupt(digitalPinToInterrupt(sensorPin), ISRCountPulse, RISING);
   t0 = millis();
-  WiFiManager wifiManager;
-  wifiManager.autoConnect("AutoConnectAP");
-  Serial.println("connected...yeey :)");
+  //WiFiManager wifiManager;
+  //wifiManager.autoConnect("AutoConnectAP");
+  //Serial.println("connected...yeey :)");
   pinMode(pinSensorAmbiental, INPUT);
   pinMode(pinHumedadSuelo1, INPUT);
   pinMode(pinHumedadSuelo2, INPUT);
@@ -121,17 +120,17 @@ void loop() {
   client.loop();
 
   // obtener frecuencia en Hz
-   float frequency = GetFrequency();
+   //float frequency = GetFrequency();
  
    // calcular caudal L/min
-   float flow_Lmin = frequency / factorK;
-   SumVolume(flow_Lmin);
+   //float flow_Lmin = frequency / factorK;
+   //SumVolume(flow_Lmin);
  
-   Serial.print(" Caudal: ");
+   /*Serial.print(" Caudal: ");
    Serial.print(flow_Lmin, 3);
    Serial.print(" (L/min)\tConsumo:");
    Serial.print(volume, 1);
-   Serial.println(" (L)");
+   Serial.println(" (L)");*/
 
   tempAmb = dht.readTemperature();
   humedAmb = dht.readHumidity();
@@ -194,16 +193,18 @@ void loop() {
     dtostrf(promedioSensorSuelo,6,1,promedioHumedadSuelostring);
     client.publish(topicPromedioSensorSuelo, promedioHumedadSuelostring);
 
-    char caudalAguastring[6];
+    /*char caudalAguastring[6];
     dtostrf(flow_Lmin,4,1,caudalAguastring);
     client.publish(topicSensorCaudal1, caudalAguastring);
 
     char consumoAguastring[6];
     dtostrf(volume,4,1,consumoAguastring);
-    client.publish(topicSensorConsumoAgua1, consumoAguastring);
+    client.publish(topicSensorConsumoAgua1, consumoAguastring);*/
     
-    delay(1000);
+    
   }
+
+  delay(800);
   
 }
 
@@ -213,7 +214,7 @@ void loop() {
 //*****************************
 //***    CONEXION WIFI      ***
 //*****************************
-/*void setup_wifi(){
+void setup_wifi(){
   delay(10);
   // Nos conectamos a nuestra red Wifi
   Serial.println();
@@ -231,7 +232,7 @@ void loop() {
   Serial.println("Conectado a red WiFi!");
   Serial.println("Dirección IP: ");
   Serial.println(WiFi.localIP());
-}*/
+}
 
 
 

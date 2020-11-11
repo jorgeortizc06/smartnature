@@ -25,7 +25,6 @@ def on_connect(client, userdata, flags, rc):
     print('connected (%s)' % client._client_id)
     client.subscribe(topic='device1/#', qos=2)
 
-
 def on_message(client, userdata, message):
     # valor = float(message.payload)
     # print('----------------------')
@@ -84,22 +83,25 @@ def regar(hora, humedad_suelo, client):
     global activacion
     global fin_riego
     print(activacion)
-    if time.strftime("%H:%M") == hora and activacion == False:
+    print(datetime.datetime.now())
+    if time.strftime("%H:%M:%S") == '13:50:00' and activacion == False:
+        #prom_hum_suelo = calcular_promedio('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 1)
+        prom_hum_suelo = 899
+        #prom_hum_ambient = calcular_promedio('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 2)
+        prom_hum_ambient = 60
+        #prom_temp_ambient = calcular_promedio('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 3)
+        prom_temp_ambient = 16
         activacion = True
-        prom_hum_suelo = calcular_promedio('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 1)
-        prom_hum_ambient = calcular_promedio('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 2)
-        prom_temp_ambient = calcular_promedio('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 3)
-        print(humedad_suelo)
         tiempo_riego = round(fuzzy_logic(float(prom_hum_suelo), float(prom_hum_ambient), float(prom_temp_ambient)), 2)
         print(tiempo_riego)
         ahora = datetime.datetime.now()
         futuro = ahora + datetime.timedelta(minutes=tiempo_riego)
-        fin_riego = futuro.strftime("%H:%M")
+        fin_riego = futuro.strftime("%H:%M:%S")
         print(fin_riego)
         historial_riego = {"tiempo_riego": float(tiempo_riego), "siembra": 1, "tipo_rol": 2}
         et_historial_riego = requests.post(api_historial_riego, data=json.dumps(historial_riego), headers=headers)
         client.publish("device1/electrovalvula", "ON")
-    elif time.strftime("%H:%M") == fin_riego and activacion == True:
+    elif time.strftime("%H:%M:%S") == fin_riego and activacion == True:
         print("La llave se ha cerrado")
         activacion = False
         client.publish("device1/electrovalvula", "OFF")
@@ -108,13 +110,13 @@ def regar(hora, humedad_suelo, client):
 def fuzzy_logic(par_humedad_suelo, par_humedad_ambiental, par_temperatura_ambiental):
     # New Antecedent/Consequent objects hold universe variables and membership
     # functions
-    humedad = ctrl.Antecedent(np.arange(-1, 1024, 1), 'humedad')
+    humedad = ctrl.Antecedent(np.arange(0, 1024, 1), 'humedad')
     temperatura_ambiental = ctrl.Antecedent(np.arange(-5, 46, 1), 'temperatura_ambiental')
     humedad_ambiental = ctrl.Antecedent(np.arange(0, 101, 1), 'humedad_ambiental')
     tiempo_riego = ctrl.Consequent(np.arange(0, 17, 1), 'tiempo_riego')
 
     # Auto-membership function population is possible with .automf(3, 5, or 7)
-    humedad['seco'] = fuzz.trimf(humedad.universe, [-1, 100, 200])
+    humedad['seco'] = fuzz.trimf(humedad.universe, [0, 100, 200])
     humedad['semi_seco'] = fuzz.trimf(humedad.universe, [120, 310, 500])
     humedad['humedo'] = fuzz.trimf(humedad.universe, [450, 572, 694])
     humedad['semi_humedo'] = fuzz.trimf(humedad.universe, [658, 725, 792])
@@ -245,7 +247,7 @@ def main():
     client = paho.mqtt.client.Client(client_id='albert-subs', clean_session=False)
     client.on_connect = on_connect
     client.on_message = on_message
-    client.connect(host='192.168.0.254', port=1883)
+    client.connect(host='192.168.100.254', port=1883)
     client.loop_forever()
 
 
