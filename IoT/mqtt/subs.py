@@ -10,7 +10,7 @@ import requests
 import skfuzzy as fuzz
 from skfuzzy import control as ctrl
 
-from promedio import calcular_promedio
+from promedio import calcular_promedio_humedad
 
 api_sensor = 'http://127.0.0.1:8000/gestion_riego/srv/sensor/'
 api_historial_riego = 'http://127.0.0.1:8000/gestion_riego/srv/historial_riego/'
@@ -31,7 +31,7 @@ def on_message(client, userdata, message):
     # print('topic: %s' % message.topic)
     try:
         if message.topic == 'device1/promedioSensorSuelo':
-            #promedioHumedAmbiental = calcular_promedio('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 2)
+            #promedioHumedAmbiental = calcular_promedio_humedad('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 2)
             r = requests.get(api_plataforma, headers=headers)
             plataforma = r.json()
             # horarios = {'horario1': str(plataforma['horario1']),'horario2': str(plataforma['horario2'])}
@@ -84,12 +84,12 @@ def regar(hora, humedad_suelo, client):
     global fin_riego
     print(activacion)
     print(datetime.datetime.now())
-    if time.strftime("%H:%M:%S") == '13:50:00' and activacion == False:
-        #prom_hum_suelo = calcular_promedio('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 1)
+    if time.strftime("%H:%M:%S") == '14:45:00' and activacion == False:
+        #prom_hum_suelo = calcular_promedio_humedad('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 1)
         prom_hum_suelo = 899
-        #prom_hum_ambient = calcular_promedio('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 2)
+        #prom_hum_ambient = calcular_promedio_humedad('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 2)
         prom_hum_ambient = 60
-        #prom_temp_ambient = calcular_promedio('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 3)
+        #prom_temp_ambient = calcular_promedio_humedad('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 3)
         prom_temp_ambient = 16
         activacion = True
         tiempo_riego = round(fuzzy_logic(float(prom_hum_suelo), float(prom_hum_ambient), float(prom_temp_ambient)), 2)
