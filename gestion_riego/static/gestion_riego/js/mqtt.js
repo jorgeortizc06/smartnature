@@ -84,7 +84,7 @@ function onConnectionLost(responseObject) {
 };
 //what is done when a message arrives from the broker
 function onMessageArrived(message) {
-    console.log(message.destinationName, '', message.payloadString);
+   // console.log(message.destinationName, '', message.payloadString);
     //check if it is a new topic, if not add it to the array
     if(message.destinationName == 'device1/sensorTemperatura1' || message.destinationName == 'device1/sensorHumedad1' || message.destinationName == 'device1/sensorCaudal1' || message.destinationName == 'device1/sensorConsumoAgua1'){
         if (dataTopics.indexOf(message.destinationName) < 0) {
@@ -107,7 +107,7 @@ function onMessageArrived(message) {
         var thenum = message.payloadString.replace(/^\D+/g, ''); //remove any text spaces from the message
         var plotMqtt = [myEpoch, Number(thenum)]; //create the array
         if (isNumber(thenum)) { //check if it is a real number and not text
-            console.log('is a propper number, will send to chart.')
+            //console.log('is a propper number, will send to chart.')
             plot(plotMqtt, y);	//send it to the plot function
         };
         if (message.destinationName == 'device1/sensorTemperatura1') { //acá coloco el topic
@@ -147,7 +147,7 @@ function onMessageArrived(message) {
         var thenum = message.payloadString.replace(/^\D+/g, ''); //remove any text spaces from the message
         var plotMqtt = [myEpoch, Number(thenum)]; //create the array
         if (isNumber(thenum)) { //check if it is a real number and not text
-            console.log('is a propper number, will send to chart.')
+            //console.log('is a propper number, will send to chart.')
             plot1(plotMqtt, y);	//send it to the plot function
         };
         if (message.destinationName == 'device1/sensorSuelo1') { //acá coloco el topic
@@ -189,7 +189,7 @@ function init() {
 };
 //this adds the plots to the chart
 function plot(point, chartno) {
-    console.log("Punto: " + point);
+    //console.log("Punto: " + point);
 
     var series = chart.series[0],
         shift = series.data.length > 20; // shift if the series is
@@ -198,7 +198,7 @@ function plot(point, chartno) {
     chart.series[chartno].addPoint(point, true, shift);
 };
 function plot1(point, chartno) {
-    console.log("Punto: " + point);
+    //console.log("Punto: " + point);
 
     var series = chart.series[0],
         shift = series.data.length > 20; // shift if the series is
