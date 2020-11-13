@@ -134,83 +134,83 @@ void loop() {
    Serial.println(" (L)");*/
 
   
-  if (timer == 60){
-    tempAmb = dht.readTemperature();
-    humedAmb = dht.readHumidity();
-    
-    if (isnan(humedAmb) || isnan(tempAmb)) {
-      Serial.println("Failed to read from DHT sensor!");
-      delay(1000); // wait a bit
-      return;
-    }
-    int const readSensorSuelo1 = map(analogRead(pinHumedadSuelo1), 0, 4095, 1024, 0);
-    int const readSensorSuelo2 = map(analogRead(pinHumedadSuelo2), 0, 4095, 1024, 0);
-    int const readSensorSuelo3 = map(analogRead(pinHumedadSuelo3), 0, 4095, 1024, 0);
-    int const readSensorSuelo4 = map(analogRead(pinHumedadSuelo4), 0, 4095, 1024, 0);
-    int const promedioSensorSuelo = (readSensorSuelo1+readSensorSuelo2+readSensorSuelo3+readSensorSuelo4)/4;
-    Serial.print("Humedad Suelo1:");
-    Serial.print(readSensorSuelo1);
-    Serial.print("Humedad Suelo2:");
-    Serial.print(readSensorSuelo2);
-    Serial.print("Humedad Suelo3:");
-    Serial.print(readSensorSuelo3);
-    Serial.print("Humedad Suelo4:");
-    Serial.print(readSensorSuelo4);
-    Serial.print("Promedio Humedad Suelo:");
-    Serial.print(promedioSensorSuelo);
-    Serial.print(" Temperatura Ambiental:");
-    Serial.print(tempAmb);
-    Serial.print(" Humedad Ambiental:");
-    Serial.print(humedAmb);
-    Serial.println();
+  //if (timer == 60){
+  tempAmb = dht.readTemperature();
+  humedAmb = dht.readHumidity();
   
-    
-    if (client.connected()){
-      //String str = "La cuenta es -> " + String(count);
-      //str.toCharArray(msg,25);
-      char tempstring[3];
-      dtostrf(tempAmb,3,1,tempstring);
-      client.publish(topicSensorTemperatura1, tempstring);
-  
-      char humedAmbstring[3];
-      dtostrf(humedAmb,3,1,humedAmbstring);
-      client.publish(topicSensorHumedad1, humedAmbstring);
-  
-      char humedadSuelo1string[6];
-      dtostrf(readSensorSuelo1,6,1,humedadSuelo1string);
-      client.publish(topicSensorSuelo1, humedadSuelo1string);
-  
-      char humedadSuelo2string[6];
-      dtostrf(readSensorSuelo2,6,1,humedadSuelo2string);
-      client.publish(topicSensorSuelo2, humedadSuelo2string);
-  
-      char humedadSuelo3string[6];
-      dtostrf(readSensorSuelo3,6,1,humedadSuelo3string);
-      client.publish(topicSensorSuelo3, humedadSuelo3string);
-      
-      char humedadSuelo4string[6];
-      dtostrf(readSensorSuelo4,6,1,humedadSuelo4string);
-      client.publish(topicSensorSuelo4, humedadSuelo4string);
-  
-      char promedioHumedadSuelostring[6];
-      dtostrf(promedioSensorSuelo,6,1,promedioHumedadSuelostring);
-      client.publish(topicPromedioSensorSuelo, promedioHumedadSuelostring);
-  
-      /*char caudalAguastring[6];
-      dtostrf(flow_Lmin,4,1,caudalAguastring);
-      client.publish(topicSensorCaudal1, caudalAguastring);
-  
-      char consumoAguastring[6];
-      dtostrf(volume,4,1,consumoAguastring);
-      client.publish(topicSensorConsumoAgua1, consumoAguastring);*/
-      
-      
-    }
-    timer = 0;
+  if (isnan(humedAmb) || isnan(tempAmb)) {
+    Serial.println("Failed to read from DHT sensor!");
+    delay(1000); // wait a bit
+    return;
   }
-  timer = timer + 1;
+  int const readSensorSuelo1 = map(analogRead(pinHumedadSuelo1), 0, 4095, 1024, 0);
+  int const readSensorSuelo2 = map(analogRead(pinHumedadSuelo2), 0, 4095, 1024, 0);
+  int const readSensorSuelo3 = map(analogRead(pinHumedadSuelo3), 0, 4095, 1024, 0);
+  int const readSensorSuelo4 = map(analogRead(pinHumedadSuelo4), 0, 4095, 1024, 0);
+  int const promedioSensorSuelo = (readSensorSuelo1+readSensorSuelo2+readSensorSuelo3+readSensorSuelo4)/4;
+  Serial.print("Humedad Suelo1:");
+  Serial.print(readSensorSuelo1);
+  Serial.print("Humedad Suelo2:");
+  Serial.print(readSensorSuelo2);
+  Serial.print("Humedad Suelo3:");
+  Serial.print(readSensorSuelo3);
+  Serial.print("Humedad Suelo4:");
+  Serial.print(readSensorSuelo4);
+  Serial.print("Promedio Humedad Suelo:");
+  Serial.print(promedioSensorSuelo);
+  Serial.print(" Temperatura Ambiental:");
+  Serial.print(tempAmb);
+  Serial.print(" Humedad Ambiental:");
+  Serial.print(humedAmb);
+  Serial.println();
+
+  
+  if (client.connected()){
+    //String str = "La cuenta es -> " + String(count);
+    //str.toCharArray(msg,25);
+    char tempstring[3];
+    dtostrf(tempAmb,3,1,tempstring);
+    client.publish(topicSensorTemperatura1, tempstring);
+
+    char humedAmbstring[3];
+    dtostrf(humedAmb,3,1,humedAmbstring);
+    client.publish(topicSensorHumedad1, humedAmbstring);
+
+    char humedadSuelo1string[6];
+    dtostrf(readSensorSuelo1,6,1,humedadSuelo1string);
+    client.publish(topicSensorSuelo1, humedadSuelo1string);
+
+    char humedadSuelo2string[6];
+    dtostrf(readSensorSuelo2,6,1,humedadSuelo2string);
+    client.publish(topicSensorSuelo2, humedadSuelo2string);
+
+    char humedadSuelo3string[6];
+    dtostrf(readSensorSuelo3,6,1,humedadSuelo3string);
+    client.publish(topicSensorSuelo3, humedadSuelo3string);
+    
+    char humedadSuelo4string[6];
+    dtostrf(readSensorSuelo4,6,1,humedadSuelo4string);
+    client.publish(topicSensorSuelo4, humedadSuelo4string);
+
+    char promedioHumedadSuelostring[6];
+    dtostrf(promedioSensorSuelo,6,1,promedioHumedadSuelostring);
+    client.publish(topicPromedioSensorSuelo, promedioHumedadSuelostring);
+
+    /*char caudalAguastring[6];
+    dtostrf(flow_Lmin,4,1,caudalAguastring);
+    client.publish(topicSensorCaudal1, caudalAguastring);
+
+    char consumoAguastring[6];
+    dtostrf(volume,4,1,consumoAguastring);
+    client.publish(topicSensorConsumoAgua1, consumoAguastring);*/
+    
+    
+  }
+    //timer = 0;
+  //}
+  //timer = timer + 1;
   Serial.println(timer);
-  delay(800);
+  delay(1000);
   
 }
 
