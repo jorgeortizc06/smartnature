@@ -29,7 +29,7 @@ ALLOWED_HOSTS = ['127.0.0.1', '192.168.100.2', '192.168.100.254', '45.189.58.2']
 # Application definition
 
 INSTALLED_APPS = [
-    'gestion_riego',
+    'gestion_riego.apps.GestionRiegoConfig',
     'rest_framework',
     'corsheaders',
     'django.contrib.admin',  # Para el panel de control django
