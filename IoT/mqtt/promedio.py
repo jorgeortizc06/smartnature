@@ -21,6 +21,7 @@ def calcular_promedio_humedad(fecha_inicio, fecha_fin, codigo_sensor, tipo_senso
         datas = cursor.fetchone()
         if datas is not None:
             promedio = datas[0]
+            print(promedio)
         # Cerramos la conexión
         else:
             promedio = 0
@@ -36,6 +37,6 @@ def calcular_promedio_humedad(fecha_inicio, fecha_fin, codigo_sensor, tipo_senso
             print("PostgreSQL connection is closed")
 
 
-#prom_hum_suelo=calcular_promedio('2020-11-10 18:00:00', '2020-11-10 18:10:59', 1, 1)
+prom_hum_suelo=calcular_promedio_humedad('2020-11-17 20:00:00', '2020-11-17 20:10:59', 1, 1)
 # prom_hum_ambient = calcular_promedio('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 2)
 # prom_temp_ambient = calcular_promedio('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 3)

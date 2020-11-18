@@ -252,7 +252,7 @@ def main():
     client.on_connect = on_connect
     client.on_message = on_message
     client.connect(host='192.168.100.254', port=1883)
-    client.loop_forever(20)
+    client.loop_forever()
 
 
 if __name__ == '__main__':
