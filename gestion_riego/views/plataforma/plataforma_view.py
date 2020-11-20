@@ -5,6 +5,8 @@ from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.http import JsonResponse
 from gestion_riego.forms import PlataformaForm
 from gestion_riego.models import Plataforma
+from gestion_riego.serializers import PlataformaSerializer
+from rest_framework import viewsets
 
 
 # Vistas basadas en clases
@@ -112,3 +114,8 @@ class PlataformaListView(ListView):
         context['list_url'] = reverse_lazy('gestion_riego:plataforma_list')
         # context['object_list'] = Device.objects.all()
         return context
+
+
+class PlataformaViewSet(viewsets.ModelViewSet):
+    serializer_class = PlataformaSerializer
+    queryset = Plataforma.objects.all()

@@ -6,6 +6,8 @@ from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.http import JsonResponse
 from gestion_riego.forms import SensorForm
 from gestion_riego.models import Sensor
+from rest_framework import viewsets
+from gestion_riego.serializers import SensorSerializer
 
 
 # Vistas basadas en clases
@@ -114,6 +116,11 @@ class SensorListView(ListView):
         context['create_url'] = reverse_lazy('gestion_riego:sensor_create')
         context['list_url'] = reverse_lazy('gestion_riego:sensor_list')
         return context
+
+
+class SensorViewSet(viewsets.ModelViewSet):
+    serializer_class = SensorSerializer
+    queryset = Sensor.objects.all()
 
 
 def lectura(request):
