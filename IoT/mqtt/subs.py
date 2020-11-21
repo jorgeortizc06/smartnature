@@ -55,7 +55,9 @@ def on_message(client, userdata, message):
                         "device": 1}
             et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers)"""
 
-    except:
+    except Exception:
+        e = sys.exc_info()[1]
+        print("Error en: ", e.args[0])
         print("Error al obtener datos en mqtt")
 
 def main():

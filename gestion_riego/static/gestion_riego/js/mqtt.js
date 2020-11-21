@@ -118,14 +118,14 @@ function onMessageArrived(message) {
             //document.getElementById("SensorHumedad1").textContent = message.payloadString + " %";
             gSensorHumedad1.refresh(message.payloadString);
         }
-        /*if (message.destinationName == 'device1/sensorCaudal1') { //acá coloco el topic
+        if (message.destinationName == 'device1/sensorCaudal1') { //acá coloco el topic
             //document.getElementById("SensorHumedad1").textContent = message.payloadString + " %";
             gSensorCaudal1.refresh(message.payloadString);
         }
         if (message.destinationName == 'device1/sensorConsumoAgua1') { //acá coloco el topic
             //document.getElementById("SensorHumedad1").textContent = message.payloadString + " %";
             gSensorConsumoAgua1.refresh(message.payloadString);
-        }*/
+        }
     }else{
         if (humedadSueloTopics.indexOf(message.destinationName) < 0) {
 

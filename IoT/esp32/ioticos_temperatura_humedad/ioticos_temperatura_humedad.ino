@@ -121,17 +121,17 @@ void loop() {
   client.loop();
 
   // obtener frecuencia en Hz
-   //float frequency = GetFrequency();
+   float frequency = GetFrequency();
  
    // calcular caudal L/min
-   //float flow_Lmin = frequency / factorK;
-   //SumVolume(flow_Lmin);
+   float flow_Lmin = frequency / factorK;
+   SumVolume(flow_Lmin);
  
-   /*Serial.print(" Caudal: ");
+   Serial.print(" Caudal: ");
    Serial.print(flow_Lmin, 3);
    Serial.print(" (L/min)\tConsumo:");
    Serial.print(volume, 1);
-   Serial.println(" (L)");*/
+   Serial.println(" (L)");
 
   
   //if (timer == 60){
@@ -191,18 +191,18 @@ void loop() {
     char humedadSuelo4string[6];
     dtostrf(readSensorSuelo4,6,1,humedadSuelo4string);
     client.publish(topicSensorSuelo4, humedadSuelo4string);
-
-    char promedioHumedadSuelostring[6];
-    dtostrf(promedioSensorSuelo,6,1,promedioHumedadSuelostring);
-    client.publish(topicPromedioSensorSuelo, promedioHumedadSuelostring);
-
-    /*char caudalAguastring[6];
+    
+    char caudalAguastring[6];
     dtostrf(flow_Lmin,4,1,caudalAguastring);
     client.publish(topicSensorCaudal1, caudalAguastring);
 
     char consumoAguastring[6];
     dtostrf(volume,4,1,consumoAguastring);
-    client.publish(topicSensorConsumoAgua1, consumoAguastring);*/
+    client.publish(topicSensorConsumoAgua1, consumoAguastring);
+
+    char promedioHumedadSuelostring[6];
+    dtostrf(promedioSensorSuelo,6,1,promedioHumedadSuelostring);
+    client.publish(topicPromedioSensorSuelo, promedioHumedadSuelostring);
     
     
   }
@@ -210,7 +210,7 @@ void loop() {
   //}
   //timer = timer + 1;
   Serial.println(timer);
-  delay(1000);
+  delay(800);
   
 }
 
