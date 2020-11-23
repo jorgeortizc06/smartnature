@@ -49,7 +49,7 @@ int pinHumedadSuelo4 = 35;
 int timer = 0;
 //Para medir el consumo de agua
 const int sensorPin = 5;
-const int measureInterval = 2500;
+const int measureInterval = 1000;
 volatile int pulseConter;
 // YF-S201
 const float factorK = 7.5;
@@ -196,6 +196,7 @@ void loop() {
     dtostrf(flow_Lmin,4,1,caudalAguastring);
     client.publish(topicSensorCaudal1, caudalAguastring);
 
+    
     char consumoAguastring[6];
     dtostrf(volume,4,1,consumoAguastring);
     client.publish(topicSensorConsumoAgua1, consumoAguastring);
@@ -210,7 +211,7 @@ void loop() {
   //}
   //timer = timer + 1;
   Serial.println(timer);
-  delay(800);
+  delay(300);
   
 }
 

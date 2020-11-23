@@ -24,13 +24,18 @@ def di_hola():
     for k, v in horarios.items():
         regar(v, client)
 
+def otra():
+    print("soy otra tarea")
+
+
 def on_connect(client, userdata, flags, rc):
     print('connected (%s)' % client._client_id)
     client.subscribe(topic='device1/#', qos=2)
 
 def start():
     scheduler = BackgroundScheduler()
-    scheduler.add_job(di_hola, 'interval', seconds=1)
+    scheduler.add_job(di_hola, 'interval', seconds=5)
+    scheduler.add_job(otra, 'interval', seconds=20)
     scheduler.start()
 
 
@@ -40,6 +45,8 @@ def regar(hora, client):
     print(activacion)
     print(datetime.datetime.now())
     if time.strftime("%H:%M:%S") == hora and activacion == False:
+        fechaDesde = time.strftime("%Y-%m-%d") + " " + hora
+        fechaDesde = time.strftime("%Y-%m-%d") + " " + hora
         prom_hum_suelo1 = calcular_promedio('2020-11-17 20:00:00', '2020-11-17 20:10:59', 1, 1)
         prom_hum_suelo2 = calcular_promedio('2020-11-17 20:00:00', '2020-11-17 20:10:59', 2, 1)
         prom_hum_suelo3 = calcular_promedio('2020-11-17 20:00:00', '2020-11-17 20:10:59', 3, 1)

@@ -46,14 +46,14 @@ def on_message(client, userdata, message):
             sensores = {"value": float(message.payload), "codigo_sensor": int(1), "estado": "A", "tipo_sensor": 3,
                         "device": 1}
             et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers)
-        """if message.topic == 'device1/sensorCaudal1':
+        if message.topic == 'device1/sensorCaudal1':
             sensores = {"value": float(message.payload), "codigo_sensor": int(1), "estado": "A", "tipo_sensor": 4,
                         "device": 1}
             et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers)
         if message.topic == 'device1/sensorConsumoAgua1':
             sensores = {"value": float(message.payload), "codigo_sensor": int(1), "estado": "A", "tipo_sensor": 5,
                         "device": 1}
-            et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers)"""
+            et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers)
 
     except Exception:
         e = sys.exc_info()[1]
