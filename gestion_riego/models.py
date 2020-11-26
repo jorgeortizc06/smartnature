@@ -124,8 +124,9 @@ class Plataforma(models.Model):
     nombre = models.CharField(max_length=100)
     descripcion = models.CharField(max_length=300)
     persona = models.ForeignKey(Persona, on_delete=models.CASCADE, null=True)
-    horario1 = models.CharField(max_length=8, default='08:00')
-    horario2 = models.CharField(max_length=8, default='17:00')
+    horario1 = models.CharField(max_length=10, default='08:00:00')
+    horario2 = models.CharField(max_length=10, default='12:00:00')
+    horario3 = models.CharField(max_length=10, default='17:00:00')
     tipo_suelo = models.ForeignKey(TipoSuelo, on_delete=models.CASCADE, null=True)
     device = models.ForeignKey(Device, on_delete=models.CASCADE, null=True)
 

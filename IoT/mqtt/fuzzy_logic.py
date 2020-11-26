@@ -1,66 +1,34 @@
 import sys
-
-from gestion_riego.models import Sensor, Plataforma, HistorialRiego, Siembra, TipoRol
-import datetime
-from apscheduler.schedulers.background import BackgroundScheduler
+import time
+from datetime import datetime, timedelta
 import skfuzzy as fuzz
 from skfuzzy import control as ctrl
 import numpy as np
-from datetime import datetime, timedelta
-import time
 import psycopg2
-import paho.mqtt.client
+
 activacion = False
 fin_riego = ''
 
-def on_connect(client, userdata, flags, rc):
-    print('connected (%s)' % client._client_id)
-    client.subscribe(topic='device1/#', qos=2)
-
-def di_hola():
-    try:
-        client = paho.mqtt.client.Client(client_id='albert-subs', clean_session=False)
-        client.connect(host='192.168.100.254', port=1883)
-        plataforma = Plataforma.objects.get(id=1)
-        horarios = {'horario1': plataforma.horario1, 'horario2': plataforma.horario2, 'horario3': plataforma.horario3}
-        print(horarios)
-        regar(plataforma, client)
-    except psycopg2.InterfaceError:
-        print()
-
-def otra():
-    print("soy otra tarea")
-
-
-def on_connect(client, userdata, flags, rc):
-    print('connected (%s)' % client._client_id)
-    client.subscribe(topic='device1/#', qos=2)
-
-def start():
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(di_hola, 'interval', seconds=1)
-    scheduler.start()
-
-
-def regar(plataforma, client):
+def regar(plataforma):
     global activacion
     global fin_riego
     print(activacion)
     print(datetime.now())
-    if (time.strftime("%H:%M:%S") == plataforma.horario1 or time.strftime("%H:%M:%S") == plataforma.horario2 or time.strftime("%H:%M:%S") == plataforma.horario3) and activacion == False:
+    if (time.strftime("%H:%M:%S") ==  plataforma['horario1'] or time.strftime("%H:%M:%S") ==  plataforma['horario2'] or time.strftime("%H:%M:%S") ==  plataforma['horario3'] ) and activacion == False:
         try:
-            if time.strftime("%H:%M:%S") == plataforma.horario1:
+            if time.strftime("%H:%M:%S") == plataforma['horario1']:
                 # Voy un dia atras
                 d = datetime.today() - timedelta(days=1)
-                fechaDesde = d.strftime("%Y-%m-%d") + " " + plataforma.horario3
-                # Dia de hoy
-                fechaHasta = time.strftime("%Y-%m-%d") + " " + plataforma.horario1
-            elif time.strftime("%H:%M:%S") == plataforma.horario2:
-                fechaDesde = time.strftime("%Y-%m-%d") + " " + plataforma.horario1
-                fechaHasta = time.strftime("%Y-%m-%d") + " " + plataforma.horario2
-            elif time.strftime("%H:%M:%S") == plataforma.horario3:
-                fechaDesde = time.strftime("%Y-%m-%d") + " " + plataforma.horario2
-                fechaHasta = time.strftime("%Y-%m-%d") + " " + plataforma.horario3
+                fechaDesde = d.strftime("%Y-%m-%d") + " " + plataforma['horario3']
+                #Dia de hoy
+                fechaHasta = time.strftime("%Y-%m-%d") + " " + plataforma['horario1']
+            elif time.strftime("%H:%M:%S") == plataforma['horario2']:
+                fechaDesde = time.strftime("%Y-%m-%d") + " " + plataforma['horario1']
+                fechaHasta = time.strftime("%Y-%m-%d") + " " + plataforma['horario2']
+            elif time.strftime("%H:%M:%S") == plataforma['horario3']:
+                fechaDesde = time.strftime("%Y-%m-%d") + " " + plataforma['horario2']
+                fechaHasta = time.strftime("%Y-%m-%d") + " " + plataforma['horario3']
+
 
             print("Fecha Desde", fechaDesde)
             print("Fecha Desde", fechaHasta)
@@ -68,47 +36,30 @@ def regar(plataforma, client):
             prom_hum_suelo2 = calcular_promedio(fechaDesde, fechaHasta, 2, 1)
             prom_hum_suelo3 = calcular_promedio(fechaDesde, fechaHasta, 3, 1)
             prom_hum_suelo4 = calcular_promedio(fechaDesde, fechaHasta, 4, 1)
-            promedio_hum_suelo_total = (prom_hum_suelo1 + prom_hum_suelo2 + prom_hum_suelo3 + prom_hum_suelo4) / 4
+            promedio_hum_suelo_total = (prom_hum_suelo1+prom_hum_suelo2+prom_hum_suelo3+prom_hum_suelo4)/4
 
             prom_hum_ambient = calcular_promedio(fechaDesde, fechaHasta, 1, 2)
             prom_temp_ambient = calcular_promedio(fechaDesde, fechaHasta, 1, 3)
 
-            tiempo_riego_suelo1 = round(
-                fuzzy_logic_3_variables(float(prom_hum_suelo1), float(prom_hum_ambient), float(prom_temp_ambient)), 2)
-            tiempo_riego_suelo2 = round(
-                fuzzy_logic_3_variables(float(prom_hum_suelo2), float(prom_hum_ambient), float(prom_temp_ambient)), 2)
-            tiempo_riego_suelo3 = round(
-                fuzzy_logic_3_variables(float(prom_hum_suelo3), float(prom_hum_ambient), float(prom_temp_ambient)), 2)
-            tiempo_riego_suelo4 = round(
-                fuzzy_logic_3_variables(float(prom_hum_suelo4), float(prom_hum_ambient), float(prom_temp_ambient)), 2)
-            tiempo_riego_suelo_promedio = round(
-                fuzzy_logic_3_variables(float(promedio_hum_suelo_total), float(prom_hum_ambient),
-                                        float(prom_temp_ambient)), 2)
+
+            tiempo_riego_suelo1 = round(fuzzy_logic_3_variables(float(prom_hum_suelo1), float(prom_hum_ambient), float(prom_temp_ambient)), 2)
+            tiempo_riego_suelo2 = round(fuzzy_logic_3_variables(float(prom_hum_suelo2), float(prom_hum_ambient), float(prom_temp_ambient)), 2)
+            tiempo_riego_suelo3 = round(fuzzy_logic_3_variables(float(prom_hum_suelo3), float(prom_hum_ambient), float(prom_temp_ambient)), 2)
+            tiempo_riego_suelo4 = round(fuzzy_logic_3_variables(float(prom_hum_suelo4), float(prom_hum_ambient), float(prom_temp_ambient)), 2)
+            tiempo_riego_suelo_promedio = round(fuzzy_logic_3_variables(float(promedio_hum_suelo_total), float(prom_hum_ambient), float(prom_temp_ambient)), 2)
             if tiempo_riego_suelo_promedio != 0:
                 ahora = datetime.datetime.now()
                 futuro = ahora + datetime.timedelta(minutes=tiempo_riego_suelo1)
                 fin_riego = futuro.strftime("%H:%M:%S")
                 print("Fin Riego: ",fin_riego)
                 activacion = True
-                #historial_riego = {"tiempo_riego": float(tiempo_riego), "siembra": 1, "tipo_rol": 2}
-                #et_historial_riego = requests.post(api_historial_riego, data=json.dumps(historial_riego), headers=headers)
-                client.publish("device1/electrovalvula", "ON")
-                siembra = Siembra.objects.get(id = 1)
-                tipo_rol = TipoRol.objects.get(id = 2)
-                riego = HistorialRiego(tiempo_riego = tiempo_riego_suelo1, siembra = siembra, tipo_rol = tipo_rol)
-                riego.save()
             else:
                 print("Tiempo 0, no se abrira la llave")
-                siembra = Siembra.objects.get(id=1)
-                tipo_rol = TipoRol.objects.get(id=2)
-                riego = HistorialRiego(tiempo_riego=0, siembra=siembra, tipo_rol=tipo_rol)
-                riego.save()
-        except (Exception, psycopg2.Error) as error:
-            print("Error while connecting to PostgreSQL", error)
+        except UnboundLocalError:
+            print("No hay datos para fecha desde o fecha hasta: ", sys.exc_info()[1])
     elif time.strftime("%H:%M:%S") == fin_riego and activacion == True:
         print("La llave se ha cerrado")
         activacion = False
-        client.publish("device1/electrovalvula", "OFF")
 
 def calcular_promedio(fecha_inicio, fecha_fin, codigo_sensor, tipo_sensor):
     promedio = 0
@@ -129,7 +80,6 @@ def calcular_promedio(fecha_inicio, fecha_fin, codigo_sensor, tipo_sensor):
         datas = cursor.fetchone()
         if datas is not None:
             promedio = datas[0]
-            print(promedio)
         # Cerramos la conexión
         else:
             promedio = 0
@@ -280,3 +230,11 @@ def fuzzy_logic_3_variables(par_humedad_suelo, par_humedad_ambiental, par_temper
     except Exception:
         print("Fuera de rango en las entradas de variables de humedad, temperatura, etc: ", sys.exc_info()[1])
         return 0;
+
+
+
+plataforma = {'horario1':'16:13:35', 'horario2':'16:10:30', 'horario3':'16:17:00'}
+
+while True:
+    regar(plataforma)
+    time.sleep(1)
