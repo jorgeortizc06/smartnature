@@ -19,7 +19,12 @@
 <form method="post">
     {% csrf_token %}
     <input type="hidden" name="action" value="{{ action }}">
-    {{form.as_p}}
+    {% for field in form.visible_fields %}
+    <div class="form-group">
+        <label>{{ field.label }}</label>
+        {{ field }}
+    </div>
+    {% endfor %}
     <div class="card-footer">
         <button type="submit" class="btn btn-primary btn-flat">
             <i class="fas fa-save"></i> Guardar registro

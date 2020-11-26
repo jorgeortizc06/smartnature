@@ -39,6 +39,10 @@
     <a href="{{ list_url }}" class="btn btn-success btn-flat" type="button">
         <i class="fas fa-sync"></i> Actualizar
     </a>
+
+    <button class="btn btn-primary btn-flat btnTest">
+         <i class="fas fa-plus"></i> AJAX
+    </button>
 </div>
 <script type="application/javascript">
     $(function() {
@@ -46,20 +50,20 @@
             responsive: true
         });
 
-        $('.new-device').on('click', () => {
+        $('.btnTest').on('click', function (){
             $.ajax({
-                url: "{% url 'gestion_riego:device_list' %}",
+                url: '{{ list_url }}',
                 type: 'POST',
                 data: {id: 1},
                 dataType: 'json'
-            }).done((data) =>{
-                console.log(data)
-            }).fail((jqXHR, textStatus, errorThrown) =>{
-                alert(textStatus+': '+errorThrown)
-            }).always((data) => {
-            })
+            }).done(function (data){
+                console.log(data);
+            }).fail(function(jqXHR, textStatus, errorThrown){
+                alert(textStatus+': '+errorThrown);
+            }).always(function(data) {
+            });
         });
-    });
 
+    });
 </script>
 {% endblock body %}

@@ -118,6 +118,16 @@ class DeviceListView(ListView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+    #Prueba de ajax que se realizo en device_list.html
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            dev = Device.objects.get(pk=request.POST['id'])
+            data['name'] = dev.nombre +": "+dev.descripcion
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
+
     # Metodo para modificar el context
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

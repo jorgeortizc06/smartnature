@@ -1,5 +1,4 @@
 from django.forms import *
-
 from .models import Persona, Sensor, TipoSensor, Device, TipoSuelo, Planta, Plataforma, Siembra
 
 
@@ -65,6 +64,7 @@ class SensorForm(ModelForm):
         model = Sensor
         fields = '__all__'  # tambien ('nombre', 'apellido',....)
 
+    #Valida el formulario SensorForm y lo guarda
     def save(self, commit=True):
         data = {}
         form = super()
@@ -160,11 +160,19 @@ class SiembraForm(ModelForm):
             form.field.widget.attrs['class'] = 'form-control'
             form.field.widget.attrs['autocomplete'] = 'off'
 
-        self.fields['fecha_siembra'].widget.attrs['autofocus'] = True
-
     class Meta:
         model = Siembra
         fields = '__all__'
+
+        widgets = {
+            'fecha_siembra': TextInput(
+                attrs={
+                    'type': "text",
+                    'id': "datepicker"
+                },
+
+            )
+        }
 
     def save(self, commit=True):
         data = {}
