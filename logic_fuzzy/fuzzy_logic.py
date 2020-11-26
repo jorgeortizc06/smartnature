@@ -16,13 +16,16 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe(topic='device1/#', qos=2)
 
 def di_hola():
-    client = paho.mqtt.client.Client(client_id='albert-subs', clean_session=False)
-    client.connect(host='192.168.100.254', port=1883)
-    plataforma = Plataforma.objects.get(id=1)
-    horarios = {'horario1': plataforma.horario1, 'horario2': plataforma.horario2}
-    print(horarios)
-    for k, v in horarios.items():
-        regar(v, client)
+    try:
+        client = paho.mqtt.client.Client(client_id='albert-subs', clean_session=False)
+        client.connect(host='192.168.100.254', port=1883)
+        plataforma = Plataforma.objects.get(id=1)
+        horarios = {'horario1': plataforma.horario1, 'horario2': plataforma.horario2}
+        print(horarios)
+        for k, v in horarios.items():
+            regar(v, client)
+    except psycopg2.InterfaceError:
+        print()
 
 def otra():
     print("soy otra tarea")

@@ -54,17 +54,21 @@ def on_message(client, userdata, message):
             sensores = {"value": float(message.payload), "codigo_sensor": int(1), "estado": "A", "tipo_sensor": 5,
                         "device": 1}
             et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers)
-
-    except Exception:
-        e = sys.exc_info()[1]
-        print("Error en: ", e.args[0])
-        print("Error al obtener datos en mqtt")
+    except requests.exceptions.ConnectionError:
+        print("Fallo en la conexion con el servidor de la ruta: ", api_sensor, " error: ", sys.exc_info()[1])
+        time.sleep(3)
 
 def main():
     client = paho.mqtt.client.Client(client_id='albert-subs', clean_session=False)
     client.on_connect = on_connect
     client.on_message = on_message
-    client.connect(host='192.168.100.254', port=1883)
+    while True:
+        try:
+            client.connect(host='192.168.100.254', port=1883)
+            break
+        except OSError as err:
+            print("No se puede conectar con el host mqtt: ", sys.exc_info()[1]," ...intentando de nuevo")
+            time.sleep(3)
     client.loop_forever()
 
 if __name__ == '__main__':
