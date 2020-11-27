@@ -11,9 +11,11 @@
         <th>ID</th>
         <th>Tiempo</th>
         <th>Fecha Riego</th>
+        <th>Codigo Sensor</th>
         <th>Dispositivo</th>
         <th>Encargado</th>
         <th>Rol</th>
+        <th>Tipo Sensor</th>
     </tr>
     </thead>
     <tbody>
@@ -22,11 +24,13 @@
         <td>{{historial_riego.id}}</td>
         <td>{{historial_riego.tiempo_riego}}</td>
         <td>{{historial_riego.fecha_riego}}</td>
+        <td>{{historial_riego.codigo_sensor}}</td>
         <td>{{historial_riego.siembra.plataforma.device.nombre}}</td>
         <td>{{historial_riego.siembra.plataforma.persona.nombre}}
             {{historial_riego.siembra.plataforma.persona.apellido}}
         </td>
         <td>{{historial_riego.tipo_rol.nombre}}</td>
+        <td>{{historial_riego.tipo_sensor}}</td>
     </tr>
     {% endfor %}
     </tbody>

@@ -1,6 +1,6 @@
 import sys
 
-from gestion_riego.models import Sensor, Plataforma, HistorialRiego, Siembra, TipoRol
+from gestion_riego.models import Sensor, Plataforma, HistorialRiego, Siembra, TipoRol, TipoSensor
 import datetime
 from apscheduler.schedulers.background import BackgroundScheduler
 import skfuzzy as fuzz
@@ -10,12 +10,15 @@ from datetime import datetime, timedelta
 import time
 import psycopg2
 import paho.mqtt.client
+
 activacion = False
 fin_riego = ''
+
 
 def on_connect(client, userdata, flags, rc):
     print('connected (%s)' % client._client_id)
     client.subscribe(topic='device1/#', qos=2)
+
 
 def di_hola():
     try:
@@ -28,6 +31,7 @@ def di_hola():
     except psycopg2.InterfaceError:
         print()
 
+
 def otra():
     print("soy otra tarea")
 
@@ -35,6 +39,7 @@ def otra():
 def on_connect(client, userdata, flags, rc):
     print('connected (%s)' % client._client_id)
     client.subscribe(topic='device1/#', qos=2)
+
 
 def start():
     scheduler = BackgroundScheduler()
@@ -47,7 +52,9 @@ def regar(plataforma, client):
     global fin_riego
     print(activacion)
     print(datetime.now())
-    if (time.strftime("%H:%M:%S") == plataforma.horario1 or time.strftime("%H:%M:%S") == plataforma.horario2 or time.strftime("%H:%M:%S") == plataforma.horario3) and activacion == False:
+    if (time.strftime("%H:%M:%S") == plataforma.horario1 or time.strftime(
+            "%H:%M:%S") == plataforma.horario2 or time.strftime(
+            "%H:%M:%S") == plataforma.horario3) and activacion == False:
         try:
             if time.strftime("%H:%M:%S") == plataforma.horario1:
                 # Voy un dia atras
@@ -84,31 +91,49 @@ def regar(plataforma, client):
             tiempo_riego_suelo_promedio = round(
                 fuzzy_logic_3_variables(float(promedio_hum_suelo_total), float(prom_hum_ambient),
                                         float(prom_temp_ambient)), 2)
+            siembra = Siembra.objects.get(id=1)
+            tipo_rol = TipoRol.objects.get(id=2)
+            tipo_sensor = TipoSensor.objects.get(id=1)
+
             if tiempo_riego_suelo_promedio != 0:
                 ahora = datetime.datetime.now()
-                futuro = ahora + datetime.timedelta(minutes=tiempo_riego_suelo1)
+                futuro = ahora + datetime.timedelta(minutes=tiempo_riego_suelo_promedio)
                 fin_riego = futuro.strftime("%H:%M:%S")
-                print("Fin Riego: ",fin_riego)
+                print("Fin Riego: ", fin_riego)
                 activacion = True
-                #historial_riego = {"tiempo_riego": float(tiempo_riego), "siembra": 1, "tipo_rol": 2}
-                #et_historial_riego = requests.post(api_historial_riego, data=json.dumps(historial_riego), headers=headers)
+                # historial_riego = {"tiempo_riego": float(tiempo_riego), "siembra": 1, "tipo_rol": 2}
+                # et_historial_riego = requests.post(api_historial_riego, data=json.dumps(historial_riego), headers=headers)
                 client.publish("device1/electrovalvula", "ON")
-                siembra = Siembra.objects.get(id = 1)
-                tipo_rol = TipoRol.objects.get(id = 2)
-                riego = HistorialRiego(tiempo_riego = tiempo_riego_suelo1, siembra = siembra, tipo_rol = tipo_rol)
-                riego.save()
+                riego_promedio = HistorialRiego(tiempo_riego=tiempo_riego_suelo_promedio, siembra=siembra,
+                                                codigo_sensor=5, tipo_rol=tipo_rol,
+                                                tipo_sensor=tipo_sensor)
+                riego_promedio.save()
             else:
                 print("Tiempo 0, no se abrira la llave")
-                siembra = Siembra.objects.get(id=1)
-                tipo_rol = TipoRol.objects.get(id=2)
-                riego = HistorialRiego(tiempo_riego=0, siembra=siembra, tipo_rol=tipo_rol)
-                riego.save()
+                riego5 = HistorialRiego(tiempo_riego=0, siembra=siembra, codigo_sensor=5, tipo_rol=tipo_rol,
+                                        tipo_sensor=tipo_sensor)
+                riego5.save()
+
+            riego_sensor_suelo_1 = HistorialRiego(tiempo_riego=tiempo_riego_suelo1, siembra=siembra, codigo_sensor=1,
+                                                  tipo_rol=tipo_rol, tipo_sensor=tipo_sensor)
+            riego_sensor_suelo_2 = HistorialRiego(tiempo_riego=tiempo_riego_suelo2, siembra=siembra, codigo_sensor=2,
+                                                  tipo_rol=tipo_rol, tipo_sensor=tipo_sensor)
+            riego_sensor_suelo_3 = HistorialRiego(tiempo_riego=tiempo_riego_suelo3, siembra=siembra, codigo_sensor=3,
+                                                  tipo_rol=tipo_rol, tipo_sensor=tipo_sensor)
+            riego_sensor_suelo_4 = HistorialRiego(tiempo_riego=tiempo_riego_suelo4, siembra=siembra, codigo_sensor=4,
+                                                  tipo_rol=tipo_rol, tipo_sensor=tipo_sensor)
+            riego_sensor_suelo_1.save()
+            riego_sensor_suelo_2.save()
+            riego_sensor_suelo_3.save()
+            riego_sensor_suelo_4.save()
+
         except (Exception, psycopg2.Error) as error:
             print("Error while connecting to PostgreSQL", error)
     elif time.strftime("%H:%M:%S") == fin_riego and activacion == True:
         print("La llave se ha cerrado")
         activacion = False
         client.publish("device1/electrovalvula", "OFF")
+
 
 def calcular_promedio(fecha_inicio, fecha_fin, codigo_sensor, tipo_sensor):
     promedio = 0
@@ -143,6 +168,7 @@ def calcular_promedio(fecha_inicio, fecha_fin, codigo_sensor, tipo_sensor):
             cursor.close()
             connection.close()
             print("PostgreSQL connection is closed")
+
 
 def fuzzy_logic_3_variables(par_humedad_suelo, par_humedad_ambiental, par_temperatura_ambiental):
     try:
@@ -265,9 +291,11 @@ def fuzzy_logic_3_variables(par_humedad_suelo, par_humedad_ambiental, par_temper
                            tiempo_riego['mucho'])
 
         tipping_ctrl = ctrl.ControlSystem(
-            [rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8, rule9, rule10, rule11, rule12, rule13, rule14, rule15,
+            [rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8, rule9, rule10, rule11, rule12, rule13, rule14,
+             rule15,
              rule16,
-             rule17, rule18, rule19, rule20, rule21, rule22, rule23, rule24, rule25, rule26, rule27, rule28, rule29, rule30,
+             rule17, rule18, rule19, rule20, rule21, rule22, rule23, rule24, rule25, rule26, rule27, rule28, rule29,
+             rule30,
              rule31, rule32, rule33, rule34, rule3, rule36,
              rule37, rule38, rule39, rule40, rule41, rule42, rule43, rule44, rule45])
         tipping = ctrl.ControlSystemSimulation(tipping_ctrl)
