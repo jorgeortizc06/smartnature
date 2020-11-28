@@ -9,28 +9,34 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>Tiempo</th>
-        <th>Fecha Riego</th>
         <th>Codigo Sensor</th>
+        <th>Fecha Riego</th>
+        <th>Tiempo</th>
+        <th>Humedad Suelo</th>
+        <th>Humedad Ambiental</th>
+        <th>Temperatura Ambiental</th>
         <th>Dispositivo</th>
         <th>Encargado</th>
         <th>Rol</th>
-        <th>Tipo Sensor</th>
+
     </tr>
     </thead>
     <tbody>
     {% for historial_riego in object_list %}
     <tr>
         <td>{{historial_riego.id}}</td>
-        <td>{{historial_riego.tiempo_riego}}</td>
-        <td>{{historial_riego.fecha_riego}}</td>
         <td>{{historial_riego.codigo_sensor}}</td>
+        <td>{{historial_riego.fecha_riego}}</td>
+        <td>{{historial_riego.tiempo_riego}}</td>
+        <td>{{historial_riego.valor_humed_suelo}}</td>
+        <td>{{historial_riego.valor_humed_ambiente}}</td>
+        <td>{{historial_riego.valor_temp_ambiente}}</td>
         <td>{{historial_riego.siembra.plataforma.device.nombre}}</td>
         <td>{{historial_riego.siembra.plataforma.persona.nombre}}
             {{historial_riego.siembra.plataforma.persona.apellido}}
         </td>
         <td>{{historial_riego.tipo_rol.nombre}}</td>
-        <td>{{historial_riego.tipo_sensor}}</td>
+
     </tr>
     {% endfor %}
     </tbody>
@@ -44,7 +50,7 @@
     $(document).ready(function () {
     $('#data').DataTable( {
     dom: 'Bfrtip',
-    ordering: true,
+    "order": [[ 0, "desc" ]],
     language: {
         search: "Buscar",
         paginate: {

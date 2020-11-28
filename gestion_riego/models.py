@@ -169,9 +169,11 @@ class HistorialRiego(models.Model):
     tiempo_riego = models.DecimalField(max_digits=3, decimal_places=2)
     fecha_riego = models.DateTimeField(auto_now_add=True)
     codigo_sensor = models.IntegerField(null = True)
+    valor_humed_suelo = models.DecimalField(max_digits=1000, decimal_places=2, null = True)
+    valor_humed_ambiente = models.DecimalField(max_digits=1000, decimal_places=2, null = True)
+    valor_temp_ambiente = models.DecimalField(max_digits=1000, decimal_places=2, null = True)
     siembra = models.ForeignKey(Siembra, on_delete=models.CASCADE, null=True)
     tipo_rol = models.ForeignKey(TipoRol, on_delete=models.CASCADE, null=True)
-    tipo_sensor = models.ForeignKey(TipoSensor, on_delete=models.CASCADE, null=True)
 
     def __str__(self):
         return str(self.id)

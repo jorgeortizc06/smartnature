@@ -93,7 +93,6 @@ def regar(plataforma, client):
                                         float(prom_temp_ambient)), 2)
             siembra = Siembra.objects.get(id=1)
             tipo_rol = TipoRol.objects.get(id=2)
-            tipo_sensor = TipoSensor.objects.get(id=1)
 
             if tiempo_riego_suelo_promedio != 0:
                 ahora = datetime.datetime.now()
@@ -104,24 +103,41 @@ def regar(plataforma, client):
                 # historial_riego = {"tiempo_riego": float(tiempo_riego), "siembra": 1, "tipo_rol": 2}
                 # et_historial_riego = requests.post(api_historial_riego, data=json.dumps(historial_riego), headers=headers)
                 client.publish("device1/electrovalvula", "ON")
-                riego_promedio = HistorialRiego(tiempo_riego=tiempo_riego_suelo_promedio, siembra=siembra,
-                                                codigo_sensor=5, tipo_rol=tipo_rol,
-                                                tipo_sensor=tipo_sensor)
+                riego_promedio = HistorialRiego(tiempo_riego=tiempo_riego_suelo_promedio, siembra=siembra, codigo_sensor=5,
+                                                valor_humed_suelo=promedio_hum_suelo_total,
+                                                valor_humed_ambiente=prom_hum_ambient,
+                                                valor_temp_ambiente=prom_temp_ambient,
+                                                tipo_rol=tipo_rol)
                 riego_promedio.save()
             else:
                 print("Tiempo 0, no se abrira la llave")
-                riego5 = HistorialRiego(tiempo_riego=0, siembra=siembra, codigo_sensor=5, tipo_rol=tipo_rol,
-                                        tipo_sensor=tipo_sensor)
+                riego5 = HistorialRiego(tiempo_riego=0, siembra=siembra, codigo_sensor=5,
+                                        valor_humed_suelo=promedio_hum_suelo_total,
+                                        valor_humed_ambiente=prom_hum_ambient,
+                                        valor_temp_ambiente=prom_temp_ambient,
+                                        tipo_rol=tipo_rol)
                 riego5.save()
 
             riego_sensor_suelo_1 = HistorialRiego(tiempo_riego=tiempo_riego_suelo1, siembra=siembra, codigo_sensor=1,
-                                                  tipo_rol=tipo_rol, tipo_sensor=tipo_sensor)
+                                                  valor_humed_suelo=prom_hum_suelo1,
+                                                  valor_humed_ambiente=prom_hum_ambient,
+                                                  valor_temp_ambiente=prom_temp_ambient,
+                                                  tipo_rol=tipo_rol)
             riego_sensor_suelo_2 = HistorialRiego(tiempo_riego=tiempo_riego_suelo2, siembra=siembra, codigo_sensor=2,
-                                                  tipo_rol=tipo_rol, tipo_sensor=tipo_sensor)
+                                                  valor_humed_suelo=prom_hum_suelo2,
+                                                  valor_humed_ambiente=prom_hum_ambient,
+                                                  valor_temp_ambiente=prom_temp_ambient,
+                                                  tipo_rol=tipo_rol)
             riego_sensor_suelo_3 = HistorialRiego(tiempo_riego=tiempo_riego_suelo3, siembra=siembra, codigo_sensor=3,
-                                                  tipo_rol=tipo_rol, tipo_sensor=tipo_sensor)
+                                                  valor_humed_suelo=prom_hum_suelo3,
+                                                  valor_humed_ambiente=prom_hum_ambient,
+                                                  valor_temp_ambiente=prom_temp_ambient,
+                                                  tipo_rol=tipo_rol)
             riego_sensor_suelo_4 = HistorialRiego(tiempo_riego=tiempo_riego_suelo4, siembra=siembra, codigo_sensor=4,
-                                                  tipo_rol=tipo_rol, tipo_sensor=tipo_sensor)
+                                                  valor_humed_suelo=prom_hum_suelo4,
+                                                  valor_humed_ambiente=prom_hum_ambient,
+                                                  valor_temp_ambiente=prom_temp_ambient,
+                                                  tipo_rol=tipo_rol)
             riego_sensor_suelo_1.save()
             riego_sensor_suelo_2.save()
             riego_sensor_suelo_3.save()
