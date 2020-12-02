@@ -37,6 +37,13 @@ $(function() {
 
         ],
         order: [[0, 'desc']],
+        buttons: [
+            'copyHtml5',
+            'excelHtml5',
+            'csvHtml5',
+            'pdfHtml5',
+            'print'
+        ],
         initComplete: function(settings, json){
             //aqui va alguna funcion que se ejecutara despues de cargar la tabla
         }

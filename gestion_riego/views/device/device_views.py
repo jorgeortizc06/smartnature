@@ -127,7 +127,7 @@ class DeviceListView(ListView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-    #Prueba de ajax que se realizo en device_list.html
+    #Listar con ajax
     def post(self, request, *args, **kwargs):
         data = {}
         try:

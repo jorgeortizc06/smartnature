@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
@@ -20,6 +21,21 @@ class HistorialRiegoListView(ListView):
 
     def get_queryset(self):
         return self.model.objects.all().order_by('id')
+
+    #Listar con ajax
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'searchdata':
+                data = []
+                for i in HistorialRiego.objects.all():
+                    data.append(i.toJSON())
+            else:
+                data['error'] = 'Ha ocurrido un error'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False) #como uso coleccion de satos agrego safe=False
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
