@@ -8,7 +8,7 @@ from gestion_riego.forms import SensorForm
 from gestion_riego.models import Sensor
 from rest_framework import viewsets
 from gestion_riego.serializers import SensorSerializer
-
+from django.views.decorators.csrf import csrf_exempt
 
 # Vistas basadas en clases
 # Recomendable y haca a la aplicacion facilmente escalable
@@ -61,7 +61,6 @@ class SensorUpdateView(UpdateView):
         data = {}
         try:
             action = request.POST['action']
-            print(action)
             if action == 'edit':
                 form = self.get_form()
                 data = form.save()
@@ -76,7 +75,7 @@ class SensorUpdateView(UpdateView):
         context['title'] = 'Actualizar Sensor'
         context['entity'] = 'Sensor'
         context['list_url'] = reverse_lazy('gestion_riego:sensor_list')
-        context['action'] = 'add'
+        context['action'] = 'edit'
         # context['object_list'] = Device.objects.all()
         return context
 
@@ -88,13 +87,22 @@ class SensorDeleteView(DeleteView):
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object()
         return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            self.object.delete()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Eliminar Sensor'
         context['entity'] = 'Sensor'
-        context['list_url'] = reverse_lazy('gestion_riego:sensor_delete')
+        context['list_url'] = reverse_lazy('gestion_riego:sensor_list')
         return context
 
 
@@ -102,9 +110,25 @@ class SensorListView(ListView):
     model = Sensor
     template_name = 'gestion_riego/sensor/sensor_list.html'
 
-    @method_decorator(login_required)
+    @method_decorator(csrf_exempt)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'searchdata':
+                data = []
+                for i in Sensor.objects.all()[0:100]:
+                    data.append(i.toJSON())
+            else:
+                data['error'] = 'Ha ocurrido un error'
+        except Exception as e:
+            data['error'] = str(e)
+        finally:
+            print(data)
+        return JsonResponse(data, safe=False)
 
     def get_queryset(self):
         return self.model.objects.all()[:50]  # Trae solo dos objetos
@@ -118,6 +142,7 @@ class SensorListView(ListView):
         return context
 
 
+#Para el apirest con django-rest
 class SensorViewSet(viewsets.ModelViewSet):
     serializer_class = SensorSerializer
     queryset = Sensor.objects.all()

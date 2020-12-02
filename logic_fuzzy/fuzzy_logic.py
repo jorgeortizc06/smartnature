@@ -71,7 +71,7 @@ def regar(plataforma, client):
 
             print("Fecha Desde", fechaDesde)
             print("Fecha Desde", fechaHasta)
-            prom_hum_suelo1 = calcular_promedio(fechaDesde, fechaHasta, 1, 1)
+            prom_hum_suelo1 = calcular_promedio(fechaDesde, fechaHasta, 1, 1) #(fechaDesde, fechaHasta, codigo_sensor, tipo_sensor)
             prom_hum_suelo2 = calcular_promedio(fechaDesde, fechaHasta, 2, 1)
             prom_hum_suelo3 = calcular_promedio(fechaDesde, fechaHasta, 3, 1)
             prom_hum_suelo4 = calcular_promedio(fechaDesde, fechaHasta, 4, 1)

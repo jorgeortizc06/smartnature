@@ -35,29 +35,31 @@
     </div>
 </form>
 <script>
-    {% if form.errors %}
-        var errors = '';
-        {% for field in form %}
-            {% for error in field.errors %}
-                errors += '{{ error }}\n';
-            {% endfor %}
-        {% endfor %}
-        {% for error in form.non_field_errors %}
-            errors += '{{ error }}\n';
-        {% endfor %}
-        Swal.fire({
-            title: 'Error!',
-            text: errors,
-            icon: 'error'
-        });
-    {% endif %}
-
     $('form').on('submit', function (e) {
         e.preventDefault();
         var parameters = new FormData(this);
-        submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar la siguiente acción?', parameters, function () {
-            location.href = '{{ list_url }}';
+        var formulario = $(this).serializeArray();
+        $.ajax({
+            url: window.location.pathname,
+            type: 'POST',
+            data: formulario,
+            dataType: 'json'
+        }).done(function (data){
+           if(!data.hasOwnProperty('error')){
+                console.log("Entre: "+'{{ list_url }}')
+                location.href = '{{ list_url }}';
+                return false;
+            }
+            message_error(data.error);
+
+        }).fail(function(jqXHR, textStatus, errorThrown){
+            alert(textStatus+': '+errorThrown);
+        }).always(function(data) {
         });
+
+        /*submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar la siguiente acción?', parameters, function () {
+            location.href = '{{ list_url }}';
+        });*/
     });
 </script>
 {% endblock body %}

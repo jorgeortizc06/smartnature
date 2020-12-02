@@ -1,6 +1,7 @@
 {% extends 'gestion_riego/layout.html' %}
+{% load static %}
 {% block titulo %}{{title}}{% endblock titulo %}
-
+{% block javascript %}<script src="{% static 'gestion_riego/sensor/js/list.js' %}"></script> {% endblock javascript %}
 {% block card_title %} {{title}} {% endblock card_title %}
 
 {% block body %}
@@ -10,7 +11,7 @@
         <th>ID</th>
         <th>codigo_sensor</th>
         <th>Tipo Sensor</th>
-        <th>fecha_registro</th>
+        <th>Fecha Registro</th>
         <th>Valor</th>
         <th>estado</th>
         <th>Dispositivo</th>
@@ -19,21 +20,7 @@
     </tr>
     </thead>
     <tbody>
-    {% for sensor in object_list %}
-    <tr>
-        <td>{{sensor.id}}</td>
-        <td>{{sensor.codigo_sensor}}</td>
-        <td>{{sensor.tipo_sensor.nombre}}</td>
-        <td>{{sensor.fecha_registro}}</td>
-        <td>{{sensor.value}}</td>
-        <td>{{sensor.estado}}</td>
-        <td>{{sensor.device.nombre}}</td>
 
-        <td><a href="{% url 'gestion_riego:sensor_update' sensor.id %}" class="btn btn-secondary">ACTUALIZAR</a> <a
-                href="{% url 'gestion_riego:sensor_delete' sensor.id %}" class="btn btn-danger">ELIMINAR</a></td>
-
-    </tr>
-    {% endfor %}
     </tbody>
 </table>
 <div class="card-footer">
@@ -44,21 +31,5 @@
         <i class="fas fa-sync"></i> Actualizar
     </a>
 </div>
-<script>
-  $(document).ready(function () {
-  $('#data').DataTable( {
-  dom: 'Bfrtip',
-  "order": [[ 0, "desc" ]],
-  buttons: [
-      'copyHtml5',
-      'excelHtml5',
-      'csvHtml5',
-      'pdfHtml5',
-      'print'
-  ]
-  } );
-  });
 
-
-</script>
 {% endblock body %}

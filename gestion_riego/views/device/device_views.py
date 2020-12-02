@@ -7,7 +7,7 @@ from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.http import JsonResponse
 from gestion_riego.forms import DeviceForm
 from gestion_riego.models import Device
-
+from django.core import serializers
 
 # Vistas basadas en clases
 # Recomendable y haca a la aplicacion facilmente escalable
@@ -27,7 +27,7 @@ class DeviceCreateView(CreateView):
             action = request.POST['action']
             if action == 'add':
                 form = self.get_form()
-                data = form.save()
+                data = form.save() #el metodo sobrescrito en forms:DeviceForm.save()
             else:
                 data['error'] = 'No ha ingresado a ninguna opción'
         except Exception as e:
@@ -61,7 +61,7 @@ class DeviceUpdateView(UpdateView):
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
-        self.object = self.get_object()
+        self.object = self.get_object() #hago referencia al objeto que recupero para actualizar
         return super().dispatch(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
@@ -94,11 +94,20 @@ class DeviceDeleteView(DeleteView):
 
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
+        self.object = self.get_object() #cuando inicie el objeto recupero la instancia
         return super().dispatch(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            self.object.delete()
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Eliminación de una Categoria'
+        context['title'] = 'Eliminación de un Dispositivo'
         context['entity'] = 'Device'
         context['list_url'] = reverse_lazy('gestion_riego:device_list')
         return context
@@ -113,7 +122,7 @@ class DeviceListView(ListView):
     def get_queryset(self):
         return Device.objects.all()
 
-    @method_decorator(csrf_exempt)  # Al hacer post, va a salir forbideen 404, necesitas proteger la vista
+    @method_decorator(csrf_exempt)  # Al hacer post, va a salir forbideen 404, desabilito aunque no es recomendable
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -122,11 +131,16 @@ class DeviceListView(ListView):
     def post(self, request, *args, **kwargs):
         data = {}
         try:
-            dev = Device.objects.get(pk=request.POST['id'])
-            data['name'] = dev.nombre +": "+dev.descripcion
+            action = request.POST['action']
+            if action == 'searchdata':
+                data = []
+                for i in Device.objects.all():
+                    data.append(i.toJSON())
+            else:
+                data['error'] = 'Ha ocurrido un error'
         except Exception as e:
             data['error'] = str(e)
-        return JsonResponse(data)
+        return JsonResponse(data, safe=False) #como uso coleccion de satos agrego safe=False
 
     # Metodo para modificar el context
     def get_context_data(self, **kwargs):
@@ -138,6 +152,19 @@ class DeviceListView(ListView):
         # context['object_list'] = Device.objects.all()
         return context
 
+class dashboardView(ListView):
+    model = Device
+    template_name = 'gestion_riego/dashboard/dashboard.html'
 
-def device_dashboard(request):
-    return render(request, 'gestion_riego/dashboard/index.html')
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
+    # Metodo para modificar el context
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = 'Dashboard'
+        context['entity'] = 'Device'
+        context['object_list'] = Device.objects.all()
+        return context
+

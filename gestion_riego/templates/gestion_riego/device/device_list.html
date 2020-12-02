@@ -1,63 +1,49 @@
 {% extends 'gestion_riego/layout.html' %}
-
+{% load static %} <!--En padre si hay load static, pero como estoy llamando aqui un java script tengo que volver a ponerlo -->
 {% block titulo %}Lista de Tipos de Sensores{% endblock titulo %}
-{% block card_title %} {{title}} {% endblock card_title %}
+{% block javascript %}<script src="{% static 'gestion_riego/device/js/list.js' %}"></script> {% endblock javascript %}
+{% block card_title %} <i class="fas fa-list"></i> {{title}} {% endblock card_title %}
 {% block body %}
 <table class="table table-striped table-bordered" id="data">
     <thead>
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Descripcion</th>
-        <th>IP</th>
-        <th>Topic</th>
-        <th>Puerto</th>
-        <th>Opciones</th>
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>IP</th>
+            <th>Topic</th>
+            <th>Puerto</th>
+            <th>Opciones</th>
 
-    </tr>
+        </tr>
     </thead>
     <tbody>
-    {% for device in object_list %}
-    <tr>
-        <td>{{device.id}}</td>
-        <td>{{device.nombre}}</td>
-        <td>{{device.descripcion}}</td>
-        <td>{{device.ip}}</td>
-        <td>{{device.topic}}</td>
-        <td>{{device.puerto}}</td>
-        <td><a href="{% url 'gestion_riego:device_update' device.id %}" class="btn btn-secondary">ACTUALIZAR</a>
-            <a href="{% url 'gestion_riego:device_delete' device.id %}" class="btn btn-danger">ELIMINAR</a>
-            <a href="{% url 'gestion_riego:device_dashboard' %}" class="btn btn-primary">DASHBOARD</a></td>
-    </tr>
-    {% endfor %}
+
     </tbody>
 </table>
 <div class="card-footer">
     <a href="{{ create_url }}" class="btn btn-success btn-flat" type="button">
         <i class="fas fa-plus"></i> Nuevo Dispositivo
     </a>
-    <a href="{{ list_url }}" class="btn btn-success btn-flat" type="button">
+    <a class="btn btn-success btn-flat" type="button">
         <i class="fas fa-sync"></i> Actualizar
     </a>
 
-    <button class="btn btn-primary btn-flat btnTest">
+    <!--<button class="btn btn-primary btn-flat btnTest">
          <i class="fas fa-plus"></i> AJAX
-    </button>
+    </button>-->
 </div>
 <script type="application/javascript">
     $(function() {
-        $('#data').DataTable({
-            responsive: true
-        });
-
-        $('.btnTest').on('click', function (){
+        $('.btn').on('click', function (){
             $.ajax({
-                url: '{{ list_url }}',
+                url: window.location.pathname,
                 type: 'POST',
-                data: {id: 1},
+                data: {},
                 dataType: 'json'
             }).done(function (data){
-                console.log(data);
+            console.log(data);
+                location.href = '{{ list_url }}';
             }).fail(function(jqXHR, textStatus, errorThrown){
                 alert(textStatus+': '+errorThrown);
             }).always(function(data) {
@@ -66,4 +52,7 @@
 
     });
 </script>
+<!-- se utilizo antes para hace pruebas con la tabla y con el boton ajax
+
+-->
 {% endblock body %}

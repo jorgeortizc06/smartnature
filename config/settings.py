@@ -13,6 +13,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from config import db
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
@@ -24,13 +26,13 @@ SECRET_KEY = 'n1_r6$u5#xurw8j+5$yx#hra-(4k*gyqyu)97(4)dn9iqp56yg'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.100.2', '192.168.100.254', '45.189.58.2']  # alojas tu ip servidor
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.100.252', '192.168.100.254', '45.189.58.2']  # alojas tu ip servidor
 
 # Application definition
 
 INSTALLED_APPS = [
-    'gestion_riego.apps.GestionRiegoConfig',
-    #'gestion_riego',
+    #'gestion_riego.apps.GestionRiegoConfig',
+    'gestion_riego',
     'rest_framework',
     'corsheaders',
     'django.contrib.admin',  # Para el panel de control django
@@ -79,16 +81,7 @@ WSGI_APPLICATION = 'config.wsgi.application'  # enlaza a wsgi.py: para parte de 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 # Configuracion de la base de datos. Por defecto utiliza sqlite3. Puede trabajar con un o varias DB
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'smartnature',
-        'USER': 'jorge',
-        'PASSWORD': 'jorge',
-        'HOST': '192.168.100.254',
-        'DATABASE_PORT': '5432',
-    }
-}
+DATABASES = db.POSTGRESQL
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -124,13 +117,14 @@ REST_FRAMEWORK = {
 
 LANGUAGE_CODE = 'es-ec'
 
+#Django por general siempre recupera o setea la hora en formato UTC
 TIME_ZONE = 'America/Guayaquil'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False #Me daba problemas con la zona horaria, con esto desabilito la zona horario de django
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

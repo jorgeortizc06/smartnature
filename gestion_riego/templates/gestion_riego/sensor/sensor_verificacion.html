@@ -10,5 +10,32 @@
     <a href="{% url 'gestion_riego:sensor_list' %}">Cancelar</a>
 
 </form>
+<script>
+    $('form').on('submit', function (e) {
+        e.preventDefault();
+        var parameters = new FormData(this);
+        var formulario = $(this).serializeArray();
+        $.ajax({
+            url: window.location.pathname,
+            type: 'POST',
+            data: formulario,
+            dataType: 'json'
+        }).done(function (data){
+           if(!data.hasOwnProperty('error')){
+                console.log("Entre: "+'{{ list_url }}')
+                location.href = '{{ list_url }}';
+                return false;
+            }
+            message_error(data.error);
 
+        }).fail(function(jqXHR, textStatus, errorThrown){
+            alert(textStatus+': '+errorThrown);
+        }).always(function(data) {
+        });
+
+        /*submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar la siguiente acción?', parameters, function () {
+            location.href = '{{ list_url }}';
+        });*/
+    });
+</script>
 {% endblock body %}

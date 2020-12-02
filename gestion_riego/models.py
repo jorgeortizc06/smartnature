@@ -1,7 +1,10 @@
 from django.db import models
+from django.db.models import DateTimeField
 from django.forms import model_to_dict
 
-
+class DateTimeWithoutTZField(DateTimeField):
+    def db_type(self, connection):
+        return 'timestamp'
 # Create your models here.
 class Persona(models.Model):
     id = models.AutoField(primary_key=True)
@@ -84,7 +87,7 @@ class Device(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100, unique=True)
     descripcion = models.CharField(max_length=300, verbose_name='Descripcion', blank=True)
-    ip = models.CharField(max_length=20, default='192.168.0.254')
+    ip = models.CharField(max_length=20, default='192.168.100.254')
     topic = models.CharField(max_length=300, default='device1/#', unique=True)
     puerto = models.IntegerField(default=9001)
 
@@ -205,6 +208,10 @@ class Sensor(models.Model):
 
     def toJSON(self):
         item = model_to_dict(self)
+        item['fecha_registro'] = self.fecha_registro.strftime('%d-%m-%Y %H:%M')
+        item['tipo_sensor'] = self.tipo_sensor.toJSON() #llamar al metodo toJSON() en caso de ser foreignKey
+        item['value'] = format(self.value, '.2f')
+        item['device'] = self.device.toJSON()
         return item
 
     class Meta:
