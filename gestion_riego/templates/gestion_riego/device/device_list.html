@@ -22,10 +22,10 @@
     </tbody>
 </table>
 <div class="card-footer">
-    <a href="{{ create_url }}" class="btn btn-success btn-flat" type="button">
+    <a class="btn btn-success btn-flat btnAdd" type="button">
         <i class="fas fa-plus"></i> Nuevo Dispositivo
     </a>
-    <a class="btn btn-success btn-flat" type="button">
+    <a class="btn btn-success btn-flat bntUpdate" type="button">
         <i class="fas fa-sync"></i> Actualizar
     </a>
 
@@ -33,9 +33,42 @@
          <i class="fas fa-plus"></i> AJAX
     </button>-->
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalDevice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <form method="post" action=".">
+        <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                  <div class="container-fluid">
+                      <input name="action" type="hidden" value="add">
+                      <input name="id" id="id" type="hidden" value="0">
+                      {% for field in form.visible_fields %}
+                        <div class="form-group">
+                            <label>{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                      {% endfor %}
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
+              </div>
+            </div>
+        </div>
+    </form>
+
+</div>
 <script type="application/javascript">
     $(function() {
-        $('.btn').on('click', function (){
+        $('.bntUpdate').on('click', function (){
             $.ajax({
                 url: window.location.pathname,
                 type: 'POST',
@@ -52,7 +85,4 @@
 
     });
 </script>
-<!-- se utilizo antes para hace pruebas con la tabla y con el boton ajax
-
--->
 {% endblock body %}

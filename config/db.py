@@ -1,5 +1,7 @@
 import os
 
+from config import ubicacion_archivo
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 POSTGRESQL = {
@@ -8,7 +10,7 @@ POSTGRESQL = {
         'NAME': 'smartnature',
         'USER': 'jorge',
         'PASSWORD': 'jorge',
-        'HOST': '192.168.100.254',
+        'HOST': ubicacion_archivo.ip_db,
         'DATABASE_PORT': '5432',
     }
 }

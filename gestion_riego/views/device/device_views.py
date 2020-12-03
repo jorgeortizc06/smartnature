@@ -1,13 +1,11 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView, FormView
 from django.http import JsonResponse
 from gestion_riego.forms import DeviceForm
 from gestion_riego.models import Device
-from django.core import serializers
 
 # Vistas basadas en clases
 # Recomendable y haca a la aplicacion facilmente escalable
@@ -136,6 +134,25 @@ class DeviceListView(ListView):
                 data = []
                 for i in Device.objects.all():
                     data.append(i.toJSON())
+            elif action == 'add': #Esta seccion es para trabajar con los modals
+                cli = Device()
+                cli.nombre = request.POST['nombre']
+                cli.descripcion = request.POST['descripcion']
+                cli.ip = request.POST['ip']
+                cli.topic = request.POST['topic']
+                cli.puerto = request.POST['puerto']
+                cli.save()
+            elif action == 'edit': #Esta seccion es para trabajar con los modals
+                cli = Device.objects.get(pk=request.POST['id'])
+                cli.nombre = request.POST['nombre']
+                cli.descripcion = request.POST['descripcion']
+                cli.ip = request.POST['ip']
+                cli.topic = request.POST['topic']
+                cli.puerto = request.POST['puerto']
+                cli.save()
+            elif action == 'delete': #Esta seccion es para trabajar con los modals
+                cli = Device.objects.get(pk=request.POST['id'])
+                cli.delete()
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
@@ -149,6 +166,7 @@ class DeviceListView(ListView):
         context['entity'] = 'Device'
         context['create_url'] = reverse_lazy('gestion_riego:device_create')
         context['list_url'] = reverse_lazy('gestion_riego:device_list')
+        context['form'] = DeviceForm() #Para trabajar con los modals.
         # context['object_list'] = Device.objects.all()
         return context
 
@@ -168,3 +186,8 @@ class dashboardView(ListView):
         context['object_list'] = Device.objects.all()
         return context
 
+
+class DeviceFormView(FormView):
+    form_class = DeviceForm
+    template_name = 'gestion_riego/device/device_create.html'
+    success_url = reverse_lazy('erp:device_list')
