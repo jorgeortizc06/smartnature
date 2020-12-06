@@ -91,7 +91,6 @@ function onMessageArrived(message) {
 
                 dataTopics.push(message.destinationName); //add new topic to array
                 var y = dataTopics.indexOf(message.destinationName); //get the index no
-
                 //create new data series for the chart
                 var newseries = {
                     id: y,
@@ -108,6 +107,7 @@ function onMessageArrived(message) {
         var plotMqtt = [myEpoch, Number(thenum)]; //create the array
         if (isNumber(thenum)) { //check if it is a real number and not text
             //console.log('is a propper number, will send to chart.')
+            //console.log(plotMqtt +' '+y)
             plot(plotMqtt, y);	//send it to the plot function
         };
         if (message.destinationName == 'device1/sensorTemperatura1') { //acá coloco el topic
@@ -131,7 +131,7 @@ function onMessageArrived(message) {
 
             humedadSueloTopics.push(message.destinationName); //add new topic to array
                 var y = humedadSueloTopics.indexOf(message.destinationName); //get the index no
-
+                console.log("y"+ y)
                 //create new data series for the chart
                 var newseries = {
                     id: y,
@@ -143,11 +143,15 @@ function onMessageArrived(message) {
         };
 
         var y = humedadSueloTopics.indexOf(message.destinationName); //get the index no of the topic from the array
+        console.log('y: '+y)
         var myEpoch = new Date().getTime(); //get current epoch time
+        console.log(myEpoch)
         var thenum = message.payloadString.replace(/^\D+/g, ''); //remove any text spaces from the message
+        console.log(thenum)
         var plotMqtt = [myEpoch, Number(thenum)]; //create the array
         if (isNumber(thenum)) { //check if it is a real number and not text
             //console.log('is a propper number, will send to chart.')
+            console.log(plotMqtt)
             plot1(plotMqtt, y);	//send it to the plot function
         };
         if (message.destinationName == 'device1/sensorSuelo1') { //acá coloco el topic
@@ -263,6 +267,7 @@ $(document).ready(function () {
         series: []
     });
 
+    init();
 
 });
 function OnOff(dato) {

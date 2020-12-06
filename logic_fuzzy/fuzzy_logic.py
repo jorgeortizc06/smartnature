@@ -94,9 +94,15 @@ def regar(plataforma, client):
             siembra = Siembra.objects.get(id=1)
             tipo_rol = TipoRol.objects.get(id=2)
 
+            print("tiempo Sensor 1: ", tiempo_riego_suelo1)
+            print("tiempo Sensor 2: ", tiempo_riego_suelo2)
+            print("tiempo Sensor 3: ", tiempo_riego_suelo3)
+            print("tiempo Sensor 4: ", tiempo_riego_suelo4)
+            print("tiempo Sensor 5: ", tiempo_riego_suelo_promedio)
+
             if tiempo_riego_suelo_promedio != 0:
-                ahora = datetime.datetime.now()
-                futuro = ahora + datetime.timedelta(minutes=tiempo_riego_suelo_promedio)
+                ahora = datetime.now()
+                futuro = ahora + timedelta(minutes=tiempo_riego_suelo_promedio)
                 fin_riego = futuro.strftime("%H:%M:%S")
                 print("Fin Riego: ", fin_riego)
                 activacion = True

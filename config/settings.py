@@ -26,13 +26,13 @@ SECRET_KEY = 'n1_r6$u5#xurw8j+5$yx#hra-(4k*gyqyu)97(4)dn9iqp56yg'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', '192.168.100.252', '192.168.100.254', '45.189.58.2']  # alojas tu ip servidor
+ALLOWED_HOSTS = ['127.0.0.1', '192.168.100.252', '192.168.100.254', '45.189.58.2', '45.189.58.253']  # alojas tu ip servidor
 
 # Application definition
 
 INSTALLED_APPS = [
-    #'gestion_riego.apps.GestionRiegoConfig',
-    'gestion_riego',
+    'gestion_riego.apps.GestionRiegoConfig',
+    #'gestion_riego',
     'rest_framework',
     'corsheaders',
     'django.contrib.admin',  # Para el panel de control django

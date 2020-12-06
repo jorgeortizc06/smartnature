@@ -37,7 +37,7 @@ function getData(){
                 }
             },
         ],
-        order: [[0, 'desc']],
+        order: [[0, 'desc']], //ordeno la primera columna descendente
         initComplete: function(settings, json){
             //aqui va alguna funcion que se ejecutara despues de cargar la tabla
         }
@@ -45,7 +45,7 @@ function getData(){
 }
 
 //Funcion para trabajar con modals
-$(function() {
+$(function() {  //esta es la funciona anonima abreviada de $(document).ready(function(){});
     modal_title = $('.modal-title'); //titulo del modal
     getData(); //cargo mi datatable
     $('.btnAdd').on('click', function(){ //al hacer clic en nuevo visualizo el modal
@@ -60,7 +60,7 @@ $(function() {
     $('#data tbody')
         .on('click', '.btnEdit', function(){
         //personalizo mi titulo del modal
-        modal_title.find('span').html('Nuevo Dispositivo');
+        modal_title.find('span').html('Editar Dispositivo');
         modal_title.find('i').removeClass().addClass('fas fa-edit');
         //Recupero los datos de la fila
         var data = tblDevice.row($(this).parents('tr')).data();
@@ -78,7 +78,7 @@ $(function() {
             var parameters = new FormData();
             parameters.append('action', 'delete');
             parameters.append('id', data.id);
-            submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de realizar el siguiente registro?', parameters, function () {
+            submit_with_ajax(window.location.pathname, 'Notificación', '¿Estas seguro de eliminar el registro: '+data.nombre+'?', parameters, function () {
                 $('#modalDevice').modal('hide'); //guarda y se oculta el modal
                 tblDevice.ajax.reload(); //recarga mi tabla
             });
