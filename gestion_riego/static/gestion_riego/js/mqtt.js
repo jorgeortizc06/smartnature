@@ -1,6 +1,6 @@
 var MQTTbroker = document.getElementById("iptxt").value;
 var MQTTport = parseInt(document.getElementById("puertotxt").value);
-var MQTTsubTopic = document.getElementById("topictxt").value; //works with wildcard # and + topics dynamically now
+var MQTTsubTopic = document.getElementById("topictxt").value //works with wildcard # and + topics dynamically now
 var chart; // global variuable for chart
 var dataTopics = new Array();
 var humedadSueloTopics = new Array();
@@ -270,6 +270,7 @@ $(document).ready(function () {
     init();
 
 });
+
 function OnOff(dato) {
     message = new Paho.MQTT.Message(dato);
     message.destinationName = 'device1/electrovalvula'
@@ -280,4 +281,3 @@ function OnOff(dato) {
     }
     client.send(message);
 };
-

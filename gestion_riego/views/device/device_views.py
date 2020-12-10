@@ -1,12 +1,15 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
+from django.db.models.functions import Coalesce
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView, FormView
 from django.http import JsonResponse
 from gestion_riego.forms import DeviceForm
-from gestion_riego.models import Device
-
+from gestion_riego.models import Device, HistorialRiego
+from datetime import datetime
+import itertools
 # Vistas basadas en clases
 # Recomendable y haca a la aplicacion facilmente escalable
 class DeviceCreateView(CreateView):
@@ -178,12 +181,80 @@ class dashboardView(ListView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+    def get_graph_month_1(self):
+        data = []
+        try:
+            month = datetime.now().month
+            for d in range(1,31):
+                totalRiego = HistorialRiego.objects.filter(fecha_riego__month = month, fecha_riego__day = d, codigo_sensor = 1).aggregate(r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
+                data.append(float(totalRiego))
+
+        except:
+            pass
+        print(data)
+        return data
+
+    def get_graph_month_2(self):
+        data = []
+        try:
+            month = datetime.now().month
+            for d in range(1,31):
+                totalRiego = HistorialRiego.objects.filter(fecha_riego__month = month, fecha_riego__day = d, codigo_sensor = 2).aggregate(r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
+                data.append(float(totalRiego))
+
+        except:
+            pass
+        print(data)
+        return data
+
+    def get_graph_month_3(self):
+        data = []
+        try:
+            month = datetime.now().month
+            for d in range(1,31):
+                totalRiego = HistorialRiego.objects.filter(fecha_riego__month = month, fecha_riego__day = d, codigo_sensor = 3).aggregate(r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
+                data.append(float(totalRiego))
+
+        except:
+            pass
+        print(data)
+        return data
+
+    def get_graph_month_4(self):
+        data = []
+        try:
+            month = datetime.now().month
+            for d in range(1,31):
+                totalRiego = HistorialRiego.objects.filter(fecha_riego__month = month, fecha_riego__day = d, codigo_sensor = 4).aggregate(r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
+                data.append(float(totalRiego))
+
+        except:
+            pass
+        print(data)
+        return data
+
+    def get_graph_month_5(self):
+        data = []
+        try:
+            month = datetime.now().month
+            for d in range(1,31):
+                totalRiego = HistorialRiego.objects.filter(fecha_riego__month = month, fecha_riego__day = d, codigo_sensor = 5).aggregate(r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
+                data.append(float(totalRiego))
+        except:
+            pass
+        return data
     # Metodo para modificar el context
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Dashboard'
         context['entity'] = 'Device'
         context['object_list'] = Device.objects.all()
+        context['mes'] = datetime.now().strftime('%B')
+        context['historial_riego_1'] = self.get_graph_month_1()
+        context['historial_riego_2'] = self.get_graph_month_2()
+        context['historial_riego_3'] = self.get_graph_month_3()
+        context['historial_riego_4'] = self.get_graph_month_4()
+        context['historial_riego_5'] = self.get_graph_month_5()
         return context
 
 

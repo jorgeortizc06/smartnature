@@ -5,11 +5,13 @@
 
 {% block body %}
 
-<ol>
+
 
 
     <body>
+    <ol>
     {% for device in object_list %}
+
     <li>{{device}}</li>
     <!--Start the javascript ball rolling and connect to the mqtt broker-->
     <input id="iptxt" type="text" value='{{device.ip}}'>
@@ -70,17 +72,99 @@
         <button type='button' onclick='OnOff("OFF")'>OFF</button>
         <a id="estado">-</a>
     </div>
+
     {% endfor %}
+    </ol>
+    <figure class="highcharts-figure">
+        <div id="container3"></div>
+    </figure>
+
+    <ol>
+        <li>{{historial_riego|safe}}</li>
+    </ol>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="{% static 'gestion_riego/js/mqtt.js' %}" type="text/javascript"></script>
     </body>
 
 
-</ol>
+
+
+
+
 
 {% block javascript %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
-<script src="{% static 'gestion_riego/js/mqtt.js' %}" type="text/javascript"></script>
-<script src="http://code.highcharts.com/stock/highstock.js"></script>
-<script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
+<script>
+    Highcharts.chart('container3', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Historial del Riego: {{mes}}'
+    },
+    subtitle: {
+        text: 'Reporte de riego'
+    },
+    xAxis: {
+        categories: [
+            1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'minutos'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} minutos</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'Tiempo Riego: Promedio',
+        data: {{ historial_riego_5|safe }}
+
+    },
+    {
+        name: 'Tiempo Riego: Sensor 1',
+        data: {{ historial_riego_2|safe }}
+
+    },
+    {
+        name: 'Tiempo Riego: Sensor 2',
+        data: {{ historial_riego_3|safe }}
+
+    },
+    {
+        name: 'Tiempo Riego: Sensor 3',
+        data: {{ historial_riego_4|safe }}
+
+    },
+    {
+        name: 'Tiempo Riego: Sensor 4',
+        data: {{ historial_riego_4|safe }}
+
+    }]
+});
+</script>
+
+
 {% endblock javascript %}
 
 
