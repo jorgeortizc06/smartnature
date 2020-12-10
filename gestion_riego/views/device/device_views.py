@@ -181,6 +181,70 @@ class dashboardView(ListView):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
+    def get_graph_day_1(self):
+        data = []
+        try:
+            day = datetime.now().day
+            for h in range(1,25):
+                totalRiego = HistorialRiego.objects.filter(fecha_riego__day = day, fecha_riego__hour= h, codigo_sensor = 1).aggregate(r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
+                data.append(float(totalRiego))
+
+        except:
+            pass
+        print(data)
+        return data
+
+    def get_graph_day_2(self):
+        data = []
+        try:
+            day = datetime.now().day
+            for h in range(1,25):
+                totalRiego = HistorialRiego.objects.filter(fecha_riego__day = day, fecha_riego__hour= h, codigo_sensor = 2).aggregate(r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
+                data.append(float(totalRiego))
+
+        except:
+            pass
+        print(data)
+        return data
+
+    def get_graph_day_3(self):
+        data = []
+        try:
+            day = datetime.now().day
+            for h in range(1,25):
+                totalRiego = HistorialRiego.objects.filter(fecha_riego__day = day, fecha_riego__hour= h, codigo_sensor = 3).aggregate(r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
+                data.append(float(totalRiego))
+
+        except:
+            pass
+        print(data)
+        return data
+
+    def get_graph_day_4(self):
+        data = []
+        try:
+            day = datetime.now().day
+            for h in range(1,25):
+                totalRiego = HistorialRiego.objects.filter(fecha_riego__day = day, fecha_riego__hour= h, codigo_sensor = 4).aggregate(r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
+                data.append(float(totalRiego))
+
+        except:
+            pass
+        print(data)
+        return data
+    def get_graph_day_5(self):
+        data = []
+        try:
+            day = datetime.now().day
+            for h in range(1,25):
+                totalRiego = HistorialRiego.objects.filter(fecha_riego__day = day, fecha_riego__hour= h, codigo_sensor = 5).aggregate(r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
+                data.append(float(totalRiego))
+
+        except:
+            pass
+        print(data)
+        return data
+
     def get_graph_month_1(self):
         data = []
         try:
@@ -191,7 +255,6 @@ class dashboardView(ListView):
 
         except:
             pass
-        print(data)
         return data
 
     def get_graph_month_2(self):
@@ -204,7 +267,6 @@ class dashboardView(ListView):
 
         except:
             pass
-        print(data)
         return data
 
     def get_graph_month_3(self):
@@ -217,7 +279,6 @@ class dashboardView(ListView):
 
         except:
             pass
-        print(data)
         return data
 
     def get_graph_month_4(self):
@@ -230,7 +291,6 @@ class dashboardView(ListView):
 
         except:
             pass
-        print(data)
         return data
 
     def get_graph_month_5(self):
@@ -250,6 +310,12 @@ class dashboardView(ListView):
         context['entity'] = 'Device'
         context['object_list'] = Device.objects.all()
         context['mes'] = datetime.now().strftime('%B')
+        context['dia'] = datetime.now().strftime('%D')
+        context['historial_riego_day_1'] = self.get_graph_day_1()
+        context['historial_riego_day_2'] = self.get_graph_day_2()
+        context['historial_riego_day_3'] = self.get_graph_day_3()
+        context['historial_riego_day_4'] = self.get_graph_day_4()
+        context['historial_riego_day_5'] = self.get_graph_day_5()
         context['historial_riego_1'] = self.get_graph_month_1()
         context['historial_riego_2'] = self.get_graph_month_2()
         context['historial_riego_3'] = self.get_graph_month_3()

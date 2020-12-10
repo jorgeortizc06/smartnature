@@ -79,7 +79,7 @@ urlpatterns += [
 
     path('historial_riego/', HistorialRiegoListView.as_view(), name='historial_riego'),
 
-    path('fuzzy/', home, name='historial_riego'),
+    path('fuzzy/', home, name='fuzzy'),
 
 
 ]
