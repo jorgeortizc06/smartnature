@@ -321,7 +321,7 @@ def fuzzy_logic_3_variables(par_humedad_suelo, par_humedad_ambiental, par_temper
              rule31, rule32, rule33, rule34, rule3, rule36,
              rule37, rule38, rule39, rule40, rule41, rule42, rule43, rule44, rule45])
         tipping = ctrl.ControlSystemSimulation(tipping_ctrl)
-        tipping.input['humedad'] = par_humedad_suelo
+        tipping.input['humedad_suelo'] = par_humedad_suelo
         tipping.input['humedad_ambiental'] = par_humedad_ambiental
         tipping.input['temperatura_ambiental'] = par_temperatura_ambiental
         tipping.compute()

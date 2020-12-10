@@ -14,9 +14,9 @@ def regar(plataforma):
     global fin_riego
     print(activacion)
     print(datetime.now())
-    if (time.strftime("%H:%M:%S") ==  plataforma['horario1'] or time.strftime("%H:%M:%S") ==  plataforma['horario2'] or time.strftime("%H:%M:%S") ==  plataforma['horario3'] ) and activacion == False:
+    if (time.strftime("%H:%M:%S") ==  plataforma['horario1'] or time.strftime("%H:%M:%S") ==  plataforma['horario2'] or time.strftime("%H:%M:%S") ==  plataforma['horario3'] or time.strftime("%H:%M:%S") == time.strftime("%H:%M:%S") ) and activacion == False:
         try:
-            if time.strftime("%H:%M:%S") == plataforma['horario1']:
+            """if time.strftime("%H:%M:%S") == plataforma['horario1']:
                 # Voy un dia atras
                 d = datetime.today() - timedelta(days=1)
                 fechaDesde = d.strftime("%Y-%m-%d") + " " + plataforma['horario3']
@@ -27,9 +27,9 @@ def regar(plataforma):
                 fechaHasta = time.strftime("%Y-%m-%d") + " " + plataforma['horario2']
             elif time.strftime("%H:%M:%S") == plataforma['horario3']:
                 fechaDesde = time.strftime("%Y-%m-%d") + " " + plataforma['horario2']
-                fechaHasta = time.strftime("%Y-%m-%d") + " " + plataforma['horario3']
-
-
+                fechaHasta = time.strftime("%Y-%m-%d") + " " + plataforma['horario3']"""
+            fechaDesde = time.strftime("%Y-%m-%d") + " " + plataforma['horario2']
+            fechaHasta = time.strftime("%Y-%m-%d") + " " + plataforma['horario3']
             print("Fecha Desde", fechaDesde)
             print("Fecha Desde", fechaHasta)
             prom_hum_suelo1 = calcular_promedio(fechaDesde, fechaHasta, 1, 1)
@@ -96,20 +96,20 @@ def calcular_promedio(fecha_inicio, fecha_fin, codigo_sensor, tipo_sensor):
 
 def fuzzy_logic_3_variables(par_humedad_suelo, par_humedad_ambiental, par_temperatura_ambiental):
     try:
-        humedad = ctrl.Antecedent(np.arange(0, 1024, 1), 'humedad')
-        temperatura_ambiental = ctrl.Antecedent(np.arange(-5, 46, 1), 'temperatura_ambiental')
+        humedad_suelo = ctrl.Antecedent(np.arange(0, 1024, 1), 'humedad_suelo')
+        temperatura_ambiental = ctrl.Antecedent(np.arange(5, 46, 1), 'temperatura_ambiental')
         humedad_ambiental = ctrl.Antecedent(np.arange(0, 101, 1), 'humedad_ambiental')
-        tiempo_riego = ctrl.Consequent(np.arange(0, 17, 1), 'tiempo_riego')
+        tiempo_riego = ctrl.Consequent(np.arange(-2, 18, 1), 'tiempo_riego')
 
         # Auto-membership function population is possible with .automf(3, 5, or 7)
-        humedad['seco'] = fuzz.trimf(humedad.universe, [0, 100, 200])
-        humedad['semi_seco'] = fuzz.trimf(humedad.universe, [120, 310, 500])
-        humedad['humedo'] = fuzz.trimf(humedad.universe, [450, 572, 694])
-        humedad['semi_humedo'] = fuzz.trimf(humedad.universe, [658, 725, 792])
-        humedad['encharcado'] = fuzz.trimf(humedad.universe, [750, 825, 900])
+        humedad_suelo['seco'] = fuzz.trimf(humedad_suelo.universe, [0, 100, 200])
+        humedad_suelo['semi_seco'] = fuzz.trimf(humedad_suelo.universe, [120, 310, 500])
+        humedad_suelo['humedo'] = fuzz.trimf(humedad_suelo.universe, [450, 572, 694])
+        humedad_suelo['semi_humedo'] = fuzz.trimf(humedad_suelo.universe, [658, 725, 792])
+        humedad_suelo['encharcado'] = fuzz.trimf(humedad_suelo.universe, [750, 825, 900])
 
-        temperatura_ambiental['baja'] = fuzz.trimf(temperatura_ambiental.universe, [-5, 2, 10])
-        temperatura_ambiental['media'] = fuzz.trimf(temperatura_ambiental.universe, [2, 17, 27])
+        temperatura_ambiental['baja'] = fuzz.trimf(temperatura_ambiental.universe, [5, 7, 10])
+        temperatura_ambiental['media'] = fuzz.trimf(temperatura_ambiental.universe, [8, 17, 27])
         temperatura_ambiental['alta'] = fuzz.trimf(temperatura_ambiental.universe, [24, 34, 45])
 
         humedad_ambiental['baja'] = fuzz.trimf(humedad_ambiental.universe, [0, 16, 33])
@@ -118,110 +118,112 @@ def fuzzy_logic_3_variables(par_humedad_suelo, par_humedad_ambiental, par_temper
 
         # Custom membership functions can be built interactively with a familiar,
         # Pythonic API
-        tiempo_riego['nada'] = fuzz.trimf(tiempo_riego.universe, [0, 0, 0])
+        tiempo_riego['nada'] = fuzz.trimf(tiempo_riego.universe, [-2, -1, 0])
         tiempo_riego['poco'] = fuzz.trimf(tiempo_riego.universe, [0, 2, 4])
         tiempo_riego['medio'] = fuzz.trimf(tiempo_riego.universe, [3, 6, 9])
         tiempo_riego['bastante'] = fuzz.trimf(tiempo_riego.universe, [7, 9, 12])
         tiempo_riego['mucho'] = fuzz.trapmf(tiempo_riego.universe, [10, 13, 17, 17])
-        rule1 = ctrl.Rule(humedad['encharcado'] & temperatura_ambiental['baja'] & humedad_ambiental['baja'],
+        rule1 = ctrl.Rule(humedad_suelo['encharcado'] & temperatura_ambiental['baja'] & humedad_ambiental['baja'],
                           tiempo_riego['nada'])
-        rule2 = ctrl.Rule(humedad['encharcado'] & temperatura_ambiental['baja'] & humedad_ambiental['media'],
+        rule2 = ctrl.Rule(humedad_suelo['encharcado'] & temperatura_ambiental['baja'] & humedad_ambiental['media'],
                           tiempo_riego['nada'])
-        rule3 = ctrl.Rule(humedad['encharcado'] & temperatura_ambiental['baja'] & humedad_ambiental['alta'],
+        rule3 = ctrl.Rule(humedad_suelo['encharcado'] & temperatura_ambiental['baja'] & humedad_ambiental['alta'],
                           tiempo_riego['nada'])
-        rule4 = ctrl.Rule(humedad['encharcado'] & temperatura_ambiental['media'] & humedad_ambiental['baja'],
+        rule4 = ctrl.Rule(humedad_suelo['encharcado'] & temperatura_ambiental['media'] & humedad_ambiental['baja'],
                           tiempo_riego['nada'])
-        rule5 = ctrl.Rule(humedad['encharcado'] & temperatura_ambiental['media'] & humedad_ambiental['media'],
+        rule5 = ctrl.Rule(humedad_suelo['encharcado'] & temperatura_ambiental['media'] & humedad_ambiental['media'],
                           tiempo_riego['nada'])
-        rule6 = ctrl.Rule(humedad['encharcado'] & temperatura_ambiental['media'] & humedad_ambiental['alta'],
+        rule6 = ctrl.Rule(humedad_suelo['encharcado'] & temperatura_ambiental['media'] & humedad_ambiental['alta'],
                           tiempo_riego['nada'])
-        rule7 = ctrl.Rule(humedad['encharcado'] & temperatura_ambiental['alta'] & humedad_ambiental['baja'],
+        rule7 = ctrl.Rule(humedad_suelo['encharcado'] & temperatura_ambiental['alta'] & humedad_ambiental['baja'],
                           tiempo_riego['nada'])
-        rule8 = ctrl.Rule(humedad['encharcado'] & temperatura_ambiental['alta'] & humedad_ambiental['media'],
+        rule8 = ctrl.Rule(humedad_suelo['encharcado'] & temperatura_ambiental['alta'] & humedad_ambiental['media'],
                           tiempo_riego['nada'])
-        rule9 = ctrl.Rule(humedad['encharcado'] & temperatura_ambiental['alta'] & humedad_ambiental['alta'],
+        rule9 = ctrl.Rule(humedad_suelo['encharcado'] & temperatura_ambiental['alta'] & humedad_ambiental['alta'],
                           tiempo_riego['nada'])
-        rule10 = ctrl.Rule(humedad['semi_humedo'] & temperatura_ambiental['baja'] & humedad_ambiental['baja'],
+        rule10 = ctrl.Rule(humedad_suelo['semi_humedo'] & temperatura_ambiental['baja'] & humedad_ambiental['baja'],
                            tiempo_riego['nada'])
-        rule11 = ctrl.Rule(humedad['semi_humedo'] & temperatura_ambiental['baja'] & humedad_ambiental['media'],
+        rule11 = ctrl.Rule(humedad_suelo['semi_humedo'] & temperatura_ambiental['baja'] & humedad_ambiental['media'],
                            tiempo_riego['nada'])
-        rule12 = ctrl.Rule(humedad['semi_humedo'] & temperatura_ambiental['baja'] & humedad_ambiental['alta'],
+        rule12 = ctrl.Rule(humedad_suelo['semi_humedo'] & temperatura_ambiental['baja'] & humedad_ambiental['alta'],
                            tiempo_riego['nada'])
-        rule13 = ctrl.Rule(humedad['semi_humedo'] & temperatura_ambiental['media'] & humedad_ambiental['baja'],
+        rule13 = ctrl.Rule(humedad_suelo['semi_humedo'] & temperatura_ambiental['media'] & humedad_ambiental['baja'],
                            tiempo_riego['poco'])
-        rule14 = ctrl.Rule(humedad['semi_humedo'] & temperatura_ambiental['media'] & humedad_ambiental['media'],
+        rule14 = ctrl.Rule(humedad_suelo['semi_humedo'] & temperatura_ambiental['media'] & humedad_ambiental['media'],
                            tiempo_riego['nada'])
-        rule15 = ctrl.Rule(humedad['semi_humedo'] & temperatura_ambiental['media'] & humedad_ambiental['alta'],
+        rule15 = ctrl.Rule(humedad_suelo['semi_humedo'] & temperatura_ambiental['media'] & humedad_ambiental['alta'],
                            tiempo_riego['nada'])
-        rule16 = ctrl.Rule(humedad['semi_humedo'] & temperatura_ambiental['alta'] & humedad_ambiental['baja'],
+        rule16 = ctrl.Rule(humedad_suelo['semi_humedo'] & temperatura_ambiental['alta'] & humedad_ambiental['baja'],
                            tiempo_riego['medio'])
-        rule17 = ctrl.Rule(humedad['semi_humedo'] & temperatura_ambiental['alta'] & humedad_ambiental['media'],
+        rule17 = ctrl.Rule(humedad_suelo['semi_humedo'] & temperatura_ambiental['alta'] & humedad_ambiental['media'],
                            tiempo_riego['poco'])
-        rule18 = ctrl.Rule(humedad['semi_humedo'] & temperatura_ambiental['alta'] & humedad_ambiental['alta'],
+        rule18 = ctrl.Rule(humedad_suelo['semi_humedo'] & temperatura_ambiental['alta'] & humedad_ambiental['alta'],
                            tiempo_riego['nada'])
-        rule19 = ctrl.Rule(humedad['humedo'] & temperatura_ambiental['baja'] & humedad_ambiental['baja'],
+        rule19 = ctrl.Rule(humedad_suelo['humedo'] & temperatura_ambiental['baja'] & humedad_ambiental['baja'],
                            tiempo_riego['nada'])
-        rule20 = ctrl.Rule(humedad['humedo'] & temperatura_ambiental['baja'] & humedad_ambiental['media'],
+        rule20 = ctrl.Rule(humedad_suelo['humedo'] & temperatura_ambiental['baja'] & humedad_ambiental['media'],
                            tiempo_riego['nada'])
-        rule21 = ctrl.Rule(humedad['humedo'] & temperatura_ambiental['baja'] & humedad_ambiental['alta'],
+        rule21 = ctrl.Rule(humedad_suelo['humedo'] & temperatura_ambiental['baja'] & humedad_ambiental['alta'],
                            tiempo_riego['nada'])
-        rule22 = ctrl.Rule(humedad['humedo'] & temperatura_ambiental['media'] & humedad_ambiental['baja'],
+        rule22 = ctrl.Rule(humedad_suelo['humedo'] & temperatura_ambiental['media'] & humedad_ambiental['baja'],
                            tiempo_riego['poco'])
-        rule23 = ctrl.Rule(humedad['humedo'] & temperatura_ambiental['media'] & humedad_ambiental['media'],
+        rule23 = ctrl.Rule(humedad_suelo['humedo'] & temperatura_ambiental['media'] & humedad_ambiental['media'],
                            tiempo_riego['poco'])
-        rule24 = ctrl.Rule(humedad['humedo'] & temperatura_ambiental['media'] & humedad_ambiental['alta'],
+        rule24 = ctrl.Rule(humedad_suelo['humedo'] & temperatura_ambiental['media'] & humedad_ambiental['alta'],
                            tiempo_riego['nada'])
-        rule25 = ctrl.Rule(humedad['humedo'] & temperatura_ambiental['alta'] & humedad_ambiental['baja'],
+        rule25 = ctrl.Rule(humedad_suelo['humedo'] & temperatura_ambiental['alta'] & humedad_ambiental['baja'],
                            tiempo_riego['medio'])
-        rule26 = ctrl.Rule(humedad['humedo'] & temperatura_ambiental['alta'] & humedad_ambiental['media'],
+        rule26 = ctrl.Rule(humedad_suelo['humedo'] & temperatura_ambiental['alta'] & humedad_ambiental['media'],
                            tiempo_riego['poco'])
-        rule27 = ctrl.Rule(humedad['humedo'] & temperatura_ambiental['alta'] & humedad_ambiental['alta'],
+        rule27 = ctrl.Rule(humedad_suelo['humedo'] & temperatura_ambiental['alta'] & humedad_ambiental['alta'],
                            tiempo_riego['nada'])
-        rule28 = ctrl.Rule(humedad['semi_seco'] & temperatura_ambiental['baja'] & humedad_ambiental['baja'],
+        rule28 = ctrl.Rule(humedad_suelo['semi_seco'] & temperatura_ambiental['baja'] & humedad_ambiental['baja'],
                            tiempo_riego['poco'])
-        rule29 = ctrl.Rule(humedad['semi_seco'] & temperatura_ambiental['baja'] & humedad_ambiental['media'],
+        rule29 = ctrl.Rule(humedad_suelo['semi_seco'] & temperatura_ambiental['baja'] & humedad_ambiental['media'],
                            tiempo_riego['nada'])
-        rule30 = ctrl.Rule(humedad['semi_seco'] & temperatura_ambiental['baja'] & humedad_ambiental['alta'],
+        rule30 = ctrl.Rule(humedad_suelo['semi_seco'] & temperatura_ambiental['baja'] & humedad_ambiental['alta'],
                            tiempo_riego['nada'])
-        rule31 = ctrl.Rule(humedad['semi_seco'] & temperatura_ambiental['media'] & humedad_ambiental['baja'],
+        rule31 = ctrl.Rule(humedad_suelo['semi_seco'] & temperatura_ambiental['media'] & humedad_ambiental['baja'],
                            tiempo_riego['bastante'])
-        rule32 = ctrl.Rule(humedad['semi_seco'] & temperatura_ambiental['media'] & humedad_ambiental['media'],
+        rule32 = ctrl.Rule(humedad_suelo['semi_seco'] & temperatura_ambiental['media'] & humedad_ambiental['media'],
                            tiempo_riego['medio'])
-        rule33 = ctrl.Rule(humedad['semi_seco'] & temperatura_ambiental['media'] & humedad_ambiental['alta'],
+        rule33 = ctrl.Rule(humedad_suelo['semi_seco'] & temperatura_ambiental['media'] & humedad_ambiental['alta'],
                            tiempo_riego['poco'])
-        rule34 = ctrl.Rule(humedad['semi_seco'] & temperatura_ambiental['alta'] & humedad_ambiental['baja'],
+        rule34 = ctrl.Rule(humedad_suelo['semi_seco'] & temperatura_ambiental['alta'] & humedad_ambiental['baja'],
                            tiempo_riego['mucho'])
-        rule35 = ctrl.Rule(humedad['semi_seco'] & temperatura_ambiental['alta'] & humedad_ambiental['media'],
+        rule35 = ctrl.Rule(humedad_suelo['semi_seco'] & temperatura_ambiental['alta'] & humedad_ambiental['media'],
                            tiempo_riego['bastante'])
-        rule36 = ctrl.Rule(humedad['semi_seco'] & temperatura_ambiental['alta'] & humedad_ambiental['alta'],
+        rule36 = ctrl.Rule(humedad_suelo['semi_seco'] & temperatura_ambiental['alta'] & humedad_ambiental['alta'],
                            tiempo_riego['mucho'])
-        rule37 = ctrl.Rule(humedad['seco'] & temperatura_ambiental['baja'] & humedad_ambiental['baja'],
+        rule37 = ctrl.Rule(humedad_suelo['seco'] & temperatura_ambiental['baja'] & humedad_ambiental['baja'],
                            tiempo_riego['medio'])
-        rule38 = ctrl.Rule(humedad['seco'] & temperatura_ambiental['baja'] & humedad_ambiental['media'],
+        rule38 = ctrl.Rule(humedad_suelo['seco'] & temperatura_ambiental['baja'] & humedad_ambiental['media'],
                            tiempo_riego['medio'])
-        rule39 = ctrl.Rule(humedad['seco'] & temperatura_ambiental['baja'] & humedad_ambiental['alta'],
+        rule39 = ctrl.Rule(humedad_suelo['seco'] & temperatura_ambiental['baja'] & humedad_ambiental['alta'],
                            tiempo_riego['poco'])
-        rule40 = ctrl.Rule(humedad['seco'] & temperatura_ambiental['media'] & humedad_ambiental['baja'],
+        rule40 = ctrl.Rule(humedad_suelo['seco'] & temperatura_ambiental['media'] & humedad_ambiental['baja'],
                            tiempo_riego['mucho'])
-        rule41 = ctrl.Rule(humedad['seco'] & temperatura_ambiental['media'] & humedad_ambiental['media'],
+        rule41 = ctrl.Rule(humedad_suelo['seco'] & temperatura_ambiental['media'] & humedad_ambiental['media'],
                            tiempo_riego['mucho'])
-        rule42 = ctrl.Rule(humedad['seco'] & temperatura_ambiental['media'] & humedad_ambiental['alta'],
+        rule42 = ctrl.Rule(humedad_suelo['seco'] & temperatura_ambiental['media'] & humedad_ambiental['alta'],
                            tiempo_riego['bastante'])
-        rule43 = ctrl.Rule(humedad['seco'] & temperatura_ambiental['alta'] & humedad_ambiental['baja'],
+        rule43 = ctrl.Rule(humedad_suelo['seco'] & temperatura_ambiental['alta'] & humedad_ambiental['baja'],
                            tiempo_riego['mucho'])
-        rule44 = ctrl.Rule(humedad['seco'] & temperatura_ambiental['alta'] & humedad_ambiental['media'],
+        rule44 = ctrl.Rule(humedad_suelo['seco'] & temperatura_ambiental['alta'] & humedad_ambiental['media'],
                            tiempo_riego['mucho'])
-        rule45 = ctrl.Rule(humedad['seco'] & temperatura_ambiental['alta'] & humedad_ambiental['alta'],
+        rule45 = ctrl.Rule(humedad_suelo['seco'] & temperatura_ambiental['alta'] & humedad_ambiental['alta'],
                            tiempo_riego['mucho'])
 
         tipping_ctrl = ctrl.ControlSystem(
-            [rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8, rule9, rule10, rule11, rule12, rule13, rule14, rule15,
+            [rule1, rule2, rule3, rule4, rule5, rule6, rule7, rule8, rule9, rule10, rule11, rule12, rule13, rule14,
+             rule15,
              rule16,
-             rule17, rule18, rule19, rule20, rule21, rule22, rule23, rule24, rule25, rule26, rule27, rule28, rule29, rule30,
+             rule17, rule18, rule19, rule20, rule21, rule22, rule23, rule24, rule25, rule26, rule27, rule28, rule29,
+             rule30,
              rule31, rule32, rule33, rule34, rule3, rule36,
              rule37, rule38, rule39, rule40, rule41, rule42, rule43, rule44, rule45])
         tipping = ctrl.ControlSystemSimulation(tipping_ctrl)
-        tipping.input['humedad'] = par_humedad_suelo
+        tipping.input['humedad_suelo'] = par_humedad_suelo
         tipping.input['humedad_ambiental'] = par_humedad_ambiental
         tipping.input['temperatura_ambiental'] = par_temperatura_ambiental
         tipping.compute()
@@ -232,8 +234,7 @@ def fuzzy_logic_3_variables(par_humedad_suelo, par_humedad_ambiental, par_temper
         return 0;
 
 
-
-plataforma = {'horario1':'16:13:35', 'horario2':'16:10:30', 'horario3':'16:17:00'}
+plataforma = {'horario1':'08:00:00', 'horario2':'12:00:00', 'horario3':'18:34:15'}
 
 while True:
     regar(plataforma)
