@@ -1,10 +1,18 @@
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 from rest_framework import viewsets
 from gestion_riego.serializers import HistorialRiegoSerializer
+import io
+import matplotlib.pyplot as plt
+
+from django.http import HttpResponse
+from django.shortcuts import render
+from matplotlib.backends.backend_agg import FigureCanvasAgg
+from random import sample
 
 from gestion_riego.models import HistorialRiego
 
@@ -47,3 +55,4 @@ class HistorialRiegoListView(ListView):
 class HistorialRiegoViewSet(viewsets.ModelViewSet):
     serializer_class = HistorialRiegoSerializer
     queryset = HistorialRiego.objects.all().order_by('id') #ordenados por id
+

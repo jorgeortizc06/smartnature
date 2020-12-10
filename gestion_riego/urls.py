@@ -18,6 +18,8 @@ from gestion_riego.views.tipo_sensor.tipo_sensor_view import TipoSensorCreateVie
     TipoSensorDeleteView, TipoSensorListView
 from gestion_riego.views.tipo_suelo.tipo_suelo_view import TipoSueloCreateView, TipoSueloUpdateView, \
     TipoSueloDeleteView, TipoSueloListView
+from .view import fuzzy, plot, home
+
 
 app_name = 'gestion_riego'
 
@@ -76,6 +78,8 @@ urlpatterns += [
     path('dashboard/', dashboardView.as_view(), name='dashboard'),
 
     path('historial_riego/', HistorialRiegoListView.as_view(), name='historial_riego'),
+
+    path('fuzzy/', home, name='historial_riego'),
 
 
 ]

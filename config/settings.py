@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -134,3 +134,6 @@ STATIC_URL = '/static/'
 LOGIN_URL = '/gestion_riego/login'
 LOGIN_REDIRECT_URL = '/gestion_riego/dashboard'
 LOGOUT_REDIRECT_URL = '/gestion_riego/login'
+
+#Se utilizo para poder utilizar ORM en jupyter notebook desactivar la async
+os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
