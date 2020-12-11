@@ -123,43 +123,41 @@
         <a id="estado">-</a>
     </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box">
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-6">
 
-                            <div class="chart">
+    {% endfor %}
+</ol>
 
-                                <figure class="highcharts-figure">
-                                    <div id="container4"></div>
-                                </figure>
-                                <!-- this the placeholder for the chart-->
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-6">
 
-                            </div>
-                        </div>
-                        <div class="col-md-6">
+                        <div class="chart">
 
-                            <div class="chart">
-                                <figure class="highcharts-figure">
-                                    <div id="container3"></div>
-                                </figure>
-                            </div>
+                            <figure class="highcharts-figure">
+                                <div id="container4"></div>
+                            </figure>
                             <!-- this the placeholder for the chart-->
 
                         </div>
+                    </div>
+                    <div class="col-md-6">
+
+                        <div class="chart">
+                            <figure class="highcharts-figure">
+                                <div id="container3"></div>
+                            </figure>
+                        </div>
+                        <!-- this the placeholder for the chart-->
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-    {% endfor %}
-</ol>
-
-
+</div>
 <ol>
     <li>{{historial_riego_1|safe}}</li>
 </ol>

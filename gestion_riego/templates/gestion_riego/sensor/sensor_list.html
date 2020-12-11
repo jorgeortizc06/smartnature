@@ -1,10 +1,67 @@
 {% extends 'gestion_riego/layout.html' %}
 {% load static %}
 {% block titulo %}{{title}}{% endblock titulo %}
-{% block javascript %}<script src="{% static 'gestion_riego/sensor/js/list.js' %}"></script> {% endblock javascript %}
+{% block javascript %}
+
+{% endblock javascript %}
 {% block card_title %} {{title}} {% endblock card_title %}
 
 {% block body %}
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="chart">
+                            <figure class="highcharts-figure">
+                                <div id="c_sensor_humedad_suelo"></div>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="chart">
+                            <figure class="highcharts-figure">
+                                <div id="c_sensor_temperatura_ambiente"></div>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="box">
+            <div class="box-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="chart">
+                            <figure class="highcharts-figure">
+                                <div id="c_sensor_humedad_ambiente"></div>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <table class="table table-hover" id="data">
     <thead>
     <tr>
@@ -32,4 +89,172 @@
     </a>
 </div>
 
+<script src="{% static 'gestion_riego/sensor/js/list.js' %}"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-more.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://code.highcharts.com/modules/export-data.js"></script>
+<script src="https://code.highcharts.com/modules/accessibility.js"></script>
+<script>
+    Highcharts.chart('c_sensor_humedad_suelo', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Historial por Día: {{mes}}'
+    },
+    subtitle: {
+        text: 'Sensor de Humedad de Suelo'
+    },
+    xAxis: {
+        categories: [
+            1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'puntos'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} %</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'Sensor 1',
+        data: {{ sensor_humedad_suelo_1|safe }}
+
+    },
+    {
+        name: 'Sensor 2',
+        data: {{ sensor_humedad_suelo_2|safe }}
+
+    },
+    {
+        name: 'Sensor 3',
+        data: {{ sensor_humedad_suelo_3|safe }}
+
+    },
+    {
+        name: 'Sensor 4',
+        data: {{ sensor_humedad_suelo_4|safe }}
+
+    },]
+});
+
+
+
+</script>
+
+<script>
+    Highcharts.chart('c_sensor_temperatura_ambiente', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Historial por Día: {{mes}}'
+    },
+    subtitle: {
+        text: 'Sensor de Temperatura Ambiente'
+    },
+    xAxis: {
+        categories: [
+            1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: 'oC'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} oC</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'Sensor 1',
+        colorByPoint: true,
+        data: {{ sensor_temperatura_ambiente_1|safe }}
+
+    }]
+});
+
+
+
+</script>
+
+<script>
+    Highcharts.chart('c_sensor_humedad_ambiente', {
+    chart: {
+        type: 'column'
+    },
+    title: {
+        text: 'Historial por Día: {{mes}}'
+    },
+    subtitle: {
+        text: 'Sensor de Humedad Ambiente'
+    },
+    xAxis: {
+        categories: [
+            1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
+        ],
+        crosshair: true
+    },
+    yAxis: {
+        min: 0,
+        title: {
+            text: '%'
+        }
+    },
+    tooltip: {
+        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+            '<td style="padding:0"><b>{point.y:.1f} minutos</b></td></tr>',
+        footerFormat: '</table>',
+        shared: true,
+        useHTML: true
+    },
+    plotOptions: {
+        column: {
+            pointPadding: 0.2,
+            borderWidth: 0
+        }
+    },
+    series: [{
+        name: 'Sensor 1',
+        colorByPoint: true,
+        data: {{ sensor_humedad_ambiente_1|safe }}
+
+    }]
+});
+
+
+
+</script>
 {% endblock body %}
+
+
