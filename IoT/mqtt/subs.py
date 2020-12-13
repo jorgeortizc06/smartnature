@@ -19,7 +19,7 @@ def on_message(client, userdata, message):
     try:
         if message.topic == 'device1/promedioSensorSuelo':
             #promedioHumedAmbiental = calcular_promedio_humedad('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 2)
-            time.sleep(180)
+            time.sleep(900)
             print("===============================")
 
         if message.topic == 'device1/sensorSuelo1':

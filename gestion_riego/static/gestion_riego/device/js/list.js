@@ -48,7 +48,7 @@ function getData(){
 $(function() {  //esta es la funciona anonima abreviada de $(document).ready(function(){});
     modal_title = $('.modal-title'); //titulo del modal
     getData(); //cargo mi datatable
-    $('.btnAdd').on('click', function(){ //al hacer clic en nuevo visualizo el modal
+    $('.btnAdd').click(function(){ //al hacer clic en nuevo visualizo el modal
         $('input[name="action"]').val('add');
         //personalizo mi titulo del modal
         modal_title.find('span').html('Nuevo Dispositivo');
@@ -71,6 +71,7 @@ $(function() {  //esta es la funciona anonima abreviada de $(document).ready(fun
         $("input[name='descripcion']").val(data.descripcion);
         $("input[name='ip']").val(data.ip);
         $("input[name='topic']").val(data.topic);
+        $("input[name='puerto']").val(data.puerto);
         $('#modalDevice').modal('show');
     })
         .on('click', 'a[rel="btnDelete"]', function(){
