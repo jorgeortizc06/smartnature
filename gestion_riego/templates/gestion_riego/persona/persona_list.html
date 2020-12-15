@@ -1,55 +1,64 @@
 {% extends 'gestion_riego/layout.html' %}
-{% block titulo %} Formulario Persona {%endblock titulo %}
+{% block titulo %} Formulario Persona {% endblock titulo %}
 {% block card_title %} Personas {% endblock card_title %}
 {% block body %}
-<table class="table table-bordered" id="data">
-    <thead>
-    <tr>
-        <th>Nombre</th>
-        <th>Apellido</th>
-        <th>Email</th>
-        <th>Telefono</th>
-        <th>Password</th>
-        <th>Opciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for persona in object_list %}
-    <tr>
-        <td>{{persona.nombre}}</td>
-        <td>{{persona.apellido}}</td>
-        <td>{{persona.email}}</td>
-        <td>{{persona.tfno}}</td>
-        <td>{{persona.password}}</td>
-        <td>
-            <a
-                    href="{% url 'gestion_riego:persona_update' persona.id %}"
-                    class="btn btn-secondary"
-            >ACTUALIZAR</a
-            >
-            <a href="{% url 'gestion_riego:persona_delete' persona.id %}" class="btn btn-danger"
-            >ELIMINAR</a
-            >
-        </td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
-<div class="card-footer">
-    <a href="{{ create_url }}" class="btn btn-success btn-flat" type="button">
-        <i class="fas fa-plus"></i> Nueva Persona
-    </a>
-    <a href="{{ list_url }}" class="btn btn-success btn-flat" type="button">
-        <i class="fas fa-sync"></i> Actualizar
-    </a>
-</div>
-<script type="application/javascript">
-  $(document).ready(function () {
-    $("#data").DataTable({
-      responsive: true,
-    });
-  });
-
-
-</script>
+    <table class="table table-bordered" id="data">
+        <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+            <th>Telefono</th>
+            <th>Password</th>
+            <th>Opciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for persona in object_list %}
+            <tr>
+                <td>{{ persona.nombre }}</td>
+                <td>{{ persona.apellido }}</td>
+                <td>{{ persona.email }}</td>
+                <td>{{ persona.tfno }}</td>
+                <td>{{ persona.password }}</td>
+                <td>
+                    <a
+                            href="{% url 'gestion_riego:persona_update' persona.id %}"
+                            class="btn btn-secondary"
+                    >ACTUALIZAR</a
+                    >
+                    <a href="{% url 'gestion_riego:persona_delete' persona.id %}" class="btn btn-danger"
+                    >ELIMINAR</a
+                    >
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="card-footer">
+        <a href="{{ create_url }}" class="btn btn-success btn-flat" type="button">
+            <i class="fas fa-plus"></i> Nueva Persona
+        </a>
+        <a href="{{ list_url }}" class="btn btn-success btn-flat" type="button">
+            <i class="fas fa-sync"></i> Actualizar
+        </a>
+    </div>
 {% endblock body %}
+
+{% block javascript %}
+    <div class="card-footer">
+        <a href="{{ create_url }}" class="btn btn-success btn-flat" type="button">
+            <i class="fas fa-plus"></i> Nueva Persona
+        </a>
+        <a href="{{ list_url }}" class="btn btn-success btn-flat" type="button">
+            <i class="fas fa-sync"></i> Actualizar
+        </a>
+    </div>
+    <script type="application/javascript">
+        $(document).ready(function () {
+            $("#data").DataTable({
+                responsive: true,
+            });
+        });
+    </script>
+{% endblock javascript %}

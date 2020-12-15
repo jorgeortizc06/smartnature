@@ -4,84 +4,125 @@
 {% block card_title %} Dashboard {% endblock card_title %}
 
 {% block body %}
+    <ol>
+        {% for device in object_list %}
 
+            <li>{{ device }}</li>
+            <!--Start the javascript ball rolling and connect to the mqtt broker-->
+            <div class="row">
+                <div class="col-md-3">
+                    <input id="iptxt" type="text" value='{{ device.ip }}' class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <input id="topictxt" type="text" value='{{ device.topic }}' class="form-control">
 
-<body>
-<ol>
-    {% for device in object_list %}
+                </div>
+                <div class="col-md-3">
+                    <input id="puertotxt" type="number" value='{{ device.puerto }}' class="form-control">
 
-    <li>{{device}}</li>
-    <!--Start the javascript ball rolling and connect to the mqtt broker-->
-    <div class="row">
-        <div class="col-md-3">
-            <input id="iptxt" type="text" value='{{device.ip}}' class="form-control">
-        </div>
-        <div class="col-md-3">
-            <input id="topictxt" type="text" value='{{device.topic}}' class="form-control">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box">
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-6">
 
-        </div>
-        <div class="col-md-3">
-            <input id="puertotxt" type="number" value='{{device.puerto}}' class="form-control">
+                                    <div class="card">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div id="SensorTemperatura1" class="200x160px"></div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div id="SensorHumedad1" class="200x160px"></div>
+                                            </div>
 
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box">
-                <div class="box-body">
-                    <div class="row">
-                        <div class="col-md-6">
+                                            <div class="col-md-6">
+                                                <div id="SensorCaudal1" class="200x160px"></div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div id="SensorConsumoAgua1" class="200x160px"></div>
+                                            </div>
 
-                            <div class="card">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div id="SensorTemperatura1" class="200x160px"></div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div id="SensorHumedad1" class="200x160px"></div>
-                                    </div>
+                                        </div>
 
-                                    <div class="col-md-6">
-                                        <div id="SensorCaudal1" class="200x160px"></div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div id="SensorConsumoAgua1" class="200x160px"></div>
-                                    </div>
+                                        <!-- this the placeholder for the chart-->
 
-                                </div>
-
-                                <!-- this the placeholder for the chart-->
-
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div id="SensorSuelo1" class="200x160px"></div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div id="SensorSuelo2" class="200x160px"></div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div id="SensorSuelo3" class="200x160px"></div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div id="SensorSuelo4" class="200x160px"></div>
-                                    </div>
-                                    <div class="col-md-4">
-                                        <div id="PromedioSensorSuelo" class="200x160px"></div>
                                     </div>
                                 </div>
+                                <div class="col-md-6">
+                                    <div class="card">
+                                        <div class="row">
+                                            <div class="col-md-4">
+                                                <div id="SensorSuelo1" class="200x160px"></div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div id="SensorSuelo2" class="200x160px"></div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div id="SensorSuelo3" class="200x160px"></div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div id="SensorSuelo4" class="200x160px"></div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div id="PromedioSensorSuelo" class="200x160px"></div>
+                                            </div>
+                                        </div>
 
-                                <!-- this the placeholder for the chart-->
+                                        <!-- this the placeholder for the chart-->
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box">
+                        <div class="box-body">
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                    <div class="chart">
+
+                                        <figure class="highcharts-figure">
+                                            <div id="container"></div>
+                                        </figure>
+                                        <!-- this the placeholder for the chart-->
+
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+
+                                    <div class="chart">
+                                        <figure class="highcharts-figure">
+                                            <div id="container2"></div>
+                                        </figure>
+                                    </div>
+                                    <!-- this the placeholder for the chart-->
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <a>Activar Riego: </a>
+                <button type='button' onclick='OnOff("ON")'>ON</button>
+                <button type='button' onclick='OnOff("OFF")'>OFF</button>
+                <a id="estado">-</a>
+            </div>
+
+
+        {% endfor %}
+    </ol>
 
     <div class="row">
         <div class="col-md-12">
@@ -91,9 +132,41 @@
                         <div class="col-md-6">
 
                             <div class="chart">
-
+                                <label>Elegir días:</label>
+                                <select id="dias" name="dias">
+                                    <option>----</option>
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                    <option>6</option>
+                                    <option>7</option>
+                                    <option>8</option>
+                                    <option>9</option>
+                                    <option>11</option>
+                                    <option>12</option>
+                                    <option>13</option>
+                                    <option>14</option>
+                                    <option>15</option>
+                                    <option>16</option>
+                                    <option>17</option>
+                                    <option>18</option>
+                                    <option>19</option>
+                                    <option>20</option>
+                                    <option>21</option>
+                                    <option>22</option>
+                                    <option>23</option>
+                                    <option>24</option>
+                                    <option>25</option>
+                                    <option>26</option>
+                                    <option>27</option>
+                                    <option>28</option>
+                                    <option>29</option>
+                                    <option>30</option>
+                                </select>
                                 <figure class="highcharts-figure">
-                                    <div id="container"></div>
+                                    <div id="container4"></div>
                                 </figure>
                                 <!-- this the placeholder for the chart-->
 
@@ -101,10 +174,23 @@
                         </div>
                         <div class="col-md-6">
 
-
                             <div class="chart">
+                                <label>Elegir mes:</label>
+                                <select id="mes" name="mes">
+                                    <option>1</option>
+                                    <option>2</option>
+                                    <option>3</option>
+                                    <option>4</option>
+                                    <option>5</option>
+                                    <option>6</option>
+                                    <option>7</option>
+                                    <option>8</option>
+                                    <option>9</option>
+                                    <option>11</option>
+                                    <option>12</option>
+                                </select>
                                 <figure class="highcharts-figure">
-                                    <div id="container2"></div>
+                                    <div id="c_graph_historial_riego_mes"></div>
                                 </figure>
                             </div>
                             <!-- this the placeholder for the chart-->
@@ -115,197 +201,239 @@
             </div>
         </div>
     </div>
-
-    <div>
-        <a>Activar Riego: </a>
-        <button type='button' onclick='OnOff("ON")'>ON</button>
-        <button type='button' onclick='OnOff("OFF")'>OFF</button>
-        <a id="estado">-</a>
-    </div>
-
-
-    {% endfor %}
-</ol>
-
-<div class="row">
-    <div class="col-md-12">
-        <div class="box">
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-md-6">
-
-                        <div class="chart">
-
-                            <figure class="highcharts-figure">
-                                <div id="container4"></div>
-                            </figure>
-                            <!-- this the placeholder for the chart-->
-
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-
-                        <div class="chart">
-                            <figure class="highcharts-figure">
-                                <div id="container3"></div>
-                            </figure>
-                        </div>
-                        <!-- this the placeholder for the chart-->
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<ol>
-    <li>{{historial_riego_1|safe}}</li>
-</ol>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js" type="text/javascript"></script>
-<script src="https://code.highcharts.com/highcharts.js"></script>
-<script src="https://code.highcharts.com/highcharts-more.js"></script>
-<script src="https://code.highcharts.com/modules/exporting.js"></script>
-<script src="https://code.highcharts.com/modules/export-data.js"></script>
-<script src="https://code.highcharts.com/modules/accessibility.js"></script>
-<script src="{% static 'gestion_riego/js/mqtt.js' %}" type="text/javascript"></script>
-</body>
-
-
-{% block javascript %}
-<script>
-    Highcharts.chart('container4', {
-    chart: {
-        type: 'column'
-    },
-    title: {
-        text: 'Historial del Riego por Horas: {{dia}}'
-    },
-    subtitle: {
-        text: 'Reporte de riego'
-    },
-    xAxis: {
-        categories: [
-            1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24
-        ],
-        crosshair: true
-    },
-    yAxis: {
-        min: 0,
-        title: {
-            text: 'minutos'
-        }
-    },
-    tooltip: {
-        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f} minutos</b></td></tr>',
-        footerFormat: '</table>',
-        shared: true,
-        useHTML: true
-    },
-    plotOptions: {
-        column: {
-            pointPadding: 0.2,
-            borderWidth: 0
-        }
-    },
-    series: [{
-        name: 'Tiempo Riego: Promedio',
-        data: {{ historial_riego_day_5|safe }}
-
-    },
-    {
-        name: 'Tiempo Riego: Sensor 1',
-        data: {{ historial_riego_day_2|safe }}
-
-    },
-    {
-        name: 'Tiempo Riego: Sensor 2',
-        data: {{ historial_riego_day_3|safe }}
-
-    },
-    {
-        name: 'Tiempo Riego: Sensor 3',
-        data: {{ historial_riego_day_4|safe }}
-
-    },
-    {
-        name: 'Tiempo Riego: Sensor 4',
-        data: {{ historial_riego_day_5|safe }}
-
-    }]
-});
-
-</script>
-<script>
-    Highcharts.chart('container3', {
-    chart: {
-        type: 'column'
-    },
-    title: {
-        text: 'Historial del Riego por Día: {{mes}}'
-    },
-    subtitle: {
-        text: 'Reporte de riego'
-    },
-    xAxis: {
-        categories: [
-            1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30
-        ],
-        crosshair: true
-    },
-    yAxis: {
-        min: 0,
-        title: {
-            text: 'minutos'
-        }
-    },
-    tooltip: {
-        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-        pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-            '<td style="padding:0"><b>{point.y:.1f} minutos</b></td></tr>',
-        footerFormat: '</table>',
-        shared: true,
-        useHTML: true
-    },
-    plotOptions: {
-        column: {
-            pointPadding: 0.2,
-            borderWidth: 0
-        }
-    },
-    series: [{
-        name: 'Tiempo Riego: Promedio',
-        data: {{ historial_riego_5|safe }}
-
-    },
-    {
-        name: 'Tiempo Riego: Sensor 1',
-        data: {{ historial_riego_2|safe }}
-
-    },
-    {
-        name: 'Tiempo Riego: Sensor 2',
-        data: {{ historial_riego_3|safe }}
-
-    },
-    {
-        name: 'Tiempo Riego: Sensor 3',
-        data: {{ historial_riego_4|safe }}
-
-    },
-    {
-        name: 'Tiempo Riego: Sensor 4',
-        data: {{ historial_riego_4|safe }}
-
-    }]
-});
-
-</script>
-
-
-{% endblock javascript %}
-
 
 {% endblock body %}
+
+{% block javascript %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paho-mqtt/1.0.1/mqttws31.js"
+            type="text/javascript"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="{% static 'gestion_riego/js/mqtt.js' %}" type="text/javascript"></script>
+
+    <script>
+        $(document).ready(function () {
+            var options = {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Historial del Riego por Horas: {{dia}}'
+                },
+                subtitle: {
+                    text: 'Reporte de riego'
+                },
+                xAxis: {
+                    categories: [
+                        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'minutos'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} minutos</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    name: 'Tiempo Riego: Promedio',
+                    data: {{ historial_riego_day_5|safe }}
+
+                },
+                    {
+                        name: 'Tiempo Riego: Sensor 1',
+                        data: {{ historial_riego_day_1|safe }}
+
+                    },
+                    {
+                        name: 'Tiempo Riego: Sensor 2',
+                        data: {{ historial_riego_day_2|safe }}
+
+                    },
+                    {
+                        name: 'Tiempo Riego: Sensor 3',
+                        data: {{ historial_riego_day_3|safe }}
+
+                    },
+                    {
+                        name: 'Tiempo Riego: Sensor 4',
+                        data: {{ historial_riego_day_4|safe }}
+
+                    }]
+            }
+
+            var dia = Highcharts.chart('container4', options);
+
+            var options1 = {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: 'Historial del Riego por Horas: {{dia}}'
+                },
+                subtitle: {
+                    text: 'Reporte de riego'
+                },
+                xAxis: {
+                    categories: [
+                        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'minutos'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} minutos</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: []
+            }
+
+            $(function () {
+                $('#dias').on('change', function () {
+                    var id = $(this).val();
+                    $.ajax({
+                        url: window.location.pathname,
+                        type: 'POST',
+                        data: {
+                            'action': 'search_historial_riego_day',
+                            'id': id
+                        },
+                        dataType: 'json',
+                    }).done(function (data) {
+                        console.log(data)
+
+                        var dia = new Highcharts.chart('container4', options1);
+                        dia.addSeries({
+                            name: 'Tiempo Riego: Promedio',
+                            data: data.historial_riego_day_5
+                        })
+                        dia.addSeries({
+                            name: 'Tiempo Riego: Sensor 1',
+                            data: data.historial_riego_day_1
+                        })
+                        dia.addSeries({
+                            name: 'Tiempo Riego: Sensor 2',
+                            data: data.historial_riego_day_2
+
+                        })
+                        dia.addSeries({
+                            name: 'Tiempo Riego: Sensor 3',
+                            data: data.historial_riego_day_3
+                        })
+                        dia.addSeries({
+                            name: 'Tiempo Riego: Sensor 4',
+                            data: data.historial_riego_day_4
+                        })
+                        /*$.each(data, function (key, value) {
+                            dia.addSeries({
+                                name: 'Sensor '+key,
+                                data: value.historial_riego_day_1
+                            })
+                        })*/
+
+                        //dia.redraw();
+
+                        return false;
+                    })
+                })
+            });
+        });
+    </script>
+    <script>
+        var mes = Highcharts.chart('c_graph_historial_riego_mes', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Historial del Riego por Día: {{mes}}'
+            },
+            subtitle: {
+                text: 'Reporte de riego'
+            },
+            xAxis: {
+                categories: [
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30
+                ],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'minutos'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} minutos</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Tiempo Riego: Promedio',
+                data: {{ historial_riego_5|safe }}
+
+            },
+                {
+                    name: 'Tiempo Riego: Sensor 1',
+                    data: {{ historial_riego_2|safe }}
+
+                },
+                {
+                    name: 'Tiempo Riego: Sensor 2',
+                    data: {{ historial_riego_3|safe }}
+
+                },
+                {
+                    name: 'Tiempo Riego: Sensor 3',
+                    data: {{ historial_riego_4|safe }}
+
+                },
+                {
+                    name: 'Tiempo Riego: Sensor 4',
+                    data: {{ historial_riego_4|safe }}
+
+                }]
+        });
+    </script>
+{% endblock javascript %}

@@ -6,7 +6,7 @@ from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView, FormView
 from django.http import JsonResponse
-from gestion_riego.forms import DeviceForm
+from gestion_riego.forms import DeviceForm, DashboardForm
 from gestion_riego.models import Device, HistorialRiego
 from datetime import datetime
 import itertools
@@ -177,72 +177,85 @@ class dashboardView(ListView):
     model = Device
     template_name = 'gestion_riego/dashboard/dashboard.html'
 
+    @method_decorator(csrf_exempt)
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
 
-    def get_graph_day_1(self):
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'search_historial_riego_day':
+                dia = request.POST['id']
+                data = []
+                data = {'historial_riego_day_1': self.get_graph_day_1(dia),
+                        'historial_riego_day_2': self.get_graph_day_2(dia),
+                        'historial_riego_day_3': self.get_graph_day_3(dia),
+                        'historial_riego_day_4': self.get_graph_day_4(dia),
+                        'historial_riego_day_5': self.get_graph_day_5(dia)}
+                #data = self.get_graph_day_1(dia)
+
+            else:
+                data['error'] = 'Ha ocurrido un error'
+        except Exception as e:
+            data['error']= str(e)
+        return JsonResponse(data, safe=False)
+
+    def get_graph_day_1(self, day):
         data = []
         try:
-            day = datetime.now().day
+
             for h in range(1,25):
                 totalRiego = HistorialRiego.objects.filter(fecha_riego__day = day, fecha_riego__hour= h, codigo_sensor = 1).aggregate(r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
                 data.append(float(totalRiego))
 
         except:
             pass
-        print(data)
         return data
 
-    def get_graph_day_2(self):
+    def get_graph_day_2(self, day):
         data = []
         try:
-            day = datetime.now().day
+
             for h in range(1,25):
                 totalRiego = HistorialRiego.objects.filter(fecha_riego__day = day, fecha_riego__hour= h, codigo_sensor = 2).aggregate(r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
                 data.append(float(totalRiego))
 
         except:
             pass
-        print(data)
         return data
 
-    def get_graph_day_3(self):
+    def get_graph_day_3(self, day):
         data = []
         try:
-            day = datetime.now().day
             for h in range(1,25):
                 totalRiego = HistorialRiego.objects.filter(fecha_riego__day = day, fecha_riego__hour= h, codigo_sensor = 3).aggregate(r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
                 data.append(float(totalRiego))
 
         except:
             pass
-        print(data)
         return data
 
-    def get_graph_day_4(self):
+    def get_graph_day_4(self, day):
         data = []
         try:
-            day = datetime.now().day
             for h in range(1,25):
                 totalRiego = HistorialRiego.objects.filter(fecha_riego__day = day, fecha_riego__hour= h, codigo_sensor = 4).aggregate(r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
                 data.append(float(totalRiego))
 
         except:
             pass
-        print(data)
         return data
-    def get_graph_day_5(self):
+    def get_graph_day_5(self, day):
         data = []
         try:
-            day = datetime.now().day
             for h in range(1,25):
                 totalRiego = HistorialRiego.objects.filter(fecha_riego__day = day, fecha_riego__hour= h, codigo_sensor = 5).aggregate(r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
                 data.append(float(totalRiego))
 
         except:
             pass
-        print(data)
         return data
 
     def get_graph_month_1(self):
@@ -309,13 +322,14 @@ class dashboardView(ListView):
         context['title'] = 'Dashboard'
         context['entity'] = 'Device'
         context['object_list'] = Device.objects.all()
+        context['form'] = DashboardForm()
         context['mes'] = datetime.now().strftime('%B')
         context['dia'] = datetime.now().strftime('%D')
-        context['historial_riego_day_1'] = self.get_graph_day_1()
-        context['historial_riego_day_2'] = self.get_graph_day_2()
-        context['historial_riego_day_3'] = self.get_graph_day_3()
-        context['historial_riego_day_4'] = self.get_graph_day_4()
-        context['historial_riego_day_5'] = self.get_graph_day_5()
+        context['historial_riego_day_1'] = self.get_graph_day_1(day = datetime.now().day)
+        context['historial_riego_day_2'] = self.get_graph_day_2(day = datetime.now().day)
+        context['historial_riego_day_3'] = self.get_graph_day_3(day = datetime.now().day)
+        context['historial_riego_day_4'] = self.get_graph_day_4(day = datetime.now().day)
+        context['historial_riego_day_5'] = self.get_graph_day_5(day = datetime.now().day)
         context['historial_riego_1'] = self.get_graph_month_1()
         context['historial_riego_2'] = self.get_graph_month_2()
         context['historial_riego_3'] = self.get_graph_month_3()

@@ -1,11 +1,11 @@
 {% extends 'gestion_riego/layout.html' %}
 {% load static %} <!--En padre si hay load static, pero como estoy llamando aqui un java script tengo que volver a ponerlo -->
 {% block titulo %}Lista de Tipos de Sensores{% endblock titulo %}
-{% block javascript %}<script src="{% static 'gestion_riego/device/js/list.js' %}"></script> {% endblock javascript %}
-{% block card_title %} <i class="fas fa-list"></i> {{title}} {% endblock card_title %}
+
+{% block card_title %} <i class="fas fa-list"></i> {{ title }} {% endblock card_title %}
 {% block body %}
-<table class="table table-striped table-bordered" id="data">
-    <thead>
+    <table class="table table-striped table-bordered" id="data">
+        <thead>
         <tr>
             <th>ID</th>
             <th>Nombre</th>
@@ -16,73 +16,75 @@
             <th>Opciones</th>
 
         </tr>
-    </thead>
-    <tbody>
+        </thead>
+        <tbody>
 
-    </tbody>
-</table>
-<div class="card-footer">
-    <a class="btn btn-success btn-flat btnAdd" type="button">
-        <i class="fas fa-plus"></i> Nuevo Dispositivo
-    </a>
-    <a class="btn btn-success btn-flat bntUpdate" type="button">
-        <i class="fas fa-sync"></i> Actualizar
-    </a>
+        </tbody>
+    </table>
+    <div class="card-footer">
+        <a class="btn btn-success btn-flat btnAdd" type="button">
+            <i class="fas fa-plus"></i> Nuevo Dispositivo
+        </a>
+        <a class="btn btn-success btn-flat bntUpdate" type="button">
+            <i class="fas fa-sync"></i> Actualizar
+        </a>
+        <!--<button class="btn btn-primary btn-flat btnTest">
+             <i class="fas fa-plus"></i> AJAX
+        </button>-->
+    </div>
 
-    <!--<button class="btn btn-primary btn-flat btnTest">
-         <i class="fas fa-plus"></i> AJAX
-    </button>-->
-</div>
-
-<!-- Modal -->
-<div class="modal fade" id="modalDevice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <form method="post" action=".">
-        <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-plus"></i><span></span></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div class="modal-body">
-                  <div class="container-fluid">
-                      <input name="action" type="hidden" value="add">
-                      <input name="id" id="id" type="hidden" value="0">
-                      {% for field in form.visible_fields %}
-                        <div class="form-group">
-                            <label>{{ field.label }}</label>
-                            {{ field }}
+    <!-- Modal -->
+    <div class="modal fade" id="modalDevice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <form method="post" action=".">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel"><i class="fas fa-plus"></i><span></span></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <input name="action" type="hidden" value="add">
+                            <input name="id" id="id" type="hidden" value="0">
+                            {% for field in form.visible_fields %}
+                                <div class="form-group">
+                                    <label>{{ field.label }}</label>
+                                    {{ field }}
+                                </div>
+                            {% endfor %}
                         </div>
-                      {% endfor %}
-                  </div>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Guardar</button>
-              </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
 
-</div>
-<script type="application/javascript">
-    $(function() {
-        $('.bntUpdate').on('click', function (){
-            $.ajax({
-                url: window.location.pathname,
-                type: 'POST',
-                data: {},
-                dataType: 'json'
-            }).done(function (data){
-            console.log(data);
-                location.href = '{{ list_url }}';
-            }).fail(function(jqXHR, textStatus, errorThrown){
-                alert(textStatus+': '+errorThrown);
-            }).always(function(data) {
+    </div>
+
+{% endblock body %}
+{% block javascript %}
+    <script src="{% static 'gestion_riego/device/js/list.js' %}"></script>
+    <script type="application/javascript">
+        $(function () {
+            $('.bntUpdate').on('click', function () {
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {},
+                    dataType: 'json'
+                }).done(function (data) {
+                    console.log(data);
+                    location.href = '{{ list_url }}';
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ': ' + errorThrown);
+                }).always(function (data) {
+                });
             });
         });
-
-    });
-</script>
-{% endblock body %}
+    </script>
+{% endblock javascript %}

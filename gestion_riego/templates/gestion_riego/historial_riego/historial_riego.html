@@ -1,75 +1,76 @@
 {% extends 'gestion_riego/layout.html' %}
-{% block titulo %}{{title}}{% endblock titulo %}
+{% block titulo %}{{ title }}{% endblock titulo %}
 
-{% block card_title %} {{title}}{% endblock card_title %}
+{% block card_title %} {{ title }}{% endblock card_title %}
 
 {% block body %}
 
-<table class="table table-hover" id="data">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Codigo Sensor</th>
-        <th>Fecha Riego</th>
-        <th>Tiempo</th>
-        <th>Humedad Suelo</th>
-        <th>Humedad Ambiental</th>
-        <th>Temperatura Ambiental</th>
-        <th>Dispositivo</th>
-        <th>Encargado</th>
-        <th>Rol</th>
+    <table class="table table-hover" id="data">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Codigo Sensor</th>
+            <th>Fecha Riego</th>
+            <th>Tiempo</th>
+            <th>Humedad Suelo</th>
+            <th>Humedad Ambiental</th>
+            <th>Temperatura Ambiental</th>
+            <th>Dispositivo</th>
+            <th>Encargado</th>
+            <th>Rol</th>
 
-    </tr>
-    </thead>
-    <tbody>
-    {% for historial_riego in object_list %}
-    <tr>
-        <td>{{historial_riego.id}}</td>
-        <td>{{historial_riego.codigo_sensor}}</td>
-        <td>{{historial_riego.fecha_riego}}</td>
-        <td>{{historial_riego.tiempo_riego}}</td>
-        <td>{{historial_riego.valor_humed_suelo}}</td>
-        <td>{{historial_riego.valor_humed_ambiente}}</td>
-        <td>{{historial_riego.valor_temp_ambiente}}</td>
-        <td>{{historial_riego.siembra.plataforma.device.nombre}}</td>
-        <td>{{historial_riego.siembra.plataforma.persona.nombre}}
-            {{historial_riego.siembra.plataforma.persona.apellido}}
-        </td>
-        <td>{{historial_riego.tipo_rol.nombre}}</td>
+        </tr>
+        </thead>
+        <tbody>
+        {% for historial_riego in object_list %}
+            <tr>
+                <td>{{ historial_riego.id }}</td>
+                <td>{{ historial_riego.codigo_sensor }}</td>
+                <td>{{ historial_riego.fecha_riego }}</td>
+                <td>{{ historial_riego.tiempo_riego }}</td>
+                <td>{{ historial_riego.valor_humed_suelo }}</td>
+                <td>{{ historial_riego.valor_humed_ambiente }}</td>
+                <td>{{ historial_riego.valor_temp_ambiente }}</td>
+                <td>{{ historial_riego.siembra.plataforma.device.nombre }}</td>
+                <td>{{ historial_riego.siembra.plataforma.persona.nombre }}
+                    {{ historial_riego.siembra.plataforma.persona.apellido }}
+                </td>
+                <td>{{ historial_riego.tipo_rol.nombre }}</td>
 
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
-<div class="card-footer">
-    <a href="{{ list_url }}" class="btn btn-success btn-flat" type="button">
-        <i class="fas fa-sync"></i> Actualizar
-    </a>
-</div>
-<script>
-    $(document).ready(function () {
-    $('#data').DataTable( {
-    dom: 'Bfrtip',
-    "order": [[ 0, "desc" ]],
-    language: {
-        search: "Buscar",
-        paginate: {
-            first:      "Primero",
-            previous:   "Anterior",
-            next:       "Siguiente",
-            last:       "Último"
-        },
-    },
-    buttons: [
-        'copyHtml5',
-        'excelHtml5',
-        'csvHtml5',
-        'pdfHtml5',
-        'print'
-    ]
-    } );
-    });
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <div class="card-footer">
+        <a href="{{ list_url }}" class="btn btn-success btn-flat" type="button">
+            <i class="fas fa-sync"></i> Actualizar
+        </a>
+    </div>
 
-
-</script>
 {% endblock body %}
+{% block javascript %}
+    <script>
+        $(document).ready(function () {
+            $('#data').DataTable({
+                dom: 'Bfrtip',
+                "order": [[0, "desc"]],
+                language: {
+                    search: "Buscar",
+                    paginate: {
+                        first: "Primero",
+                        previous: "Anterior",
+                        next: "Siguiente",
+                        last: "Último"
+                    },
+                },
+                buttons: [
+                    'copyHtml5',
+                    'excelHtml5',
+                    'csvHtml5',
+                    'pdfHtml5',
+                    'print'
+                ]
+            });
+        });
+    </script>
+{% endblock javascript %}

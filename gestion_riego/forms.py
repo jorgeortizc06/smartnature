@@ -222,3 +222,9 @@ class DeviceForm(ModelForm):
         except Exception as e:
             data['error'] = str(e)
         return data
+
+
+class DashboardForm(Form):
+    devices = ModelChoiceField(queryset=Device.objects.all(), widget=Select(attrs={
+        'class': 'form-control'
+    }))
