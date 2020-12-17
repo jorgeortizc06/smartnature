@@ -4,48 +4,55 @@
 {% block card_title %} {{ title }}{% endblock card_title %}
 
 {% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped" id="data">
+                    <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Codigo Sensor</th>
+                        <th scope="col">Fecha Riego</th>
+                        <th scope="col">Tiempo</th>
+                        <th scope="col">Humedad Suelo</th>
+                        <th scope="col">Humedad Ambiental</th>
+                        <th scope="col">Temperatura Ambiental</th>
+                        <th scope="col">Dispositivo</th>
+                        <th scope="col">Encargado</th>
+                        <th scope="col">Rol</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for historial_riego in object_list %}
+                        <tr>
+                            <td scope="row">{{ historial_riego.id }}</td>
+                            <td scope="row">{{ historial_riego.codigo_sensor }}</td>
+                            <td scope="row">{{ historial_riego.fecha_riego }}</td>
+                            <td scope="row">{{ historial_riego.tiempo_riego }}</td>
+                            <td scope="row">{{ historial_riego.valor_humed_suelo }}</td>
+                            <td scope="row">{{ historial_riego.valor_humed_ambiente }}</td>
+                            <td scope="row">{{ historial_riego.valor_temp_ambiente }}</td>
+                            <td scope="row">{{ historial_riego.siembra.plataforma.device.nombre }}</td>
+                            <td scope="row">{{ historial_riego.siembra.plataforma.persona.nombre }}
+                                {{ historial_riego.siembra.plataforma.persona.apellido }}
+                            </td>
+                            <td scope="row">{{ historial_riego.tipo_rol.nombre }}</td>
 
-    <table class="table table-hover" id="data">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Codigo Sensor</th>
-            <th>Fecha Riego</th>
-            <th>Tiempo</th>
-            <th>Humedad Suelo</th>
-            <th>Humedad Ambiental</th>
-            <th>Temperatura Ambiental</th>
-            <th>Dispositivo</th>
-            <th>Encargado</th>
-            <th>Rol</th>
-
-        </tr>
-        </thead>
-        <tbody>
-        {% for historial_riego in object_list %}
-            <tr>
-                <td>{{ historial_riego.id }}</td>
-                <td>{{ historial_riego.codigo_sensor }}</td>
-                <td>{{ historial_riego.fecha_riego }}</td>
-                <td>{{ historial_riego.tiempo_riego }}</td>
-                <td>{{ historial_riego.valor_humed_suelo }}</td>
-                <td>{{ historial_riego.valor_humed_ambiente }}</td>
-                <td>{{ historial_riego.valor_temp_ambiente }}</td>
-                <td>{{ historial_riego.siembra.plataforma.device.nombre }}</td>
-                <td>{{ historial_riego.siembra.plataforma.persona.nombre }}
-                    {{ historial_riego.siembra.plataforma.persona.apellido }}
-                </td>
-                <td>{{ historial_riego.tipo_rol.nombre }}</td>
-
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <div class="card-footer">
-        <a href="{{ list_url }}" class="btn btn-success btn-flat" type="button">
-            <i class="fas fa-sync"></i> Actualizar
-        </a>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="card-footer">
+                <a href="{{ list_url }}" class="btn btn-success btn-flat" type="button">
+                    <i class="fas fa-sync"></i> Actualizar
+                </a>
+            </div>
+        </div>
     </div>
+
 
 {% endblock body %}
 {% block javascript %}

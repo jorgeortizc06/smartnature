@@ -294,4 +294,12 @@ $(document).ready(function () {
         }
         client.send(message);
     };
+
+    $('#on').click(function () {
+        OnOff('ON')
+    })
+
+    $('#off').click(function () {
+        OnOff('OFF')
+    })
 });

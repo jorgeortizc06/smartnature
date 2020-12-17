@@ -4,204 +4,176 @@
 {% block card_title %} Dashboard {% endblock card_title %}
 
 {% block body %}
-    <ol>
-        {% for device in object_list %}
-
-            <li>{{ device }}</li>
-            <!--Start the javascript ball rolling and connect to the mqtt broker-->
-            <div class="row">
-                <div class="col-md-3">
-                    <input id="iptxt" type="text" value='{{ device.ip }}' class="form-control">
-                </div>
-                <div class="col-md-3">
-                    <input id="topictxt" type="text" value='{{ device.topic }}' class="form-control">
-
-                </div>
-                <div class="col-md-3">
-                    <input id="puertotxt" type="number" value='{{ device.puerto }}' class="form-control">
-
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="box">
-                        <div class="box-body">
-                            <div class="row">
-                                <div class="col-md-6">
-
-                                    <div class="card">
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div id="SensorTemperatura1" class="200x160px"></div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div id="SensorHumedad1" class="200x160px"></div>
-                                            </div>
-
-                                            <div class="col-md-6">
-                                                <div id="SensorCaudal1" class="200x160px"></div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div id="SensorConsumoAgua1" class="200x160px"></div>
-                                            </div>
-
-                                        </div>
-
-                                        <!-- this the placeholder for the chart-->
-
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="card">
-                                        <div class="row">
-                                            <div class="col-md-4">
-                                                <div id="SensorSuelo1" class="200x160px"></div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div id="SensorSuelo2" class="200x160px"></div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div id="SensorSuelo3" class="200x160px"></div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div id="SensorSuelo4" class="200x160px"></div>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <div id="PromedioSensorSuelo" class="200x160px"></div>
-                                            </div>
-                                        </div>
-
-                                        <!-- this the placeholder for the chart-->
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="box">
-                        <div class="box-body">
-                            <div class="row">
-                                <div class="col-md-6">
-
-                                    <div class="chart">
-
-                                        <figure class="highcharts-figure">
-                                            <div id="container"></div>
-                                        </figure>
-                                        <!-- this the placeholder for the chart-->
-
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-
-
-                                    <div class="chart">
-                                        <figure class="highcharts-figure">
-                                            <div id="container2"></div>
-                                        </figure>
-                                    </div>
-                                    <!-- this the placeholder for the chart-->
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <a>Activar Riego: </a>
-                <button type='button' onclick='OnOff("ON")'>ON</button>
-                <button type='button' onclick='OnOff("OFF")'>OFF</button>
-                <a id="estado">-</a>
-            </div>
-
-
-        {% endfor %}
-    </ol>
-
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box">
-                <div class="box-body">
+    <div class="container">
+        <div class="card">
+            <ol>
+                {% for device in object_list %}
+                    <li>{{ device }}</li>
                     <div class="row">
-                        <div class="col-md-6">
-
-                            <div class="chart">
-                                <label>Elegir días:</label>
-                                <select id="dias" name="dias">
-                                    <option>----</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-                                    <option>8</option>
-                                    <option>9</option>
-                                    <option>11</option>
-                                    <option>12</option>
-                                    <option>13</option>
-                                    <option>14</option>
-                                    <option>15</option>
-                                    <option>16</option>
-                                    <option>17</option>
-                                    <option>18</option>
-                                    <option>19</option>
-                                    <option>20</option>
-                                    <option>21</option>
-                                    <option>22</option>
-                                    <option>23</option>
-                                    <option>24</option>
-                                    <option>25</option>
-                                    <option>26</option>
-                                    <option>27</option>
-                                    <option>28</option>
-                                    <option>29</option>
-                                    <option>30</option>
-                                </select>
-                                <figure class="highcharts-figure">
-                                    <div id="container4"></div>
-                                </figure>
-                                <!-- this the placeholder for the chart-->
-
-                            </div>
+                        <div class="col-md-3">
+                            <input id="iptxt" type="text" value='{{ device.ip }}' class="form-control">
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-3">
+                            <input id="topictxt" type="text" value='{{ device.topic }}' class="form-control">
 
-                            <div class="chart">
-                                <label>Elegir mes:</label>
-                                <select id="mes" name="mes">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-                                    <option>8</option>
-                                    <option>9</option>
-                                    <option>11</option>
-                                    <option>12</option>
-                                </select>
-                                <figure class="highcharts-figure">
-                                    <div id="c_graph_historial_riego_mes"></div>
-                                </figure>
-                            </div>
-                            <!-- this the placeholder for the chart-->
+                        </div>
+                        <div class="col-md-3">
+                            <input id="puertotxt" type="number" value='{{ device.puerto }}' class="form-control">
 
                         </div>
                     </div>
+
+                    <div class="row">
+
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="card mt-2">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div id="SensorTemperatura1" class="200x160px"></div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div id="SensorHumedad1" class="200x160px"></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div id="SensorCaudal1" class="200x160px"></div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div id="SensorConsumoAgua1" class="200x160px"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-lg-6">
+                            <div class="card mt-2">
+                                <div class="row">
+                                    <div class="col-sm-6 col-lg-4">
+                                        <div id="SensorSuelo1" class="200x160px"></div>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-4">
+                                        <div id="SensorSuelo2" class="200x160px"></div>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-4">
+                                        <div id="SensorSuelo3" class="200x160px"></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-6 col-lg-6">
+                                        <div id="SensorSuelo4" class="200x160px"></div>
+                                    </div>
+                                    <div class="col-sm-6 col-lg-6">
+                                        <div id="PromedioSensorSuelo" class="200x160px"></div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-12 col-lg-6">
+                            <div class="card">
+                                <figure class="highcharts-figure">
+                                    <div id="container"></div>
+                                </figure>
+                            </div>
+                        </div>
+                        <div class="col-md-12 col-lg-6">
+                            <div class="card">
+                                <figure class="highcharts-figure">
+                                    <div id="container2"></div>
+                                </figure>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div>
+                            <label>Activar Riego: </label>
+                            <a class="btn btn-success btn-flat" id="on" type="button">
+                                <i class="fas fa-on"></i> ON
+                            </a>
+                            <a class="btn btn-danger btn-flat" id="off" type="button">
+                                <i class="fas fa-on"></i> OFF
+                            </a>
+                            <a id="estado">-</a>
+                        </div>
+                    </div>
+                {% endfor %}
+            </ol>
+            <div class="card-body">
+                <h5 class="card-title">Visualización de los Sensores</h5>
+                <p class="card-text">En tiempo real, su actalización es cada 2 segundos</p>
+            </div>
+        </div>
+        <div class="jumbotron">
+            <h1 class="display-4">HISTORIAL DE RIEGO</h1>
+            <p class="lead">Muestra información de riego por dias y horas</p>
+            <hr class="my-4">
+            <div class="row">
+                <div class="col-md-12 col-lg-6">
+                    <label>Elegir días:</label>
+                    <select id="dias" name="dias">
+                        <option>----</option>
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>11</option>
+                        <option>12</option>
+                        <option>13</option>
+                        <option>14</option>
+                        <option>15</option>
+                        <option>16</option>
+                        <option>17</option>
+                        <option>18</option>
+                        <option>19</option>
+                        <option>20</option>
+                        <option>21</option>
+                        <option>22</option>
+                        <option>23</option>
+                        <option>24</option>
+                        <option>25</option>
+                        <option>26</option>
+                        <option>27</option>
+                        <option>28</option>
+                        <option>29</option>
+                        <option>30</option>
+                    </select>
+                    <figure class="highcharts-figure">
+                        <div id="container4"></div>
+                    </figure>
+                </div>
+                <div class="col-md-12 col-lg-6">
+                    <label>Elegir mes:</label>
+                    <select id="mes" name="mes">
+                        <option>1</option>
+                        <option>2</option>
+                        <option>3</option>
+                        <option>4</option>
+                        <option>5</option>
+                        <option>6</option>
+                        <option>7</option>
+                        <option>8</option>
+                        <option>9</option>
+                        <option>11</option>
+                        <option>12</option>
+                    </select>
+                    <figure class="highcharts-figure">
+                        <div id="c_graph_historial_riego_mes"></div>
+                    </figure>
                 </div>
             </div>
         </div>
     </div>
-
 {% endblock body %}
 
 {% block javascript %}
