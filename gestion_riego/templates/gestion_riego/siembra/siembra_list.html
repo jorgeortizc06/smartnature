@@ -4,41 +4,45 @@
 {% block card_title %} {{ title }} {% endblock card_title %}
 
 {% block body %}
-    <table class="table table-hover" id="data">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Fecha Siembra</th>
-            <th>Cantidad Plantas</th>
-            <th>Distancia Siembra</th>
-            <th>Plataforma</th>
-            <th>Planta</th>
-            <th>Opciones</th>
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-bordered" id="data">
+                <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Fecha Siembra</th>
+                    <th>Cantidad Plantas</th>
+                    <th>Distancia Siembra</th>
+                    <th>Plataforma</th>
+                    <th>Planta</th>
+                    <th>Opciones</th>
 
-        </tr>
-        </thead>
-        <tbody>
-        {% for siembra in object_list %}
-            <tr>
-                <td>{{ siembra.id }}</td>
-                <td>{{ siembra.fecha_siembra }}</td>
-                <td>{{ siembra.cantidad_plantas }}</td>
-                <td>{{ siembra.distancia_siembra }}</td>
-                <td>{{ siembra.plataforma.nombre }}</td>
-                <td>{{ siembra.planta.nombre }}</td>
-                <td><a href="{% url 'gestion_riego:siembra_update' siembra.id %}"
-                       class="btn btn-secondary">ACTUALIZAR</a> <a
-                        href="{% url 'gestion_riego:siembra_delete' siembra.id %}" class="btn btn-danger">ELIMINAR</a>
-                </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <div class="card-footer">
+                </tr>
+                </thead>
+                <tbody>
+                {% for siembra in object_list %}
+                    <tr>
+                        <td>{{ siembra.id }}</td>
+                        <td>{{ siembra.fecha_siembra }}</td>
+                        <td>{{ siembra.cantidad_plantas }}</td>
+                        <td>{{ siembra.distancia_siembra }}</td>
+                        <td>{{ siembra.plataforma.nombre }}</td>
+                        <td>{{ siembra.planta.nombre }}</td>
+                        <td><a href="{% url 'gestion_riego:siembra_update' siembra.id %}"
+                               class="btn btn-secondary">ACTUALIZAR</a> <a
+                                href="{% url 'gestion_riego:siembra_delete' siembra.id %}" class="btn btn-danger">ELIMINAR</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
         <a href="{{ create_url }}" class="btn btn-success btn-flat" type="button">
             <i class="fas fa-plus"></i> Nueva Siembra
         </a>
-        <a href="{{ list_url }}" class="btn btn-success btn-flat" type="button">
+        <a href="{{ list_url }}" class="btn btn-secondary btn-flat" type="button">
             <i class="fas fa-sync"></i> Actualizar
         </a>
     </div>

@@ -4,41 +4,44 @@
 {% block card_title %} {{ title }} {% endblock card_title %}
 
 {% block body %}
-    <table class="table table-hover" id="data">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Descripcion</th>
-            <th>Tiempo de Produccion en semanas</th>
-            <th>Opciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for planta in object_list %}
-            <tr>
-                <td>{{ planta.id }}</td>
-                <td>{{ planta.nombre }}</td>
-                <td>{{ planta.descripcion }}</td>
-                <td>{{ planta.tiempo_produccion }}</td>
-                <td><a href="{% url 'gestion_riego:planta_update' planta.id %}" class="btn btn-secondary">ACTUALIZAR</a>
-                    <a
-                            href="{% url 'gestion_riego:planta_delete' planta.id %}" class="btn btn-danger">ELIMINAR</a>
-                </td>
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-bordered" id="data">
+                <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th>Tiempo de Produccion en semanas</th>
+                    <th>Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for planta in object_list %}
+                    <tr>
+                        <td>{{ planta.id }}</td>
+                        <td>{{ planta.nombre }}</td>
+                        <td>{{ planta.descripcion }}</td>
+                        <td>{{ planta.tiempo_produccion }}</td>
+                        <td><a href="{% url 'gestion_riego:planta_update' planta.id %}" class="btn btn-secondary">ACTUALIZAR</a>
+                            <a
+                                    href="{% url 'gestion_riego:planta_delete' planta.id %}" class="btn btn-danger">ELIMINAR</a>
+                        </td>
 
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <div class="card-footer">
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
         <a href="{{ create_url }}" class="btn btn-success btn-flat" type="button">
             <i class="fas fa-plus"></i> Nueva Planta
         </a>
-        <a href="{{ list_url }}" class="btn btn-success btn-flat" type="button">
+        <a href="{{ list_url }}" class="btn btn-secondary btn-flat" type="button">
             <i class="fas fa-sync"></i> Actualizar
         </a>
     </div>
-
 {% endblock body %}
 
 {% block javascript %}

@@ -4,40 +4,33 @@
 
 {% block card_title %} <i class="fas fa-list"></i> {{ title }} {% endblock card_title %}
 {% block body %}
-    <div class="container">
-        <div class="row">
-            <div class="table-responsive">
-                <table class="table table-hover table-striped" id="data">
-                    <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Nombre</th>
-                        <th scope="col">Descripcion</th>
-                        <th scope="col">IP</th>
-                        <th scope="col">Topic</th>
-                        <th scope="col">Puerto</th>
-                        <th scope="col">Opciones</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-
-                    </tbody>
-                </table>
-            </div>
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-bordered" id="data">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Descripcion</th>
+                    <th scope="col">IP</th>
+                    <th scope="col">Topic</th>
+                    <th scope="col">Puerto</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
-        <div class="row">
-            <a class="btn btn-success btn-flat btnAdd" type="button">
-                <i class="fas fa-plus"></i> Nuevo Dispositivo
-            </a>
-            <a class="btn btn-secondary btn-flat bntUpdate" type="button">
-                <i class="fas fa-sync"></i> Actualizar
-            </a>
-        </div>
-
-
     </div>
-
-
+    <div class="row">
+        <a class="btn btn-success btn-flat btnAdd" type="button">
+            <i class="fas fa-plus"></i> Nuevo Dispositivo
+        </a>
+        <a class="btn btn-secondary btn-flat bntUpdate" type="button">
+            <i class="fas fa-sync"></i> Actualizar
+        </a>
+    </div>
     <!-- Modal -->
     <div class="modal fade" id="modalDevice" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <form method="post" action=".">

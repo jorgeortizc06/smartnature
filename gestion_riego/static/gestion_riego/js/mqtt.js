@@ -54,12 +54,12 @@ $(document).ready(function () {
         max: 1024,
         title: "Humedad del Suelo 4"
     });
-    var gPromedioSensorSuelo = new JustGage({
+    /*var gPromedioSensorSuelo = new JustGage({
         id: "PromedioSensorSuelo",
         min: 0,
         max: 1024,
         title: "Promedio de los sensores"
-    });
+    });*/
 //mqtt broker
     var client = new Paho.MQTT.Client(MQTTbroker, MQTTport,
         "myclientid_" + parseInt(Math.random() * 100, 10));
@@ -178,10 +178,10 @@ $(document).ready(function () {
                 //document.getElementById("SensorHumedad1").textContent = message.payloadString + " %";
                 gSensorSuelo4.refresh(message.payloadString);
             }
-            if (message.destinationName == 'device1/promedioSensorSuelo') { //acá coloco el topic
+            /*if (message.destinationName == 'device1/promedioSensorSuelo') { //acá coloco el topic
                 //document.getElementById("SensorHumedad1").textContent = message.payloadString + " %";
                 gPromedioSensorSuelo.refresh(message.payloadString);
-            }
+            }*/
         }
         ;
     };

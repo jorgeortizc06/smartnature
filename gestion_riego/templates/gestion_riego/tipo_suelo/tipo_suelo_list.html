@@ -2,35 +2,40 @@
 {% block titulo %}{{ title }}{% endblock titulo %}
 {% block card_title %} {{ title }} {% endblock card_title %}
 {% block body %}
-    <table class="table table-hover" id="data">
-        <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Descripcion</th>
-            <th>Densidad</th>
-            <th>Opciones</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for tipo_suelo in object_list %}
-            <tr>
-                <td>{{ tipo_suelo.id }}</td>
-                <td>{{ tipo_suelo.nombre }}</td>
-                <td>{{ tipo_suelo.descripcion }}</td>
-                <td>{{ tipo_suelo.densidad }}</td>
-                <td><a href="{% url 'gestion_riego:tipo_suelo_update' tipo_suelo.id %}" class="btn btn-secondary">ACTUALIZAR</a>
-                    <a href="{% url 'gestion_riego:tipo_suelo_delete' tipo_suelo.id %}"
-                       class="btn btn-danger">ELIMINAR</a></td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-    <div class="card-footer">
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-bordered" id="data">
+                <thead class="thead-dark">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Descripcion</th>
+                    <th>Densidad</th>
+                    <th>Opciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for tipo_suelo in object_list %}
+                    <tr>
+                        <td>{{ tipo_suelo.id }}</td>
+                        <td>{{ tipo_suelo.nombre }}</td>
+                        <td>{{ tipo_suelo.descripcion }}</td>
+                        <td>{{ tipo_suelo.densidad }}</td>
+                        <td><a href="{% url 'gestion_riego:tipo_suelo_update' tipo_suelo.id %}"
+                               class="btn btn-secondary">ACTUALIZAR</a>
+                            <a href="{% url 'gestion_riego:tipo_suelo_delete' tipo_suelo.id %}"
+                               class="btn btn-danger">ELIMINAR</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
         <a href="{{ create_url }}" class="btn btn-success btn-flat" type="button">
             <i class="fas fa-plus"></i> Nuevo Tipo de Sensor
         </a>
-        <a href="{{ list_url }}" class="btn btn-success btn-flat" type="button">
+        <a href="{{ list_url }}" class="btn btn-secondary btn-flat" type="button">
             <i class="fas fa-sync"></i> Actualizar
         </a>
     </div>
