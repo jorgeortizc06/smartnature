@@ -186,6 +186,7 @@ class dashboardView(ListView):
         data = {}
         try:
             action = request.POST['action']
+            # el ajax envia el parametro de search_historial_riego_day para la etiqueta input dateDia
             if action == 'search_historial_riego_day':
                 fecha_ajax = request.POST['fecha']
                 fecha = datetime.strptime(fecha_ajax, '%Y-%m-%d') #convierto a fecha para que python lo entienda
@@ -193,15 +194,15 @@ class dashboardView(ListView):
                 dia = fecha.day
                 mes = fecha.month
                 anio = fecha.year
+                data_historial_riego_day = self.get_graph_historial_riego_day(dia, mes, anio)
                 data = []
-                data = {'historial_riego_day_1': self.get_graph_day_1(dia, mes, anio),
-                        'historial_riego_day_2': self.get_graph_day_2(dia, mes, anio),
-                        'historial_riego_day_3': self.get_graph_day_3(dia, mes, anio),
-                        'historial_riego_day_4': self.get_graph_day_4(dia, mes, anio),
-                        'historial_riego_day_5': self.get_graph_day_5(dia, mes, anio),
+                data = {'historial_riego_day_1': data_historial_riego_day['data_historial_riego_sensor_1'],
+                        'historial_riego_day_2': data_historial_riego_day['data_historial_riego_sensor_2'],
+                        'historial_riego_day_3': data_historial_riego_day['data_historial_riego_sensor_3'],
+                        'historial_riego_day_4': data_historial_riego_day['data_historial_riego_sensor_4'],
+                        'historial_riego_day_5': data_historial_riego_day['data_historial_riego_sensor_5'],
                         'dia_riego':  formateo_fecha}
-
-                #data = self.get_graph_day_1(dia)
+            #el ajax envia el parametro de search_historial_riego_mont para la etiqueta input dateMes
             elif action == 'search_historial_riego_month':
                 fecha_ajax = request.POST['fecha']
                 fecha = datetime.strptime(fecha_ajax, '%Y-%m-%d') #convierto a fecha para que python lo entienda
@@ -209,12 +210,13 @@ class dashboardView(ListView):
                 dia = fecha.day
                 mes = fecha.month
                 anio = fecha.year
+                data_historial_riego_month = self.get_graph_historial_riego_month(mes, anio)
                 data = []
-                data = {'historial_riego_month_1': self.get_graph_month_1(mes, anio),
-                        'historial_riego_month_2': self.get_graph_month_2(mes, anio),
-                        'historial_riego_month_3': self.get_graph_month_3(mes, anio),
-                        'historial_riego_month_4': self.get_graph_month_4(mes, anio),
-                        'historial_riego_month_5': self.get_graph_month_5(mes, anio),
+                data = {'historial_riego_month_1': data_historial_riego_month['data_historial_riego_sensor_1'],
+                        'historial_riego_month_2': data_historial_riego_month['data_historial_riego_sensor_2'],
+                        'historial_riego_month_3': data_historial_riego_month['data_historial_riego_sensor_3'],
+                        'historial_riego_month_4': data_historial_riego_month['data_historial_riego_sensor_4'],
+                        'historial_riego_month_5': data_historial_riego_month['data_historial_riego_sensor_5'],
                         'dia_riego':  formateo_fecha}
 
             else:
@@ -223,163 +225,112 @@ class dashboardView(ListView):
             data['error']= str(e)
         return JsonResponse(data, safe=False)
     #==========Funciones para obtener historial de riego de un dia determinado para desglosarlo en 24 horas=============
-    def get_graph_day_1(self, day, mes, anio):
-        data = []
+    def get_graph_historial_riego_day(self, day, mes, anio):
+        data_historial_riego_sensor_1 = []
+        data_historial_riego_sensor_2 = []
+        data_historial_riego_sensor_3 = []
+        data_historial_riego_sensor_4 = []
+        data_historial_riego_sensor_5 = []
+        data = {}
         try:
-
             for h in range(1,25):
-                totalRiego = HistorialRiego.objects.filter(fecha_riego__day=day, fecha_riego__month=mes,
-                                                           fecha_riego__year=anio, fecha_riego__hour=h,
-                                                           codigo_sensor=1).aggregate(
+                sum_riego_sensor_1 = HistorialRiego.objects.filter(fecha_riego__day=day, fecha_riego__month=mes,
+                                                                   fecha_riego__year=anio, fecha_riego__hour=h,
+                                                                   codigo_sensor=1).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
-                data.append(float(totalRiego))
-
-        except:
-            pass
-        return data
-
-    def get_graph_day_2(self, day, mes, anio):
-        data = []
-        try:
-
-            for h in range(1, 25):
-                totalRiego = HistorialRiego.objects.filter(fecha_riego__day=day, fecha_riego__month=mes,
+                sum_riego_sensor_2 = HistorialRiego.objects.filter(fecha_riego__day=day, fecha_riego__month=mes,
                                                            fecha_riego__year=anio, fecha_riego__hour=h,
                                                            codigo_sensor=2).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
-                data.append(float(totalRiego))
-
-        except:
-            pass
-        return data
-
-    def get_graph_day_3(self, day, mes, anio):
-        data = []
-        try:
-
-            for h in range(1, 25):
-                totalRiego = HistorialRiego.objects.filter(fecha_riego__day=day, fecha_riego__month=mes,
+                sum_riego_sensor_3 = HistorialRiego.objects.filter(fecha_riego__day=day, fecha_riego__month=mes,
                                                            fecha_riego__year=anio, fecha_riego__hour=h,
                                                            codigo_sensor=3).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
-                data.append(float(totalRiego))
-
-        except:
-            pass
-        return data
-
-    def get_graph_day_4(self, day, mes, anio):
-        data = []
-        try:
-
-            for h in range(1, 25):
-                totalRiego = HistorialRiego.objects.filter(fecha_riego__day=day, fecha_riego__month=mes,
+                sum_riego_sensor_4 = HistorialRiego.objects.filter(fecha_riego__day=day, fecha_riego__month=mes,
                                                            fecha_riego__year=anio, fecha_riego__hour=h,
                                                            codigo_sensor=4).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
-                data.append(float(totalRiego))
-
-        except:
-            pass
-        return data
-
-    def get_graph_day_5(self, day, mes, anio):
-        data = []
-        try:
-
-            for h in range(1, 25):
-                totalRiego = HistorialRiego.objects.filter(fecha_riego__day=day, fecha_riego__month=mes,
+                sum_riego_sensor_5 = HistorialRiego.objects.filter(fecha_riego__day=day, fecha_riego__month=mes,
                                                            fecha_riego__year=anio, fecha_riego__hour=h,
                                                            codigo_sensor=5).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
-                data.append(float(totalRiego))
-
+                data_historial_riego_sensor_1.append(float(sum_riego_sensor_1))
+                data_historial_riego_sensor_2.append(float(sum_riego_sensor_2))
+                data_historial_riego_sensor_3.append(float(sum_riego_sensor_3))
+                data_historial_riego_sensor_4.append(float(sum_riego_sensor_4))
+                data_historial_riego_sensor_5.append(float(sum_riego_sensor_5))
+            data = {
+                'data_historial_riego_sensor_1': data_historial_riego_sensor_1,
+                'data_historial_riego_sensor_2': data_historial_riego_sensor_2,
+                'data_historial_riego_sensor_3': data_historial_riego_sensor_3,
+                'data_historial_riego_sensor_4': data_historial_riego_sensor_4,
+                'data_historial_riego_sensor_5': data_historial_riego_sensor_5,
+            }
         except:
             pass
         return data
 
     # ==========Funciones para obtener historial de riego de un mes determinado para desglosarlo en días=============
-    def get_graph_month_1(self, mes, anio):
-        data = []
+    def get_graph_historial_riego_month(self, mes, anio):
+        data_historial_riego_sensor_1 = []
+        data_historial_riego_sensor_2 = []
+        data_historial_riego_sensor_3 = []
+        data_historial_riego_sensor_4 = []
+        data_historial_riego_sensor_5 = []
+        data = {}
         try:
-            for d in range(1,31):
-                totalRiego = HistorialRiego.objects.filter(fecha_riego__day = d, fecha_riego__month = mes, fecha_riego__year = anio, codigo_sensor = 1).aggregate(r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
-                data.append(float(totalRiego))
-
-        except:
-            pass
-        return data
-
-    def get_graph_month_2(self, mes, anio):
-        data = []
-        try:
-            for d in range(1, 31):
-                totalRiego = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
+            for d in range(1,32):
+                sum_riego_sensor_1 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
+                                                                   fecha_riego__year=anio, codigo_sensor=1).aggregate(
+                    r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
+                sum_riego_sensor_2 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
                                                            fecha_riego__year=anio, codigo_sensor=2).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
-                data.append(float(totalRiego))
-
-        except:
-            pass
-        return data
-
-    def get_graph_month_3(self, mes, anio):
-        data = []
-        try:
-            for d in range(1, 31):
-                totalRiego = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
+                sum_riego_sensor_3 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
                                                            fecha_riego__year=anio, codigo_sensor=3).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
-                data.append(float(totalRiego))
-
-        except:
-            pass
-        return data
-
-    def get_graph_month_4(self, mes, anio):
-        data = []
-        try:
-            for d in range(1, 31):
-                totalRiego = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
+                sum_riego_sensor_4 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
                                                            fecha_riego__year=anio, codigo_sensor=4).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
-                data.append(float(totalRiego))
-
-        except:
-            pass
-        return data
-
-    def get_graph_month_5(self, mes, anio):
-        data = []
-        try:
-            for d in range(1, 31):
-                totalRiego = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
-                                                           fecha_riego__year=anio, codigo_sensor=5).aggregate(
+                sum_riego_sensor_5 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
+                                                          fecha_riego__year=anio, codigo_sensor=5).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
-                data.append(float(totalRiego))
-
+                data_historial_riego_sensor_1.append(float(sum_riego_sensor_1))
+                data_historial_riego_sensor_2.append(float(sum_riego_sensor_2))
+                data_historial_riego_sensor_3.append(float(sum_riego_sensor_3))
+                data_historial_riego_sensor_4.append(float(sum_riego_sensor_4))
+                data_historial_riego_sensor_5.append(float(sum_riego_sensor_5))
+            data = {
+                'data_historial_riego_sensor_1': data_historial_riego_sensor_1,
+                'data_historial_riego_sensor_2': data_historial_riego_sensor_2,
+                'data_historial_riego_sensor_3': data_historial_riego_sensor_3,
+                'data_historial_riego_sensor_4': data_historial_riego_sensor_4,
+                'data_historial_riego_sensor_5': data_historial_riego_sensor_5,
+            }
         except:
             pass
         return data
     # Metodo para modificar el context
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        data_historial_riego_month = self.get_graph_historial_riego_month(mes = datetime.now().month, anio = datetime.now().year)
+        data_historial_riego_day = self.get_graph_historial_riego_day(day = datetime.now().day, mes = datetime.now().month, anio = datetime.now().year)
         context['title'] = 'Dashboard'
         context['entity'] = 'Device'
         context['object_list'] = Device.objects.all()
         context['form'] = DashboardForm()
         context['mes'] = datetime.now().strftime('%B')
         context['dia'] = datetime.now().strftime('%D')
-        context['historial_riego_day_1'] = self.get_graph_day_1(day = datetime.now().day, mes = datetime.now().month, anio = datetime.now().year)
-        context['historial_riego_day_2'] = self.get_graph_day_2(day = datetime.now().day, mes = datetime.now().month, anio = datetime.now().year)
-        context['historial_riego_day_3'] = self.get_graph_day_3(day = datetime.now().day, mes = datetime.now().month, anio = datetime.now().year)
-        context['historial_riego_day_4'] = self.get_graph_day_4(day = datetime.now().day, mes = datetime.now().month, anio = datetime.now().year)
-        context['historial_riego_day_5'] = self.get_graph_day_5(day = datetime.now().day, mes = datetime.now().month, anio = datetime.now().year)
-        context['historial_riego_1'] = self.get_graph_month_1(mes = datetime.now().month, anio = datetime.now().year)
-        context['historial_riego_2'] = self.get_graph_month_2(mes = datetime.now().month, anio = datetime.now().year)
-        context['historial_riego_3'] = self.get_graph_month_3(mes = datetime.now().month, anio = datetime.now().year)
-        context['historial_riego_4'] = self.get_graph_month_4(mes = datetime.now().month, anio = datetime.now().year)
-        context['historial_riego_5'] = self.get_graph_month_5(mes = datetime.now().month, anio = datetime.now().year)
+        context['historial_riego_day_1'] = data_historial_riego_day['data_historial_riego_sensor_1']
+        context['historial_riego_day_2'] = data_historial_riego_day['data_historial_riego_sensor_2']
+        context['historial_riego_day_3'] = data_historial_riego_day['data_historial_riego_sensor_3']
+        context['historial_riego_day_4'] = data_historial_riego_day['data_historial_riego_sensor_4']
+        context['historial_riego_day_5'] = data_historial_riego_day['data_historial_riego_sensor_5']
+        context['historial_riego_1'] = data_historial_riego_month['data_historial_riego_sensor_1']
+        context['historial_riego_2'] = data_historial_riego_month['data_historial_riego_sensor_2']
+        context['historial_riego_3'] = data_historial_riego_month['data_historial_riego_sensor_3']
+        context['historial_riego_4'] = data_historial_riego_month['data_historial_riego_sensor_4']
+        context['historial_riego_5'] = data_historial_riego_month['data_historial_riego_sensor_5']
         return context
 
 
