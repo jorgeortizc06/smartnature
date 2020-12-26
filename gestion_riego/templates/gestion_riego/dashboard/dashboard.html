@@ -253,61 +253,64 @@
                 series: []
             }
 
-            $(function () {
-                $('#dateDia').on('change', function () {
-                    var fecha = $(this).val();
-                    $.ajax({
-                        url: window.location.pathname,
-                        type: 'POST',
-                        data: {
-                            'action': 'search_historial_riego_day',
-                            'fecha': fecha
-                        },
-                        dataType: 'json',
-                    }).done(function (data) {
-                        //console.log(data);
 
-                        var dia = new Highcharts.chart('container4', options1);
-                        dia.addSeries({
-                            name: 'Tiempo Riego: Promedio',
-                            data: data.historial_riego_day_5
-                        })
-                        dia.addSeries({
-                            name: 'Tiempo Riego: Sensor 1',
-                            data: data.historial_riego_day_1
-                        })
-                        dia.addSeries({
-                            name: 'Tiempo Riego: Sensor 2',
-                            data: data.historial_riego_day_2
+            $('#dateDia').on('change', function () {
+                var fecha = $(this).val();
+                $.ajax({
+                    url: window.location.pathname,
+                    type: 'POST',
+                    data: {
+                        'action': 'search_historial_riego_day',
+                        'fecha': fecha
+                    },
+                    dataType: 'json',
+                }).done(function (data) {
+                    //console.log(data);
 
-                        })
-                        dia.addSeries({
-                            name: 'Tiempo Riego: Sensor 3',
-                            data: data.historial_riego_day_3
-                        })
-                        dia.addSeries({
-                            name: 'Tiempo Riego: Sensor 4',
-                            data: data.historial_riego_day_4
-                        })
-
-                        dia.setTitle({
-                            text: data.dia_riego
-                        });
-
-
-                        /*$.each(data, function (key, value) {
-                            dia.addSeries({
-                                name: 'Sensor '+key,
-                                data: value.historial_riego_day_1
-                            })
-                        })*/
-
-                        //dia.redraw();
-
-                        return false;
+                    var dia = new Highcharts.chart('container4', options1);
+                    dia.addSeries({
+                        name: 'Tiempo Riego: Promedio',
+                        data: data.historial_riego_day_5
                     })
-                })
+                    dia.addSeries({
+                        name: 'Tiempo Riego: Sensor 1',
+                        data: data.historial_riego_day_1
+                    })
+                    dia.addSeries({
+                        name: 'Tiempo Riego: Sensor 2',
+                        data: data.historial_riego_day_2
+
+                    })
+                    dia.addSeries({
+                        name: 'Tiempo Riego: Sensor 3',
+                        data: data.historial_riego_day_3
+                    })
+                    dia.addSeries({
+                        name: 'Tiempo Riego: Sensor 4',
+                        data: data.historial_riego_day_4
+                    })
+
+                    dia.setTitle({
+                        text: data.dia_riego
+                    });
+
+
+                    /*$.each(data, function (key, value) {
+                        dia.addSeries({
+                            name: 'Sensor '+key,
+                            data: value.historial_riego_day_1
+                        })
+                    })*/
+
+                    //dia.redraw();
+
+                    return false;
+                }).fail(function (jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + ': ' + errorThrown);
+                }).always(function (data) {
+                });
             });
+
         });
     </script>
     <script>

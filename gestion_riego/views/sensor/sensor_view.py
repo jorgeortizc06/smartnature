@@ -124,8 +124,26 @@ class SensorListView(ListView):
             action = request.POST['action']
             if action == 'searchdata':
                 data = []
-                for i in Sensor.objects.all()[0:25]:
+                for i in Sensor.objects.all()[0:300]:
                     data.append(i.toJSON())
+            elif action == 'search_historial_sensores_month':
+                fecha_ajax = request.POST['fecha']
+
+                fecha = datetime.strptime(fecha_ajax, '%Y-%m-%d') #convierto a fecha para que python lo entienda
+                formateo_fecha = datetime.strftime(fecha, '%B') #ne sirve para visualizarlo en el chart
+                dia = fecha.day
+                mes = fecha.month
+                anio = fecha.year
+                data = []
+                data = {'historial_sensor_humedad_suelo_month_1': self.get_graph_sensor_humedad_suelo_month_1(mes, anio),
+                        'historial_sensor_humedad_suelo_month_2': self.get_graph_sensor_humedad_suelo_month_2(mes, anio),
+                        'historial_sensor_humedad_suelo_month_3': self.get_graph_sensor_humedad_suelo_month_3(mes, anio),
+                        'historial_sensor_humedad_suelo_month_4': self.get_graph_sensor_humedad_suelo_month_4(mes, anio),
+                        'historial_sensor_humedad_ambiente_month_1' : self.get_graph_sensor_humedad_ambiente_month_1(mes, anio),
+                        'historial_sensor_temperatura_ambiente_month_1' : self.get_graph_sensor_temperatura_ambiente_month_1(mes, anio),
+                        'mes':  formateo_fecha}
+                print(data)
+
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
@@ -135,67 +153,78 @@ class SensorListView(ListView):
     #def get_queryset(self):
     #    return self.model.objects.all()[:10]  # Trae solo dos objetos
 
-    def get_graph_sensor_humedad_suelo_month_1(self):
+    def get_graph_sensor_humedad_suelo_month_1(self, mes, anio):
         data = []
         try:
-            month = datetime.now().month
-            for d in range(1,31):
-                avg_sensor_humedad = Sensor.objects.filter(fecha_registro__month = month, fecha_registro__day = d, codigo_sensor = 1, tipo_sensor = 1).aggregate(r=Coalesce(Avg('value'), 0)).get('r')
+
+            for d in range(1, 31):
+                avg_sensor_humedad = Sensor.objects.filter(fecha_registro__day=d, fecha_registro__month=mes,
+                                                           fecha_registro__year=anio, codigo_sensor=1,
+                                                           tipo_sensor=1).aggregate(r=Coalesce(Avg('value'), 0)).get(
+                    'r')
                 data.append(float(avg_sensor_humedad))
         except:
             pass
         return data
 
-    def get_graph_sensor_humedad_suelo_month_2(self):
+    def get_graph_sensor_humedad_suelo_month_2(self, mes, anio):
         data = []
         try:
-            month = datetime.now().month
-            for d in range(1,31):
-                avg_sensor_humedad = Sensor.objects.filter(fecha_registro__month = month, fecha_registro__day = d, codigo_sensor = 2, tipo_sensor = 1).aggregate(r=Coalesce(Avg('value'), 0)).get('r')
+
+            for d in range(1, 31):
+                avg_sensor_humedad = Sensor.objects.filter(fecha_registro__day=d, fecha_registro__month=mes,
+                                                           fecha_registro__year=anio, codigo_sensor=2,
+                                                           tipo_sensor=1).aggregate(r=Coalesce(Avg('value'), 0)).get(
+                    'r')
                 data.append(float(avg_sensor_humedad))
         except:
             pass
         return data
 
-    def get_graph_sensor_humedad_suelo_month_3(self):
+    def get_graph_sensor_humedad_suelo_month_3(self, mes, anio):
         data = []
         try:
-            month = datetime.now().month
-            for d in range(1,31):
-                avg_sensor_humedad = Sensor.objects.filter(fecha_registro__month = month, fecha_registro__day = d, codigo_sensor = 3, tipo_sensor = 1).aggregate(r=Coalesce(Avg('value'), 0)).get('r')
+
+            for d in range(1, 31):
+                avg_sensor_humedad = Sensor.objects.filter(fecha_registro__day=d, fecha_registro__month=mes,
+                                                           fecha_registro__year=anio, codigo_sensor=3,
+                                                           tipo_sensor=1).aggregate(r=Coalesce(Avg('value'), 0)).get(
+                    'r')
                 data.append(float(avg_sensor_humedad))
         except:
             pass
         return data
 
-    def get_graph_sensor_humedad_suelo_month_4(self):
+    def get_graph_sensor_humedad_suelo_month_4(self, mes, anio):
         data = []
         try:
-            month = datetime.now().month
-            for d in range(1,31):
-                avg_sensor_humedad = Sensor.objects.filter(fecha_registro__month = month, fecha_registro__day = d, codigo_sensor = 4, tipo_sensor = 1).aggregate(r=Coalesce(Avg('value'), 0)).get('r')
+
+            for d in range(1, 31):
+                avg_sensor_humedad = Sensor.objects.filter(fecha_registro__day=d, fecha_registro__month=mes,
+                                                           fecha_registro__year=anio, codigo_sensor=4,
+                                                           tipo_sensor=1).aggregate(r=Coalesce(Avg('value'), 0)).get(
+                    'r')
                 data.append(float(avg_sensor_humedad))
         except:
             pass
         return data
 
-    def get_graph_sensor_humedad_ambiente_month_1(self):
+    def get_graph_sensor_humedad_ambiente_month_1(self, mes, anio):
         data = []
         try:
-            month = datetime.now().month
+
             for d in range(1,31):
-                avg_sensor_hum_ambiente = Sensor.objects.filter(fecha_registro__month = month, fecha_registro__day = d, codigo_sensor = 1, tipo_sensor = 2).aggregate(r=Coalesce(Avg('value'), 0)).get('r')
+                avg_sensor_hum_ambiente = Sensor.objects.filter(fecha_registro__day = d, fecha_registro__month = mes, fecha_registro__year = anio, codigo_sensor = 1, tipo_sensor = 2).aggregate(r=Coalesce(Avg('value'), 0)).get('r')
                 data.append(float(avg_sensor_hum_ambiente))
         except:
             pass
         return data
 
-    def get_graph_sensor_temperatura_ambiente_month_1(self):
+    def get_graph_sensor_temperatura_ambiente_month_1(self, mes, anio):
         data = []
         try:
-            month = datetime.now().month
             for d in range(1,31):
-                avg_sensor_temp_ambiente = Sensor.objects.filter(fecha_registro__month = month, fecha_registro__day = d, codigo_sensor = 1, tipo_sensor = 3).aggregate(r=Coalesce(Avg('value'), 0)).get('r')
+                avg_sensor_temp_ambiente = Sensor.objects.filter(fecha_registro__day = d, fecha_registro__month = mes, fecha_registro__year = anio, codigo_sensor = 1, tipo_sensor = 3).aggregate(r=Coalesce(Avg('value'), 0)).get('r')
                 data.append(float(avg_sensor_temp_ambiente))
         except:
             pass
@@ -208,12 +237,12 @@ class SensorListView(ListView):
         context['create_url'] = reverse_lazy('gestion_riego:sensor_create')
         context['list_url'] = reverse_lazy('gestion_riego:sensor_list')
         context['mes'] = datetime.now().strftime('%B')
-        context['sensor_humedad_suelo_1'] = self.get_graph_sensor_humedad_suelo_month_1()
-        context['sensor_humedad_suelo_2'] = self.get_graph_sensor_humedad_suelo_month_2()
-        context['sensor_humedad_suelo_3'] = self.get_graph_sensor_humedad_suelo_month_3()
-        context['sensor_humedad_suelo_4'] = self.get_graph_sensor_humedad_suelo_month_4()
-        context['sensor_humedad_ambiente_1'] = self.get_graph_sensor_humedad_ambiente_month_1()
-        context['sensor_temperatura_ambiente_1'] = self.get_graph_sensor_temperatura_ambiente_month_1()
+        context['sensor_humedad_suelo_1'] = self.get_graph_sensor_humedad_suelo_month_1(mes = datetime.now().month, anio = datetime.now().year)
+        context['sensor_humedad_suelo_2'] = self.get_graph_sensor_humedad_suelo_month_2(mes = datetime.now().month, anio = datetime.now().year)
+        context['sensor_humedad_suelo_3'] = self.get_graph_sensor_humedad_suelo_month_3(mes = datetime.now().month, anio = datetime.now().year)
+        context['sensor_humedad_suelo_4'] = self.get_graph_sensor_humedad_suelo_month_4(mes = datetime.now().month, anio = datetime.now().year)
+        context['sensor_humedad_ambiente_1'] = self.get_graph_sensor_humedad_ambiente_month_1(mes = datetime.now().month, anio = datetime.now().year)
+        context['sensor_temperatura_ambiente_1'] = self.get_graph_sensor_temperatura_ambiente_month_1(mes = datetime.now().month, anio = datetime.now().year)
         return context
 
 

@@ -205,7 +205,7 @@ class dashboardView(ListView):
             elif action == 'search_historial_riego_month':
                 fecha_ajax = request.POST['fecha']
                 fecha = datetime.strptime(fecha_ajax, '%Y-%m-%d') #convierto a fecha para que python lo entienda
-                formateo_fecha = datetime.strftime(fecha, '%d-%m-%Y') #ne sirve para visualizarlo en el chart
+                formateo_fecha = datetime.strftime(fecha, '%B') #ne sirve para visualizarlo en el chart
                 dia = fecha.day
                 mes = fecha.month
                 anio = fecha.year
