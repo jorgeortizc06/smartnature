@@ -124,7 +124,7 @@ class SensorListView(ListView):
             action = request.POST['action']
             if action == 'searchdata':
                 data = []
-                for i in Sensor.objects.all()[0:300]:
+                for i in Sensor.objects.all()[0:25]:
                     data.append(i.toJSON())
             elif action == 'search_historial_sensores_month':
                 fecha_ajax = request.POST['fecha']
