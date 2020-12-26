@@ -124,7 +124,7 @@ class SensorListView(ListView):
             action = request.POST['action']
             if action == 'searchdata':
                 data = []
-                for i in Sensor.objects.all()[0:25]:
+                for i in Sensor.objects.all()[0:200]:
                     data.append(i.toJSON())
             elif action == 'search_historial_sensores_month':
                 fecha_ajax = request.POST['fecha']
@@ -142,8 +142,6 @@ class SensorListView(ListView):
                         'historial_sensor_humedad_ambiente_month_1' : self.get_graph_sensor_humedad_ambiente_month_1(mes, anio),
                         'historial_sensor_temperatura_ambiente_month_1' : self.get_graph_sensor_temperatura_ambiente_month_1(mes, anio),
                         'mes':  formateo_fecha}
-                print(data)
-
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
@@ -236,13 +234,14 @@ class SensorListView(ListView):
         context['entity'] = 'Sensor'
         context['create_url'] = reverse_lazy('gestion_riego:sensor_create')
         context['list_url'] = reverse_lazy('gestion_riego:sensor_list')
+        """Tarda mucho en cargar por lo cual se ha comentado
         context['mes'] = datetime.now().strftime('%B')
         context['sensor_humedad_suelo_1'] = self.get_graph_sensor_humedad_suelo_month_1(mes = datetime.now().month, anio = datetime.now().year)
         context['sensor_humedad_suelo_2'] = self.get_graph_sensor_humedad_suelo_month_2(mes = datetime.now().month, anio = datetime.now().year)
         context['sensor_humedad_suelo_3'] = self.get_graph_sensor_humedad_suelo_month_3(mes = datetime.now().month, anio = datetime.now().year)
         context['sensor_humedad_suelo_4'] = self.get_graph_sensor_humedad_suelo_month_4(mes = datetime.now().month, anio = datetime.now().year)
         context['sensor_humedad_ambiente_1'] = self.get_graph_sensor_humedad_ambiente_month_1(mes = datetime.now().month, anio = datetime.now().year)
-        context['sensor_temperatura_ambiente_1'] = self.get_graph_sensor_temperatura_ambiente_month_1(mes = datetime.now().month, anio = datetime.now().year)
+        context['sensor_temperatura_ambiente_1'] = self.get_graph_sensor_temperatura_ambiente_month_1(mes = datetime.now().month, anio = datetime.now().year)"""
         return context
 
 
