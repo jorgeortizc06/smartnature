@@ -1,12 +1,12 @@
 {% extends 'gestion_riego/layout.html' %}
+{% load static %}
 {% block titulo %}{{ title }}{% endblock titulo %}
-
 {% block card_title %} {{ title }} {% endblock card_title %}
 
 {% block body %}
     <div class="row">
         <div class="table-responsive">
-            <table class="table table-hover table-striped table-bordered" id="data">
+            <table class="table table-hover table-striped table-bordered" id="table_plataformas">
                 <thead class="thead-dark">
                 <tr>
                     <th>ID</th>
@@ -21,22 +21,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for plataforma in object_list %}
-                    <tr>
-                        <td>{{ plataforma.id }}</td>
-                        <td>{{ plataforma.nombre }}</td>
-                        <td>{{ plataforma.descripcion }}</td>
-                        <td>{{ plataforma.horario1 }}</td>
-                        <td>{{ plataforma.horario2 }}</td>
-                        <td>{{ plataforma.horario3 }}</td>
-                        <td>{{ plataforma.tipo_suelo.nombre }}</td>
-                        <td>{{ plataforma.device.nombre }}</td>
-                        <td><a href="{% url 'gestion_riego:plataforma_update' plataforma.id %}"
-                               class="btn btn-secondary">ACTUALIZAR</a>
-                            <a href="{% url 'gestion_riego:plataforma_delete' plataforma.id %}"
-                               class="btn btn-danger">ELIMINAR</a></td>
-                    </tr>
-                {% endfor %}
+
                 </tbody>
             </table>
         </div>
@@ -52,11 +37,5 @@
 {% endblock body %}
 
 {% block javascript %}
-    <script type="application/javascript">
-        $(document).ready(function () {
-            $("#data").DataTable({
-                responsive: true,
-            });
-        });
-    </script>
+   <script src="{% static 'gestion_riego/plataforma/js/list.js' %}"></script>
 {% endblock javascript %}

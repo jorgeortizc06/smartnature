@@ -3,6 +3,7 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import ListView
 from rest_framework import viewsets
 from gestion_riego.serializers import HistorialRiegoSerializer
@@ -23,6 +24,7 @@ class HistorialRiegoListView(ListView):
     model = HistorialRiego
     template_name = 'gestion_riego/historial_riego/historial_riego.html'
 
+    @method_decorator(csrf_exempt)# para el post desabilito la protección, recuerda que sin la csrf no podra procesar info
     @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
@@ -35,7 +37,7 @@ class HistorialRiegoListView(ListView):
         data = {}
         try:
             action = request.POST['action']
-            if action == 'searchdata':
+            if action == 'load_historial_riegos':
                 data = []
                 for i in HistorialRiego.objects.all():
                     data.append(i.toJSON())

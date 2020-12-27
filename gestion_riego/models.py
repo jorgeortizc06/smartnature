@@ -2,9 +2,12 @@ from django.db import models
 from django.db.models import DateTimeField
 from django.forms import model_to_dict
 
+
 class DateTimeWithoutTZField(DateTimeField):
     def db_type(self, connection):
         return 'timestamp'
+
+
 # Create your models here.
 class Persona(models.Model):
     id = models.AutoField(primary_key=True)
@@ -16,7 +19,8 @@ class Persona(models.Model):
 
     def __str__(self):
         return self.nombre
-    #Transforma mis datos del modelo Persona a JSON para mejor manejo en javascript
+
+    # Transforma mis datos del modelo Persona a JSON para mejor manejo en javascript
     def toJSON(self):
         item = model_to_dict(self)  # tambien puedes excluir algunos parametros (self, exclude=['])
         return item
@@ -138,6 +142,8 @@ class Plataforma(models.Model):
 
     def toJSON(self):
         item = model_to_dict(self)
+        item['tipo_suelo'] = self.tipo_suelo.nombre
+        item['device'] = self.device.nombre
         return item
 
     class Meta:
@@ -159,6 +165,8 @@ class Siembra(models.Model):
 
     def toJSON(self):
         item = model_to_dict(self)
+        item['plataforma'] = self.plataforma.nombre
+        item['planta'] = self.planta.nombre
         return item
 
     class Meta:
@@ -171,10 +179,10 @@ class HistorialRiego(models.Model):
     id = models.AutoField(primary_key=True)
     tiempo_riego = models.DecimalField(max_digits=3, decimal_places=2)
     fecha_riego = models.DateTimeField(auto_now_add=True)
-    codigo_sensor = models.IntegerField(null = True)
-    valor_humed_suelo = models.DecimalField(max_digits=1000, decimal_places=2, null = True)
-    valor_humed_ambiente = models.DecimalField(max_digits=1000, decimal_places=2, null = True)
-    valor_temp_ambiente = models.DecimalField(max_digits=1000, decimal_places=2, null = True)
+    codigo_sensor = models.IntegerField(null=True)
+    valor_humed_suelo = models.DecimalField(max_digits=1000, decimal_places=2, null=True)
+    valor_humed_ambiente = models.DecimalField(max_digits=1000, decimal_places=2, null=True)
+    valor_temp_ambiente = models.DecimalField(max_digits=1000, decimal_places=2, null=True)
     siembra = models.ForeignKey(Siembra, on_delete=models.CASCADE, null=True)
     tipo_rol = models.ForeignKey(TipoRol, on_delete=models.CASCADE, null=True)
 
@@ -183,6 +191,10 @@ class HistorialRiego(models.Model):
 
     def toJSON(self):
         item = model_to_dict(self)
+        item['fecha_riego'] = self.fecha_riego.strftime('%d-%m-%Y %H:%M')
+        item['device'] = self.siembra.plataforma.device.nombre
+        item['persona'] = self.siembra.plataforma.persona.nombre + ' ' + self.siembra.plataforma.persona.apellido
+        item['tipo_rol'] = self.tipo_rol.nombre
         return item
 
     class Meta:
@@ -209,7 +221,7 @@ class Sensor(models.Model):
     def toJSON(self):
         item = model_to_dict(self)
         item['fecha_registro'] = self.fecha_registro.strftime('%d-%m-%Y %H:%M')
-        item['tipo_sensor'] = self.tipo_sensor.toJSON() #llamar al metodo toJSON() en caso de ser foreignKey
+        item['tipo_sensor'] = self.tipo_sensor.toJSON()  # llamar al metodo toJSON() en caso de ser foreignKey
         item['value'] = format(self.value, '.2f')
         item['device'] = self.device.toJSON()
         return item

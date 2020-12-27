@@ -23,7 +23,6 @@ class TipoSueloCreateView(CreateView):
         data = {}
         try:
             action = request.POST['action']
-            print(action)
             if action == 'add':
                 form = self.get_form()
                 data = form.save()

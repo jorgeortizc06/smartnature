@@ -1,4 +1,5 @@
 {% extends 'gestion_riego/layout.html' %}
+{% load static %}
 {% block titulo %}{{ title }}{% endblock titulo %}
 
 {% block card_title %} {{ title }} {% endblock card_title %}
@@ -6,7 +7,7 @@
 {% block body %}
     <div class="row">
         <div class="table-responsive">
-            <table class="table table-hover table-striped table-bordered" id="data">
+            <table class="table table-hover table-striped table-bordered" id="table_plantas">
                 <thead class="thead-dark">
                 <tr>
                     <th>ID</th>
@@ -17,19 +18,6 @@
                 </tr>
                 </thead>
                 <tbody>
-                {% for planta in object_list %}
-                    <tr>
-                        <td>{{ planta.id }}</td>
-                        <td>{{ planta.nombre }}</td>
-                        <td>{{ planta.descripcion }}</td>
-                        <td>{{ planta.tiempo_produccion }}</td>
-                        <td><a href="{% url 'gestion_riego:planta_update' planta.id %}" class="btn btn-secondary">ACTUALIZAR</a>
-                            <a
-                                    href="{% url 'gestion_riego:planta_delete' planta.id %}" class="btn btn-danger">ELIMINAR</a>
-                        </td>
-
-                    </tr>
-                {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -45,11 +33,5 @@
 {% endblock body %}
 
 {% block javascript %}
-    <script type="application/javascript">
-        $(document).ready(function () {
-            $("#data").DataTable({
-                responsive: true,
-            });
-        });
-    </script>
+    <script src="{% static 'gestion_riego/planta/js/list.js' %}"></script>
 {% endblock javascript %}
