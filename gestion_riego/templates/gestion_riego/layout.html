@@ -91,6 +91,40 @@
                     <li class="nav-item has-treeview">
                         <a href="#" class="nav-link">
                             <p>
+                                Dashboard
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="{% url 'gestion_riego:dashboard' %}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Dashboard</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="http://192.168.100.252:8888/notebooks/fuzzy-logic/FuzzyLogic_Irrigation_1variable.ipynb" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Lógica Difusa de 1 variables</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="http://192.168.100.252:8888/notebooks/fuzzy-logic/FuzzyLogic_Irrigation_3variables.ipynb" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Lógica Difusa de 3 variables</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'gestion_riego:persona_list' %}" class="nav-link">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Lógica Difusa de 4 variables</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <p>
                                 Personas
                                 <i class="right fas fa-angle-left"></i>
                             </p>

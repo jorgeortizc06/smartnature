@@ -11,11 +11,11 @@ class DateTimeWithoutTZField(DateTimeField):
 # Create your models here.
 class Persona(models.Model):
     id = models.AutoField(primary_key=True)
-    nombre = models.CharField(max_length=100, verbose_name='Nombre')  # unique evitaria agregar valores repatidos
-    apellido = models.CharField(max_length=100, verbose_name='Apellido')
+    nombre = models.CharField(max_length=100, verbose_name='nombre')  # unique evitaria agregar valores repatidos
+    apellido = models.CharField(max_length=100, verbose_name='apellido')
     email = models.EmailField(max_length=200)
-    tfno = models.CharField(max_length=15, verbose_name='Teléfono')
-    password = models.CharField(max_length=15, verbose_name='Contraseña')
+    tfno = models.CharField(max_length=15, verbose_name='teléfono')
+    password = models.CharField(max_length=15, verbose_name='contraseña')
 
     def __str__(self):
         return self.nombre
@@ -34,7 +34,7 @@ class Persona(models.Model):
 class TipoSensor(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
-    descripcion = models.CharField(max_length=300, null=True)
+    descripcion = models.CharField(max_length=300, null=True, blank=True, verbose_name='descripción')
 
     def __str__(self):
         return self.nombre
@@ -52,8 +52,8 @@ class TipoSensor(models.Model):
 class Planta(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
-    descripcion = models.CharField(max_length=300)
-    tiempo_produccion = models.IntegerField(null=True)
+    descripcion = models.CharField(max_length=300, verbose_name='descripción')
+    tiempo_produccion = models.IntegerField(null=True, verbose_name='tiempo de Producción')
 
     def __str__(self):
         return self.nombre
@@ -71,7 +71,7 @@ class Planta(models.Model):
 class TipoSuelo(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
-    descripcion = models.CharField(max_length=300)
+    descripcion = models.CharField(max_length=300, verbose_name='descripción')
     densidad = models.DecimalField(max_digits=1000, decimal_places=2)
 
     def __str__(self):
@@ -90,9 +90,9 @@ class TipoSuelo(models.Model):
 class Device(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100, unique=True)
-    descripcion = models.CharField(max_length=300, verbose_name='Descripcion', blank=True)
+    descripcion = models.CharField(max_length=300, verbose_name='descripción', blank=True)
     ip = models.CharField(max_length=20, default='192.168.100.254')
-    topic = models.CharField(max_length=300, default='device1/#', unique=True)
+    topic = models.CharField(max_length=300, default='device1/#', unique=True, verbose_name='tópico')
     puerto = models.IntegerField(default=9001)
 
     def __str__(self):
@@ -129,7 +129,7 @@ class TipoRol(models.Model):
 class Plataforma(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100)
-    descripcion = models.CharField(max_length=300)
+    descripcion = models.CharField(max_length=300, blank=True, verbose_name='descripción')
     persona = models.ForeignKey(Persona, on_delete=models.CASCADE, null=True)
     horario1 = models.CharField(max_length=10, default='08:00:00')
     horario2 = models.CharField(max_length=10, default='12:00:00')

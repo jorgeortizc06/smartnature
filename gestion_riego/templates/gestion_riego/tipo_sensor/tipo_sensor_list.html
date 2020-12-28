@@ -1,4 +1,5 @@
 {% extends 'gestion_riego/layout.html' %}
+{% load static %}
 {% block titulo %}{{ title }}{% endblock titulo %}
 
 {% block card_title %} {{ title }} {% endblock card_title %}
@@ -6,28 +7,16 @@
 {% block body %}
     <div class="row">
         <div class="table-responsive">
-            <table class="table table-hover table-striped table-bordered" id="data">
+            <table class="table table-hover table-striped table-bordered" id="table_tipo_sensores">
                 <thead class="thead-dark">
                 <tr>
                     <th>ID</th>
                     <th>Nombre</th>
-                    <th>Descripcion</th>
+                    <th>Descripción</th>
                     <th>Opciones</th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for tipo_sensor in object_list %}
-                    <tr>
-                        <td>{{ tipo_sensor.id }}</td>
-                        <td>{{ tipo_sensor.nombre }}</td>
-                        <td>{{ tipo_sensor.descripcion }}</td>
-                        <td><a href="{% url 'gestion_riego:tipo_sensor_update' tipo_sensor.id %}"
-                               class="btn btn-secondary">ACTUALIZAR</a> <a
-                                href="{% url 'gestion_riego:tipo_sensor_delete' tipo_sensor.id %}"
-                                class="btn btn-danger">ELIMINAR</a>
-                        </td>
-                    </tr>
-                {% endfor %}
                 </tbody>
             </table>
         </div>
@@ -44,11 +33,5 @@
 {% endblock body %}
 
 {% block javascript %}
-    <script type="application/javascript">
-        $(document).ready(function () {
-            $("#data").DataTable({
-                responsive: true,
-            });
-        });
-    </script>
+    <script src="{% static 'gestion_riego/tipo_sensor/js/list.js' %}"></script>
 {% endblock javascript %}
