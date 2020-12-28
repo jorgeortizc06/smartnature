@@ -58,6 +58,13 @@ MIDDLEWARE = [  # intermediarios, seguridad. Usuario y framework. Seguridad por 
     'django.middleware.common.CommonMiddleware',
 ]
 
+#Jupiter Notebook Settings
+NOTEBOOK_ARGUMENTS = [
+    '--ip', '0.0.0.0',
+    '--allow-root',
+    '--no-browser',
+]
+
 ROOT_URLCONF = 'config.urls'  # Hace referencia a las rutas principales del proyecto
 
 TEMPLATES = [
