@@ -56,5 +56,5 @@ class HistorialRiegoListView(ListView):
 
 class HistorialRiegoViewSet(viewsets.ModelViewSet):
     serializer_class = HistorialRiegoSerializer
-    queryset = HistorialRiego.objects.all().order_by('id') #ordenados por id
+    queryset = HistorialRiego.objects.all() #ordenados por id
 

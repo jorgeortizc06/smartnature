@@ -1,0 +1,9 @@
+Debian 10
+Install postgresql
+sudo apt update
+sudo apt install postgresql git screen
+
+
+Entorno de desarrollo python
+pip install django apscheduler django-cors-headers django-extensions djangorestframework paho-mqtt psycopg2-binary requests scikit-fuzzy jupyter ipython matplotlib
+
