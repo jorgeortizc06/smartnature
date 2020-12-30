@@ -39,9 +39,9 @@ def on_connect(client, userdata, flags, rc):
 def start():
     scheduler = BackgroundScheduler()
     plataforma = Plataforma.objects.get(id=1)
-    scheduler.add_job(ejecutar_horario_1, 'cron', day_of_week='mon-fri', hour=8, minute=0)
-    scheduler.add_job(ejecutar_horario_2, 'cron', day_of_week='mon-fri', hour=12, minute=0)
-    scheduler.add_job(ejecutar_horario_3, 'cron', day_of_week='mon-fri', hour=21, minute=20)
+    scheduler.add_job(ejecutar_horario_1, 'cron', day_of_week='mon-sun', hour=8, minute=0)
+    scheduler.add_job(ejecutar_horario_2, 'cron', day_of_week='mon-sun', hour=12, minute=0)
+    scheduler.add_job(ejecutar_horario_3, 'cron', day_of_week='mon-sun', hour=17, minute=0)
     scheduler.start()
 
 def regar(fechaDesde, fechaHasta):
