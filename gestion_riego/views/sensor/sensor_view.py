@@ -4,7 +4,7 @@ from django.db.models.functions import Coalesce
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView, TemplateView
 from django.http import JsonResponse
 from gestion_riego.forms import SensorForm
 from gestion_riego.models import Sensor
@@ -110,7 +110,7 @@ class SensorDeleteView(DeleteView):
         return context
 
 
-class SensorListView(ListView):
+class SensorListView(TemplateView):
     model = Sensor
     template_name = 'gestion_riego/sensor/sensor_list.html'
 

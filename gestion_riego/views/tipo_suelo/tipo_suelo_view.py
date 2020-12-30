@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView, TemplateView
 from django.http import JsonResponse
 from gestion_riego.forms import TipoSueloForm
 from gestion_riego.models import TipoSuelo
@@ -93,7 +93,7 @@ class TipoSueloDeleteView(DeleteView):
         return context
 
 
-class TipoSueloListView(ListView):
+class TipoSueloListView(TemplateView):
     model = TipoSuelo
     template_name = 'gestion_riego/tipo_suelo/tipo_suelo_list.html'
 

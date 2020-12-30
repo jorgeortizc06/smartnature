@@ -20,10 +20,11 @@ $(function () {
             {"data": "valor_humed_suelo"},
             {"data": "valor_humed_ambiente"},
             {"data": "valor_temp_ambiente"},
+            {"data": "valor_evapotranspiracion"},
             {"data": "device"},
             {"data": "persona"},
+            {"data": "tipo_logica_difusa"},
             {"data": "tipo_rol"},
-
         ],
         order: [[0, 'desc']],
         dom: 'Bfrtip', //esto me permite eliminar el combobox de numero de registros para reemplazar con los buttons

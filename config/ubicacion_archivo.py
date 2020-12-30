@@ -1,2 +1,2 @@
-ip_db = '192.168.100.252'
+ip_db = 'localhost'
 ip_broker = '192.168.100.254'

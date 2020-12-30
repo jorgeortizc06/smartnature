@@ -4,14 +4,19 @@ from django.db.models.functions import Coalesce
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import CreateView, DeleteView, ListView, UpdateView, FormView
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView, FormView, TemplateView
 from django.http import JsonResponse
+from rest_framework import viewsets
+
 from gestion_riego.forms import DeviceForm, DashboardForm
 from gestion_riego.models import Device, HistorialRiego
 from datetime import datetime
 import itertools
 # Vistas basadas en clases
 # Recomendable y haca a la aplicacion facilmente escalable
+from gestion_riego.serializers import DeviceSerializer
+
+
 class DeviceCreateView(CreateView):
     model = Device
     form_class = DeviceForm
@@ -173,7 +178,7 @@ class DeviceListView(ListView):
         # context['object_list'] = Device.objects.all()
         return context
 
-class dashboardView(ListView):
+class dashboardView(TemplateView):
     model = Device
     template_name = 'gestion_riego/dashboard/dashboard.html'
 
@@ -236,23 +241,23 @@ class dashboardView(ListView):
             for h in range(1,25):
                 sum_riego_sensor_1 = HistorialRiego.objects.filter(fecha_riego__day=day, fecha_riego__month=mes,
                                                                    fecha_riego__year=anio, fecha_riego__hour=h,
-                                                                   codigo_sensor=1).aggregate(
+                                                                   codigo_sensor=1, tipo_logica_difusa=2).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
                 sum_riego_sensor_2 = HistorialRiego.objects.filter(fecha_riego__day=day, fecha_riego__month=mes,
                                                            fecha_riego__year=anio, fecha_riego__hour=h,
-                                                           codigo_sensor=2).aggregate(
+                                                           codigo_sensor=2, tipo_logica_difusa=2).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
                 sum_riego_sensor_3 = HistorialRiego.objects.filter(fecha_riego__day=day, fecha_riego__month=mes,
                                                            fecha_riego__year=anio, fecha_riego__hour=h,
-                                                           codigo_sensor=3).aggregate(
+                                                           codigo_sensor=3, tipo_logica_difusa=2).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
                 sum_riego_sensor_4 = HistorialRiego.objects.filter(fecha_riego__day=day, fecha_riego__month=mes,
                                                            fecha_riego__year=anio, fecha_riego__hour=h,
-                                                           codigo_sensor=4).aggregate(
+                                                           codigo_sensor=4, tipo_logica_difusa=2).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
                 sum_riego_sensor_5 = HistorialRiego.objects.filter(fecha_riego__day=day, fecha_riego__month=mes,
                                                            fecha_riego__year=anio, fecha_riego__hour=h,
-                                                           codigo_sensor=5).aggregate(
+                                                           codigo_sensor=5, tipo_logica_difusa=2).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
                 data_historial_riego_sensor_1.append(float(sum_riego_sensor_1))
                 data_historial_riego_sensor_2.append(float(sum_riego_sensor_2))
@@ -281,19 +286,19 @@ class dashboardView(ListView):
         try:
             for d in range(1,32):
                 sum_riego_sensor_1 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
-                                                                   fecha_riego__year=anio, codigo_sensor=1).aggregate(
+                                                                   fecha_riego__year=anio, codigo_sensor=1, tipo_logica_difusa_id=2).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
                 sum_riego_sensor_2 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
-                                                           fecha_riego__year=anio, codigo_sensor=2).aggregate(
+                                                           fecha_riego__year=anio, codigo_sensor=2, tipo_logica_difusa=2).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
                 sum_riego_sensor_3 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
-                                                           fecha_riego__year=anio, codigo_sensor=3).aggregate(
+                                                           fecha_riego__year=anio, codigo_sensor=3, tipo_logica_difusa=2).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
                 sum_riego_sensor_4 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
-                                                           fecha_riego__year=anio, codigo_sensor=4).aggregate(
+                                                           fecha_riego__year=anio, codigo_sensor=4, tipo_logica_difusa=2).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
                 sum_riego_sensor_5 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
-                                                          fecha_riego__year=anio, codigo_sensor=5).aggregate(
+                                                          fecha_riego__year=anio, codigo_sensor=5, tipo_logica_difusa=2).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
                 data_historial_riego_sensor_1.append(float(sum_riego_sensor_1))
                 data_historial_riego_sensor_2.append(float(sum_riego_sensor_2))
@@ -338,3 +343,7 @@ class DeviceFormView(FormView):
     form_class = DeviceForm
     template_name = 'gestion_riego/device/device_create.html'
     success_url = reverse_lazy('erp:device_list')
+
+class DeviceViewSet(viewsets.ModelViewSet):
+    serializer_class = DeviceSerializer
+    queryset = Device.objects.all()

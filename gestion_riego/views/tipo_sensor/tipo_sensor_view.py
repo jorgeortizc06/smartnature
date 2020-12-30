@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView, TemplateView
 from django.http import JsonResponse
 from gestion_riego.forms import TipoSensorForm
 from gestion_riego.models import TipoSensor
@@ -97,7 +97,7 @@ class TipoSensorDeleteView(DeleteView):
         return context
 
 
-class TipoSensorListView(ListView):
+class TipoSensorListView(TemplateView):
     model = TipoSensor
     template_name = 'gestion_riego/tipo_sensor/tipo_sensor_list.html'
 

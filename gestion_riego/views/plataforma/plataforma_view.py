@@ -2,7 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import CreateView, DeleteView, ListView, UpdateView
+from django.views.generic import CreateView, DeleteView, ListView, UpdateView, TemplateView
 from django.http import JsonResponse
 from gestion_riego.forms import PlataformaForm
 from gestion_riego.models import Plataforma
@@ -99,7 +99,7 @@ class PlataformaDeleteView(DeleteView):
         return context
 
 
-class PlataformaListView(ListView):
+class PlataformaListView(TemplateView):
     model = Plataforma
     template_name = 'gestion_riego/plataforma/plataforma_list.html'
 

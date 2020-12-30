@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import ListView
+from django.views.generic import ListView, TemplateView
 from rest_framework import viewsets
 from gestion_riego.serializers import HistorialRiegoSerializer
 import io
@@ -20,7 +20,7 @@ from gestion_riego.models import HistorialRiego
 
 # Vistas basadas en clases
 # Recomendable y haca a la aplicacion facilmente escalable
-class HistorialRiegoListView(ListView):
+class HistorialRiegoListView(TemplateView):
     model = HistorialRiego
     template_name = 'gestion_riego/historial_riego/historial_riego.html'
 

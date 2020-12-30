@@ -5,6 +5,7 @@ import paho.mqtt.client
 import requests
 
 api_sensor = 'http://127.0.0.1:8000/gestion_riego/srv/sensor/'
+api_device = 'http://127.0.0.1:8000/gestion_riego/srv/device/'
 headers = {"Content-type": "application/json"}
 
 # horarios = {'horario1':'8:00', 'horario2:':'17:12'}
@@ -19,13 +20,19 @@ def on_message(client, userdata, message):
     try:
         if message.topic == 'device1/promedioSensorSuelo':
             #promedioHumedAmbiental = calcular_promedio_humedad('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 2)
-            time.sleep(900)
+            r = requests.get(api_device)
+            devices = r.json()['results']
+            frecuencia_actualizacion = devices[0]['frecuencia_actualizacion']
+            print(frecuencia_actualizacion)
+            frecuencia_actualizacion_segundos = frecuencia_actualizacion * 60
+            time.sleep(frecuencia_actualizacion_segundos)
             print("===============================")
 
         if message.topic == 'device1/sensorSuelo1':
             sensores = {"value": float(message.payload), "codigo_sensor": int(1), "estado": "A", "tipo_sensor": 1,
                         "device": 1}
             et_sensores = requests.post(api_sensor, data=json.dumps(sensores), headers=headers)
+            print(et_sensores)
         if message.topic == 'device1/sensorSuelo2':
             sensores = {"value": float(message.payload), "codigo_sensor": int(2), "estado": "A", "tipo_sensor": 1,
                         "device": 1}
