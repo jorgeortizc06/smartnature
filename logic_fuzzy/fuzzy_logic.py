@@ -10,6 +10,7 @@ from datetime import datetime, timedelta
 import time
 import psycopg2
 import paho.mqtt.client
+import matplotlib.pyplot as plt
 
 activacion = False
 fin_riego = ''
@@ -41,7 +42,7 @@ def start():
     plataforma = Plataforma.objects.get(id=1)
     scheduler.add_job(ejecutar_horario_1, 'cron', day_of_week='mon-sun', hour=8, minute=0)
     scheduler.add_job(ejecutar_horario_2, 'cron', day_of_week='mon-sun', hour=12, minute=0)
-    scheduler.add_job(ejecutar_horario_3, 'cron', day_of_week='mon-sun', hour=17, minute=0)
+    scheduler.add_job(ejecutar_horario_3, 'cron', day_of_week='mon-sun', hour=19, minute=26)
     scheduler.start()
 
 def regar(fechaDesde, fechaHasta):
@@ -68,7 +69,7 @@ def regar(fechaDesde, fechaHasta):
             prom_hum_ambient = calcular_promedio(fechaDesde, fechaHasta, 1, 2)
             prom_temp_ambient = calcular_promedio(fechaDesde, fechaHasta, 1, 3)
 
-            if tipo_logica_difusa.id == 1:
+            """if tipo_logica_difusa.id == 1:
                 print('Logica difusa de 1 variable')
                 tiempo_riego_suelo1 = round(fuzzy_logic_1_variables(float(prom_hum_suelo1)), 2)
                 tiempo_riego_suelo2 = round(fuzzy_logic_1_variables(float(prom_hum_suelo2)), 2)
@@ -95,21 +96,52 @@ def regar(fechaDesde, fechaHasta):
                 tiempo_riego_suelo2 = 0
                 tiempo_riego_suelo3 = 0
                 tiempo_riego_suelo4 = 0
-                tiempo_riego_suelo_promedio = 0
+                tiempo_riego_suelo_promedio = 0"""
+
+            v1_tiempo_riego_suelo1 = round(fuzzy_logic_1_variables(float(prom_hum_suelo1), "1"), 2)
+            v1_tiempo_riego_suelo2= round(fuzzy_logic_1_variables(float(prom_hum_suelo2), "2"), 2)
+            v1_tiempo_riego_suelo3 = round(fuzzy_logic_1_variables(float(prom_hum_suelo3), "3"), 2)
+            v1_tiempo_riego_suelo4 = round(fuzzy_logic_1_variables(float(prom_hum_suelo4), "4"), 2)
+            v1_tiempo_riego_suelo_promedio = round(fuzzy_logic_1_variables(float(promedio_hum_suelo_total), "5"), 2)
+
+            v3_tiempo_riego_suelo1 = round(
+                fuzzy_logic_3_variables(float(prom_hum_suelo1), float(prom_hum_ambient), float(prom_temp_ambient), "1"), 2)
+            v3_tiempo_riego_suelo2 = round(
+                fuzzy_logic_3_variables(float(prom_hum_suelo2), float(prom_hum_ambient), float(prom_temp_ambient), "2"), 2)
+            v3_tiempo_riego_suelo3 = round(
+                fuzzy_logic_3_variables(float(prom_hum_suelo3), float(prom_hum_ambient), float(prom_temp_ambient), "3"), 2)
+            v3_tiempo_riego_suelo4 = round(
+                fuzzy_logic_3_variables(float(prom_hum_suelo4), float(prom_hum_ambient), float(prom_temp_ambient), "4"), 2)
+            v3_tiempo_riego_suelo_promedio = round(
+                fuzzy_logic_3_variables(float(promedio_hum_suelo_total), float(prom_hum_ambient),
+                                        float(prom_temp_ambient), "5"), 2)
+
+            v4_tiempo_riego_suelo1 = 0
+            v4_tiempo_riego_suelo2 = 0
+            v4_tiempo_riego_suelo3 = 0
+            v4_tiempo_riego_suelo4 = 0
+            v4_tiempo_riego_suelo_promedio = 0
 
             tdmax = obtenerMax(fechaDesde, fechaHasta, 1, 3)
             tdmin = obtenerMin(fechaDesde, fechaHasta, 1, 3)
             evapo = round(calcularEvapotranspiracion(11.9, float(prom_hum_ambient), float(tdmax), float(tdmin)),2)
             print("Calcular Evapo: ", evapo)
-            print("tiempo Sensor 1: ", tiempo_riego_suelo1)
-            print("tiempo Sensor 2: ", tiempo_riego_suelo2)
-            print("tiempo Sensor 3: ", tiempo_riego_suelo3)
-            print("tiempo Sensor 4: ", tiempo_riego_suelo4)
-            print("tiempo Sensor 5: ", tiempo_riego_suelo_promedio)
+            print("==================TIEMPO: 1 VARIABLE========================")
+            print("tiempo Sensor 1: ", v1_tiempo_riego_suelo1)
+            print("tiempo Sensor 2: ", v1_tiempo_riego_suelo2)
+            print("tiempo Sensor 3: ", v1_tiempo_riego_suelo3)
+            print("tiempo Sensor 4: ", v1_tiempo_riego_suelo4)
+            print("tiempo Sensor 5: ", v1_tiempo_riego_suelo_promedio)
+            print("==================TIEMPO: 3 VARIABLES========================")
+            print("tiempo Sensor 1: ", v3_tiempo_riego_suelo1)
+            print("tiempo Sensor 2: ", v3_tiempo_riego_suelo2)
+            print("tiempo Sensor 3: ", v3_tiempo_riego_suelo3)
+            print("tiempo Sensor 4: ", v3_tiempo_riego_suelo4)
+            print("tiempo Sensor 5: ", v3_tiempo_riego_suelo_promedio)
 
-            if tiempo_riego_suelo_promedio > 0:
+            if v3_tiempo_riego_suelo_promedio > 0:
                 ahora = datetime.now()
-                futuro = ahora + timedelta(minutes=tiempo_riego_suelo_promedio)
+                futuro = ahora + timedelta(minutes=v3_tiempo_riego_suelo_promedio)
                 fin_riego = futuro.strftime("%H:%M:%S")
                 print("Fin Riego: ", fin_riego)
                 activacion = True
@@ -119,7 +151,7 @@ def regar(fechaDesde, fechaHasta):
                 client.connect(host='192.168.100.254', port=1883)
                 enviando = client.publish("device1/electrovalvula", "ON")
                 print("Mqtt ON: ", enviando)
-                riego_promedio = HistorialRiego(tiempo_riego=tiempo_riego_suelo_promedio, siembra=siembra,
+                riego_promedio = HistorialRiego(tiempo_riego=v3_tiempo_riego_suelo_promedio, tiempo_riego_1_variable=v1_tiempo_riego_suelo_promedio, tiempo_riego_4_variable = v4_tiempo_riego_suelo_promedio, siembra=siembra,
                                                 codigo_sensor=5,
                                                 valor_humed_suelo=promedio_hum_suelo_total,
                                                 valor_humed_ambiente=prom_hum_ambient,
@@ -128,9 +160,9 @@ def regar(fechaDesde, fechaHasta):
                                                 tipo_rol=tipo_rol,
                                                 tipo_logica_difusa=tipo_logica_difusa)
                 riego_promedio.save()
-            elif tiempo_riego_suelo_promedio <= 0:
+            elif v3_tiempo_riego_suelo_promedio <= 0:
                 print("Tiempo 0, no se abrira la llave")
-                riego5 = HistorialRiego(tiempo_riego=0, siembra=siembra, codigo_sensor=5,
+                riego5 = HistorialRiego(tiempo_riego=v3_tiempo_riego_suelo_promedio, tiempo_riego_1_variable=v1_tiempo_riego_suelo_promedio, tiempo_riego_4_variable = v4_tiempo_riego_suelo_promedio, siembra=siembra, codigo_sensor=5,
                                         valor_humed_suelo=promedio_hum_suelo_total,
                                         valor_humed_ambiente=prom_hum_ambient,
                                         valor_temp_ambiente=prom_temp_ambient,
@@ -139,7 +171,7 @@ def regar(fechaDesde, fechaHasta):
                                         tipo_logica_difusa=tipo_logica_difusa)
                 riego5.save()
 
-            riego_sensor_suelo_1 = HistorialRiego(tiempo_riego=tiempo_riego_suelo1, siembra=siembra, codigo_sensor=1,
+            riego_sensor_suelo_1 = HistorialRiego(tiempo_riego=v3_tiempo_riego_suelo1, tiempo_riego_1_variable=v1_tiempo_riego_suelo1, tiempo_riego_4_variable = v4_tiempo_riego_suelo1, siembra=siembra, codigo_sensor=1,
                                                   valor_humed_suelo=prom_hum_suelo1,
                                                   valor_humed_ambiente=prom_hum_ambient,
                                                   valor_temp_ambiente=prom_temp_ambient,
@@ -148,7 +180,7 @@ def regar(fechaDesde, fechaHasta):
                                                   tipo_logica_difusa=tipo_logica_difusa)
             riego_sensor_suelo_1.save()
 
-            riego_sensor_suelo_2 = HistorialRiego(tiempo_riego=tiempo_riego_suelo2, siembra=siembra, codigo_sensor=2,
+            riego_sensor_suelo_2 = HistorialRiego(tiempo_riego=v3_tiempo_riego_suelo2,tiempo_riego_1_variable=v1_tiempo_riego_suelo2, tiempo_riego_4_variable = v4_tiempo_riego_suelo2, siembra=siembra, codigo_sensor=2,
                                                   valor_humed_suelo=prom_hum_suelo2,
                                                   valor_humed_ambiente=prom_hum_ambient,
                                                   valor_temp_ambiente=prom_temp_ambient,
@@ -157,7 +189,7 @@ def regar(fechaDesde, fechaHasta):
                                                   tipo_logica_difusa=tipo_logica_difusa)
             riego_sensor_suelo_2.save()
 
-            riego_sensor_suelo_3 = HistorialRiego(tiempo_riego=tiempo_riego_suelo3, siembra=siembra, codigo_sensor=3,
+            riego_sensor_suelo_3 = HistorialRiego(tiempo_riego=v3_tiempo_riego_suelo3,tiempo_riego_1_variable=v1_tiempo_riego_suelo3, tiempo_riego_4_variable = v4_tiempo_riego_suelo3, siembra=siembra, codigo_sensor=3,
                                                   valor_humed_suelo=prom_hum_suelo3,
                                                   valor_humed_ambiente=prom_hum_ambient,
                                                   valor_temp_ambiente=prom_temp_ambient,
@@ -165,7 +197,7 @@ def regar(fechaDesde, fechaHasta):
                                                   tipo_rol=tipo_rol,
                                                   tipo_logica_difusa=tipo_logica_difusa)
             riego_sensor_suelo_3.save()
-            riego_sensor_suelo_4 = HistorialRiego(tiempo_riego=tiempo_riego_suelo4, siembra=siembra, codigo_sensor=4,
+            riego_sensor_suelo_4 = HistorialRiego(tiempo_riego=v3_tiempo_riego_suelo4,tiempo_riego_1_variable=v1_tiempo_riego_suelo4, tiempo_riego_4_variable = v4_tiempo_riego_suelo4, siembra=siembra, codigo_sensor=4,
                                                   valor_humed_suelo=prom_hum_suelo4,
                                                   valor_humed_ambiente=prom_hum_ambient,
                                                   valor_temp_ambiente=prom_temp_ambient,
@@ -304,7 +336,7 @@ def obtenerMin(fecha_inicio, fecha_fin, codigo_sensor, tipo_sensor):
             print("PostgreSQL connection is closed")
 
 
-def fuzzy_logic_1_variables(par_humedad_suelo):
+def fuzzy_logic_1_variables(par_humedad_suelo, codigo_sensor):
     try:
         humedad_suelo = ctrl.Antecedent(np.arange(0, 1024, 1), 'humedad_suelo')
         tiempo_riego = ctrl.Consequent(np.arange(-2, 18, 1), 'tiempo_riego')
@@ -335,12 +367,14 @@ def fuzzy_logic_1_variables(par_humedad_suelo):
         tipping.input['humedad_suelo'] = par_humedad_suelo
         tipping.compute()
         print(tipping.output['tiempo_riego'])
+        tiempo_riego.view(sim=tipping)
+        plt.savefig("gestion_riego/media/logica_difusa/variable_1/"+codigo_sensor)
         return tipping.output['tiempo_riego']
     except Exception:
         print("Fuera de rango en las entradas de variables de humedad", sys.exc_info()[1])
         return 0;
 
-def fuzzy_logic_3_variables(par_humedad_suelo, par_humedad_ambiental, par_temperatura_ambiental):
+def fuzzy_logic_3_variables(par_humedad_suelo, par_humedad_ambiental, par_temperatura_ambiental, codigo_sensor):
     try:
         humedad_suelo = ctrl.Antecedent(np.arange(0, 1024, 1), 'humedad_suelo')
         temperatura_ambiental = ctrl.Antecedent(np.arange(5, 46, 1), 'temperatura_ambiental')
@@ -474,6 +508,8 @@ def fuzzy_logic_3_variables(par_humedad_suelo, par_humedad_ambiental, par_temper
         tipping.input['temperatura_ambiental'] = par_temperatura_ambiental
         tipping.compute()
         print(tipping.output['tiempo_riego'])
+        tiempo_riego.view(sim=tipping)
+        plt.savefig("gestion_riego/media/logica_difusa/variable_3/"+codigo_sensor)
         return tipping.output['tiempo_riego']
     except Exception:
         print("Fuera de rango en las entradas de variables de humedad, temperatura, etc: ", sys.exc_info()[1])

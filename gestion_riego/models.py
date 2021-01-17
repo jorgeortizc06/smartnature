@@ -3,6 +3,9 @@ from django.db.models import DateTimeField
 from django.forms import model_to_dict
 
 # Create your models here.
+from config.settings import MEDIA_URL, STATIC_URL
+
+
 class Persona(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=100, verbose_name='nombre')  # unique evitaria agregar valores repatidos
@@ -192,6 +195,8 @@ class Siembra(models.Model):
 class HistorialRiego(models.Model):
     id = models.AutoField(primary_key=True)
     tiempo_riego = models.DecimalField(max_digits=3, decimal_places=2)
+    tiempo_riego_1_variable = models.DecimalField(max_digits=3, decimal_places=2)
+    tiempo_riego_4_variable = models.DecimalField(max_digits=3, decimal_places=2)
     fecha_riego = models.DateTimeField(auto_now_add=True)
     codigo_sensor = models.IntegerField()
     valor_humed_suelo = models.DecimalField(max_digits=1000, decimal_places=2)
@@ -201,9 +206,28 @@ class HistorialRiego(models.Model):
     siembra = models.ForeignKey(Siembra, on_delete=models.CASCADE)
     tipo_rol = models.ForeignKey(TipoRol, on_delete=models.CASCADE)
     tipo_logica_difusa = models.ForeignKey(TipoLogicaDifusa, on_delete=models.CASCADE)
+    image_1_variable = models.ImageField(upload_to='fuzzy1/%Y/%m/%d', null=True, blank=True)
+    image_3_variable = models.ImageField(upload_to='fuzzy3/%Y/%m/%d', null=True, blank=True)
+    image_4_variable = models.ImageField(upload_to='fuzzy4/%Y/%m/%d', null=True, blank=True)
 
     def __str__(self):
         return str(self.id)
+
+    #Para verificar si existe o no la imagen
+    def get_image_1_variable(self):
+        if self.image_1_variable:
+            return '{}{}'.format(MEDIA_URL, self.image_1_variable)
+        return '{}{}'.format(STATIC_URL, 'img/empty.png')
+
+    def get_image_3_variable(self):
+        if self.image_3_variable:
+            return '{}{}'.format(MEDIA_URL, self.image_3_variable)
+        return '{}{}'.format(STATIC_URL, 'img/empty.png')
+
+    def get_image_4_variable(self):
+        if self.image_4_variable:
+            return '{}{}'.format(MEDIA_URL, self.image_4_variable)
+        return '{}{}'.format(STATIC_URL, 'img/empty.png')
 
     def toJSON(self):
         item = model_to_dict(self)
@@ -212,6 +236,9 @@ class HistorialRiego(models.Model):
         item['persona'] = self.siembra.plataforma.persona.nombre + ' ' + self.siembra.plataforma.persona.apellido
         item['tipo_rol'] = self.tipo_rol.nombre
         item['tipo_logica_difusa'] = self.tipo_logica_difusa.nombre
+        item['image_1_variable'] = self.get_image_1_variable()
+        item['image_3_variable'] = self.get_image_3_variable()
+        item['image_4_variable'] = self.get_image_4_variable()
         return item
 
     class Meta:

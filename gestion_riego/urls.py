@@ -20,6 +20,8 @@ from gestion_riego.views.tipo_suelo.tipo_suelo_view import TipoSueloCreateView, 
     TipoSueloDeleteView, TipoSueloListView
 from .view import fuzzy, plot, home
 
+from django.conf import settings
+from django.conf.urls.static import static
 
 app_name = 'gestion_riego'
 
@@ -84,3 +86,5 @@ urlpatterns += [
 
 
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

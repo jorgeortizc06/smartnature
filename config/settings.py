@@ -144,3 +144,8 @@ LOGOUT_REDIRECT_URL = '/gestion_riego/login'
 
 #Se utilizo para poder utilizar ORM en jupyter notebook desactivar la async
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
+
+#Para el guardado de las imagenes de logica difusa
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
+MEDIA_URL = '/gestion_riego/media/'
