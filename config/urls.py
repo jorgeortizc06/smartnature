@@ -15,7 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-
+from django.conf import settings
+from django.conf.urls.static import static
 # from gestion_riego.views import list_persona, new_persona, edit_persona, delete_persona
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -30,3 +31,4 @@ urlpatterns = [
     # path('delete_persona/<int:id>/', delete_persona, name='delete_persona')
 
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -397,39 +397,6 @@
         src="{% static 'lib/adminlte-3.0.5/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'lib/adminlte-3.0.5/js/adminlte.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'lib/adminlte-3.0.5/js/demo.js' %}"></script>
-<style>
-    @media screen and (max-width: 600px) {
-        table {
-            width: 100%;
-        }
-
-        thead {
-            display: none;
-        }
-
-        tr:nth-of-type(2n) {
-            background-color: inherit;
-        }
-
-        tr td:first-child {
-            background: #f0f0f0;
-            font-weight: bold;
-            font-size: 1.3em;
-        }
-
-        tbody td {
-            display: block;
-            text-align: center;
-        }
-
-        tbody td:before {
-            content: attr(data-th);
-            display: block;
-            text-align: center;
-        }
-    }
-
-</style>
 {% block javascript %}
 
 {% endblock javascript %}

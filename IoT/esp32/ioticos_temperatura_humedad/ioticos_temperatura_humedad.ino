@@ -39,8 +39,8 @@ const char* password = "ALOHOMORA";
 //**************************************
 WiFiClient espClient;
 PubSubClient client(espClient);
-int pinElectrovalvula = 15;
-int pinSensorAmbiental = 4;
+int pinElectrovalvula = 4;
+int pinSensorAmbiental = 15;
 float tempAmb, humedAmb, f;
 int pinHumedadSuelo1 = 32;
 int pinHumedadSuelo2 = 33;

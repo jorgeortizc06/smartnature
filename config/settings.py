@@ -17,6 +17,8 @@ from config import db
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+print("Tu base es:", BASE_DIR)
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -146,6 +148,6 @@ LOGOUT_REDIRECT_URL = '/gestion_riego/login'
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 
 #Para el guardado de las imagenes de logica difusa
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'gestion_riego/media/')
 
-MEDIA_URL = '/gestion_riego/media/'
+MEDIA_URL = '/media/'
