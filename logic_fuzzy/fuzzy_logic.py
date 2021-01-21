@@ -121,7 +121,7 @@ def regar(fechaDesde, fechaHasta):
 
             tdmax = obtenerMax(fechaDesde, fechaHasta, 1, 3)
             tdmin = obtenerMin(fechaDesde, fechaHasta, 1, 3)
-            evapo = round(calcularEvapotranspiracion(11.9, float(prom_hum_ambient), float(tdmax), float(tdmin)), 2)
+            evapo = round(calcularEvapotranspiracion(11.9, float(prom_temp_ambient), float(tdmax), float(tdmin)), 2)
 
             v4_tiempo_riego_suelo1 = round(
                 fuzzy_logic_4_variables(float(prom_hum_suelo1), float(prom_hum_ambient), float(prom_temp_ambient),

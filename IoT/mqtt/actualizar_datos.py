@@ -7,6 +7,12 @@ import matplotlib.pyplot as plt
 # Tipo Sensor: 1 Humedad suelo, 2 Humedad Ambiental, 3 Temperatura Ambiental
 #from .ubicacion_archivo_imagen import ubicacion_imagen_fuzzy1, ubicacion_imagen_fuzzy3, ubicacion_imagen_fuzzy4
 
+host = "192.168.100.254"
+port = "5432"
+database = "smartnature"
+user = "jorge"
+password = "jorge"
+
 def ubicacion_imagen_fuzzy1():
     return "/casaortiz/django/smartnature/gestion_riego/media/fuzzy1/"
 
@@ -19,13 +25,13 @@ def ubicacion_imagen_fuzzy4():
 def cargar_historial_riego():
     promedio = 0
     try:
-        connection = psycopg2.connect(host="localhost", port="5432", database="smartnature", user="jorge",
-                                      password="jorge")
+        connection = psycopg2.connect(host=host, port=port, database=database, user=user,
+                                      password=password)
         cursor = connection.cursor()
         # Ejecutamos una consulta
         sql = """select *
                 from gestion_riego_historialriego grh
-                where id = 704"""
+                order by id desc"""
         cursor.execute(sql)
         historial_riego = {}
         list = []
@@ -64,8 +70,8 @@ def actualizar_datos(historial_riegos):
             print("Ruta imagen fuzzy1: ", ruta_imagen_fuzzy1)
             print("Ruta imagen fuzzy3: ", ruta_imagen_fuzzy3)
             print("Ruta imagen fuzzy4: ", ruta_imagen_fuzzy4)
-            connection = psycopg2.connect(host="localhost", port="5432", database="smartnature", user="jorge",
-                                         password="jorge")
+            connection = psycopg2.connect(host=host, port=port, database=database, user=user,
+                                          password=password)
             cursor = connection.cursor()
 
             sql = """
