@@ -144,6 +144,7 @@ USE_TZ = False #Me daba problemas con la zona horaria, con esto desabilito la zo
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'gestion_riego/static')
 
 LOGIN_URL = '/gestion_riego/login'
 LOGIN_REDIRECT_URL = '/gestion_riego/dashboard'
