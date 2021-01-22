@@ -1163,7 +1163,8 @@ def cargar_historial_riego():
                 from gestion_riego_historialriego grh
                 where image_1_variable = ''
                 or image_3_variable = ''
-                or image_4_variable = ''"""
+                or image_4_variable = ''
+                order by id desc"""
         cursor.execute(sql)
         historial_riego = {}
         list = []
@@ -2008,5 +2009,6 @@ def fuzzy_logic_4_variables_image(par_humedad_suelo, par_humedad_ambiental, par_
         print("Evapotranspiracion: ", par_evapo)
         return 0;
 
-historial_riegos = cargar_historial_riego()
-actualizar_datos(historial_riegos)
+#Si activo estas lineas, al activar el servidor empieza a actualizar las tablas con imagenes
+#historial_riegos = cargar_historial_riego()
+#actualizar_datos(historial_riegos)

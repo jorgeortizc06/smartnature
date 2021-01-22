@@ -31,6 +31,7 @@ def cargar_historial_riego():
         # Ejecutamos una consulta
         sql = """select *
                 from gestion_riego_historialriego grh
+                where id =636
                 order by id desc"""
         cursor.execute(sql)
         historial_riego = {}
