@@ -26,7 +26,7 @@ print("Tu base es:", BASE_DIR)
 SECRET_KEY = 'n1_r6$u5#xurw8j+5$yx#hra-(4k*gyqyu)97(4)dn9iqp56yg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '192.168.100.252', '192.168.100.254', '45.189.58.2', '45.189.58.253']  # alojas tu ip servidor
 
@@ -144,7 +144,7 @@ USE_TZ = False #Me daba problemas con la zona horaria, con esto desabilito la zo
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'gestion_riego/static')
+STATIC_ROOT = os.path.join(BASE_DIR, 'gestion_riego/static/')
 
 LOGIN_URL = '/gestion_riego/login'
 LOGIN_REDIRECT_URL = '/gestion_riego/dashboard'
@@ -154,6 +154,5 @@ LOGOUT_REDIRECT_URL = '/gestion_riego/login'
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 
 #Para el guardado de las imagenes de logica difusa
-MEDIA_ROOT = os.path.join(BASE_DIR, 'gestion_riego/media/')
-
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'gestion_riego/media/')
