@@ -69,6 +69,7 @@ $(document).ready(function () {
 //mqtt connecton options including the mqtt broker subscriptions
     var options = {
         timeout: 3,
+        useSSL: true,
         onSuccess: function () {
             console.log("mqtt connected");
             // Connection succeeded; subscribe to our topics

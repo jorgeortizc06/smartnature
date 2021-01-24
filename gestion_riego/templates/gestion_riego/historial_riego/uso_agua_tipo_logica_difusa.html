@@ -1,0 +1,63 @@
+{% extends 'gestion_riego/layout.html' %}
+{% load static %}
+{% block titulo %}{{ title }}{% endblock titulo %}
+
+{% block card_title %} {{ title }}{% endblock card_title %}
+
+{% block body %}
+    <div class="row">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-bordered" id="table_uso_agua">
+                <thead class="thead-dark">
+                <tr>
+                    <th style="width: 10px">Dia</th>
+                    <th style="width: 10px">Riego 1 Variable</th>
+                    <th style="width: 10px">Consumo de Agua</th>
+                    <th style="width: 10px">Riego 3 Variable</th>
+                    <th style="width: 10px">Consumo de Agua</th>
+                    <th style="width: 10px">Riego 4 Variable</th>
+                    <th style="width: 10px">Consumo de Agua</th>
+
+                </tr>
+                </thead>
+
+                <tbody>
+                {% for d in consumo_agua %}
+                  <tr>
+                      <td>{{ d.dia }}</td>
+                    <td>{{ d.data_historial_riego_1_variable }}</td>
+                      <td>{{ d.consumo_agua_1_variable }}</td>
+                    <td>{{ d.data_historial_riego_3_variable }}</td>
+                      <td>{{ d.consumo_agua_3_variable }}</td>
+                    <td>{{ d.data_historial_riego_4_variable }}</td>
+                      <td>{{ d.consumo_agua_4_variable }}</td>
+
+                  </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="card-footer">
+            <a href="{{ list_url }}" class="btn btn-success btn-flat" type="button">
+                <i class="fas fa-sync"></i> Actualizar
+            </a>
+        </div>
+    </div>
+{% endblock body %}
+{% block javascript %}
+   <script>
+       $(document).ready(function() {
+    $('#table_uso_agua').DataTable( {
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+        }
+    } );
+} );
+   </script>
+{% endblock javascript %}

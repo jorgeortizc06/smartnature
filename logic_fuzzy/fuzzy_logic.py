@@ -155,6 +155,12 @@ def regar(fechaDesde, fechaHasta):
             print("tiempo Sensor 3: ", v3_tiempo_riego_suelo3)
             print("tiempo Sensor 4: ", v3_tiempo_riego_suelo4)
             print("tiempo Sensor 5: ", v3_tiempo_riego_suelo_promedio)
+            print("==================TIEMPO: 4 VARIABLES========================")
+            print("tiempo Sensor 1: ", v4_tiempo_riego_suelo1)
+            print("tiempo Sensor 2: ", v4_tiempo_riego_suelo2)
+            print("tiempo Sensor 3: ", v4_tiempo_riego_suelo3)
+            print("tiempo Sensor 4: ", v4_tiempo_riego_suelo4)
+            print("tiempo Sensor 5: ", v4_tiempo_riego_suelo_promedio)
 
             if v3_tiempo_riego_suelo_promedio > 0:
                 ahora = datetime.now()
@@ -238,10 +244,11 @@ def regar(fechaDesde, fechaHasta):
                 enviando = client.publish("device1/electrovalvula", "OFF")
                 break;
             time.sleep(1)
-        #Actualizo los ultimos datos para incrustar la imagen de tiempo de riego
-        historial_riegos = cargar_historial_riego()
-        actualizar_datos(historial_riegos)
-        print("Sali del bucle")
+
+    #Actualizo los ultimos datos para incrustar la imagen de tiempo de riego
+    historial_riegos = cargar_historial_riego()
+    actualizar_datos(historial_riegos)
+    print("Sali del bucle")
 
 
 # Funcion para la obtencion de la evapotranspiracion. Fuente: https://hidrologia.usal.es/temas/Evapotransp.pdf

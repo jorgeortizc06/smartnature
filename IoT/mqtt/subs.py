@@ -3,9 +3,10 @@ import sys
 import time
 import paho.mqtt.client
 import requests
+import ssl
 
-api_sensor = 'http://127.0.0.1:8000/gestion_riego/srv/sensor/'
-api_device = 'http://127.0.0.1:8000/gestion_riego/srv/device/'
+api_sensor = 'https://192.168.100.254:8000/gestion_riego/srv/sensor/'
+api_device = 'https://192.168.100.254:8000/gestion_riego/srv/device/'
 headers = {"Content-type": "application/json"}
 
 # horarios = {'horario1':'8:00', 'horario2:':'17:12'}
@@ -20,7 +21,7 @@ def on_message(client, userdata, message):
     try:
         if message.topic == 'device1/promedioSensorSuelo':
             #promedioHumedAmbiental = calcular_promedio_humedad('2020-11-4 21:00:00', '2020-11-4 21:10:59', 1, 2)
-            r = requests.get(api_device)
+            r = requests.get(api_device, verify=False) #en falso para saltarme la certificacion ssl
             devices = r.json()['results']
             frecuencia_actualizacion = devices[0]['frecuencia_actualizacion']
             print(frecuencia_actualizacion)
@@ -31,36 +32,36 @@ def on_message(client, userdata, message):
         if message.topic == 'device1/sensorSuelo1':
             sensores = {"value": float(message.payload), "codigo_sensor": int(1), "estado": "A", "tipo_sensor": 1,
                         "device": 1}
-            et_sensores = requests.post(api_sensor, data=json.dumps(sensores), headers=headers)
+            et_sensores = requests.post(api_sensor, data=json.dumps(sensores), headers=headers, verify=False)
             print(et_sensores)
         if message.topic == 'device1/sensorSuelo2':
             sensores = {"value": float(message.payload), "codigo_sensor": int(2), "estado": "A", "tipo_sensor": 1,
                         "device": 1}
-            et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers)
+            et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers, verify=False)
         if message.topic == 'device1/sensorSuelo3':
             sensores = {"value": float(message.payload), "codigo_sensor": int(3), "estado": "A", "tipo_sensor": 1,
                         "device": 1}
-            et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers)
+            et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers, verify=False)
         if message.topic == 'device1/sensorSuelo4':
             sensores = {"value": float(message.payload), "codigo_sensor": int(4), "estado": "A", "tipo_sensor": 1,
                         "device": 1}
-            et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers)
+            et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers, verify=False)
         if message.topic == 'device1/sensorHumedad1':
             sensores = {"value": float(message.payload), "codigo_sensor": int(1), "estado": "A", "tipo_sensor": 2,
                         "device": 1}
-            et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers)
+            et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers, verify=False)
         if message.topic == 'device1/sensorTemperatura1':
             sensores = {"value": float(message.payload), "codigo_sensor": int(1), "estado": "A", "tipo_sensor": 3,
                         "device": 1}
-            et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers)
+            et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers, verify=False)
         if message.topic == 'device1/sensorCaudal1':
             sensores = {"value": float(message.payload), "codigo_sensor": int(1), "estado": "A", "tipo_sensor": 4,
                         "device": 1}
-            et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers)
+            et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers, verify=False)
         if message.topic == 'device1/sensorConsumoAgua1':
             sensores = {"value": float(message.payload), "codigo_sensor": int(1), "estado": "A", "tipo_sensor": 5,
                         "device": 1}
-            et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers)
+            et = requests.post(api_sensor, data=json.dumps(sensores), headers=headers, verify=False)
     except requests.exceptions.ConnectionError:
         print("Fallo en la conexion con el servidor de la ruta: ", api_sensor, " error: ", sys.exc_info()[1])
         time.sleep(3)
@@ -69,6 +70,8 @@ def main():
     client = paho.mqtt.client.Client(client_id='albert-subs', clean_session=False)
     client.on_connect = on_connect
     client.on_message = on_message
+    #client.tls_set('/etc/mosquitto/ca_certificates/ca.crt', tls_version=ssl.PROTOCOL_TLSv1_2)
+    #client.tls_insecure_set(True)
     while True:
         try:
             client.connect(host='192.168.100.254', port=1883)

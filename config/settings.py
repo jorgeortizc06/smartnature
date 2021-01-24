@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',  # Mensajes de error
     'django.contrib.staticfiles',  # Para los archivos css
     'django_extensions',  # para jupyter notebook python manage.py shell_plus --notebook
+    'sslserver',
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -110,7 +111,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-#Configuracion de ssl, por ahora esta en false
+#Configuracion de ssl, por ahora esta en True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = False
 
