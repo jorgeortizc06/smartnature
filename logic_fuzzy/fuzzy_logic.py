@@ -12,21 +12,21 @@ riego = Regar()
 def ejecutar_horario_1():
     # Voy un dia atras
     d = datetime.today() - timedelta(days=1)
-    fecha_desde = d.strftime("%Y-%m-%d") + " " + '17:00:00'
+    fecha_desde = d.strftime("%d/%m/%Y") + " " + '17:00:00'
     # Dia de hoy
-    fecha_hasta = time.strftime("%Y-%m-%d") + " " + '08:00:00'
+    fecha_hasta = time.strftime("%d/%m/%Y") + " " + '08:00:00'
     riego.proceder_riego(fecha_desde, fecha_hasta)
 
 
 def ejecutar_horario_2():
-    fecha_desde = time.strftime("%Y-%m-%d") + " " + '08:00:00'
-    fecha_hasta = time.strftime("%Y-%m-%d") + " " + '12:00:00'
+    fecha_desde = time.strftime("%d/%m/%Y") + " " + '08:00:00'
+    fecha_hasta = time.strftime("%d/%m/%Y") + " " + '12:00:00'
     riego.proceder_riego(fecha_desde, fecha_hasta)
 
 
 def ejecutar_horario_3():
-    fecha_desde = time.strftime("%Y-%m-%d") + " " + '12:00:00'
-    fecha_hasta = time.strftime("%Y-%m-%d") + " " + '17:00:00'
+    fecha_desde = time.strftime("%d/%m/%Y") + " " + '12:00:00'
+    fecha_hasta = time.strftime("%d/%m/%Y") + " " + '17:00:00'
     riego.proceder_riego(fecha_desde, fecha_hasta)
 
 
