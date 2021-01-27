@@ -33,8 +33,8 @@ ALLOWED_HOSTS = ['*']  # alojas tu ip servidor
 # Application definition
 
 INSTALLED_APPS = [
-    'gestion_riego.apps.GestionRiegoConfig',
-    #'gestion_riego',
+    #'gestion_riego.apps.GestionRiegoConfig',
+    'gestion_riego',
     'rest_framework',
     'corsheaders',
     'django.contrib.admin',  # Para el panel de control django
