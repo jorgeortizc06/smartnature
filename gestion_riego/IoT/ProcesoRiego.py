@@ -117,7 +117,7 @@ class Regar:
                 futuro = ahora + timedelta(minutes=v3_tiempo_riego_suelo_promedio)
                 fin_riego = futuro.strftime("%H:%M:%S")
                 print("Fin Riego: ", fin_riego)
-                activacion = True
+                self.activacion = True
                 mqtt = MqttClientDevice()
                 client = mqtt.conectar(ip_mqtt_broker, port_mqtt)
                 enviando = mqtt.publish(client,"device1/electrovalvula", "ON")
@@ -201,7 +201,7 @@ class Regar:
                 print(datetime.now())
                 if time.strftime("%H:%M:%S") == fin_riego:
                     print("La llave se ha cerrado")
-                    activacion = False
+                    self.activacion = False
                     enviando = mqtt.publish(client, "device1/electrovalvula", "OFF")
                     print("Electrovalvula ON: ", enviando)
                     # client = paho.mqtt.client.Client(client_id='albert-subs')

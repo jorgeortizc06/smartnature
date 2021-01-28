@@ -1,3 +1,17 @@
+# import os
+# import sys
+# #Las configuraciones esta en el proyecto princial, necesito estar alli, asi que primero
+# #print(sys.path) veo mi path, estoy dentro de de varias carpetas de la raiz
+# #asi que dejo posicionarme en el proyecto raiz como ha continuacion
+# PROJECT_ROOT = sys.path.insert(0,"/casaortiz/django/smartnature")
+# #print("Tu base es:", PROJECT_ROOT)
+# from django.core.asgi import get_asgi_application
+# os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
+# application = get_asgi_application()  # modulo para importar los settings django y trabajar con modelos
+
+import time
+from datetime import datetime, timedelta
+
 import skfuzzy as fuzz
 from skfuzzy import control as ctrl
 import numpy as np
@@ -1650,3 +1664,6 @@ class CalcularVariableEntrada:
     def calcular_evapotranspiracion(self, R0, tmed, tdmax, tdmin):
         et0 = 0.0023 * (tmed + 17.78) * (R0) * (tdmax - tdmin) ** (0.5)
         return et0
+
+# fuzzy = LogicaDifusa()
+# fuzzy.fuzzy_logic_1_variables_image(234.5, '10000')
