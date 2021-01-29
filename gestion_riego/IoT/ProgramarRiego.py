@@ -37,7 +37,7 @@ class DefinirRiego:
 
     def ejecutar_horario_3(self):
         fecha_desde = time.strftime("%d/%m/%Y") + " " + '12:00:00'
-        fecha_hasta = time.strftime("%d/%m/%Y") + " " + '23:00:00'
+        fecha_hasta = time.strftime("%d/%m/%Y") + " " + '17:00:00'
         self.riego.proceder_riego(fecha_desde, fecha_hasta)
 
     def start(self):
@@ -45,7 +45,7 @@ class DefinirRiego:
         plataforma = Plataforma.objects.get(id=1)
         scheduler.add_job(self.ejecutar_horario_1, 'cron', day_of_week='mon-sun', hour=8, minute=0)
         scheduler.add_job(self.ejecutar_horario_2, 'cron', day_of_week='mon-sun', hour=12, minute=0)
-        scheduler.add_job(self.ejecutar_horario_3, 'cron', day_of_week='mon-sun', hour=19, minute=35)
+        scheduler.add_job(self.ejecutar_horario_3, 'cron', day_of_week='mon-sun', hour=17, minute=0)
         scheduler.start()
 
 
