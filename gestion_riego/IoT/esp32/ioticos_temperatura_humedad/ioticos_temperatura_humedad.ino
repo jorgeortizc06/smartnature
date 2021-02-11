@@ -1,7 +1,22 @@
-#include <WiFi.h>
+#if defined(ESP8266)
+#include <ESP8266WiFi.h>  //ESP8266 Core WiFi Library         
+#else
+#include <WiFi.h>      //ESP32 Core WiFi Library    
+#endif
+#if defined(ESP8266)
+
+#include <ESP8266WebServer.h>  //Local WebServer used to serve the configuration portal
+
+#else
+
+#include <WebServer.h> //Local DNS Server used for redirecting all requests to the configuration portal (  https://github.com/zhouhan0126/DNSServer---esp32  )
+#endif
+#include <WiFiManager.h> 
 #include <PubSubClient.h>
 #include "DHT.h"
 #include <stdlib.h>
+#include <esp_int_wdt.h> //libreria para reiniciar el esp32
+#include <esp_task_wdt.h> //libreria para reiniciar el esp32
 #define DHTTYPE DHT11
 
 //********SENSORES INPUT*********
@@ -67,7 +82,7 @@ char msg[25];
 //************************
 void callback(char* topic, byte* payload, unsigned int length);
 void reconnect();
-void setup_wifi();
+//void setup_wifi();
 //Calcular consumo de agua
 void ISRCountPulse()
 {
@@ -92,12 +107,12 @@ void SumVolume(float dV)
 }
 void setup() {
   Serial.begin(9600);
-  setup_wifi();
+  //setup_wifi();
   attachInterrupt(digitalPinToInterrupt(sensorPin), ISRCountPulse, RISING);
   t0 = millis();
-  //WiFiManager wifiManager;
-  //wifiManager.autoConnect("AutoConnectAP");
-  //Serial.println("connected...yeey :)");
+  WiFiManager wifiManager;
+  wifiManager.autoConnect("AutoConnectAP");
+  Serial.println("connected...yeey :)");
   pinMode(pinSensorAmbiental, INPUT);
   pinMode(pinHumedadSuelo1, INPUT);
   pinMode(pinHumedadSuelo2, INPUT);
@@ -248,7 +263,7 @@ void setup_wifi(){
 //*****************************
 
 void reconnect() {
-
+  int contador = 0;
   while (!client.connected()) {
     Serial.print("Intentando conexión Mqtt...");
     // Creamos un cliente ID
@@ -260,6 +275,7 @@ void reconnect() {
       // Nos suscribimos
       if(client.subscribe(root_topic_subscribe)){
         Serial.println("Suscripcion ok");
+        contador = 0;
       }else{
         Serial.println("fallo Suscripciión");
       }
@@ -268,8 +284,23 @@ void reconnect() {
       Serial.print(client.state());
       Serial.println(" Intentamos de nuevo en 5 segundos");
       delay(5000);
+     
+    }
+
+    //para reiniciar la ESP32 en caso de que no se conecte
+    contador= contador + 1;
+    if ( contador == 6){
+      Serial.println("Procediento a reiniciar el dispositivo");
+      hard_restart();
+      contador = 0;
     }
   }
+}
+
+void hard_restart() {
+  esp_task_wdt_init(1,true);
+  esp_task_wdt_add(NULL);
+  while(true);
 }
 
 
