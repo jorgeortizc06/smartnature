@@ -26,8 +26,8 @@ $(function () {
                 orderable: false,
                 render: function (data, type, row) {
                     //buttons: me creo mis botones con html, recuerda que estoy accediendo mediante objetos
-                    var buttons = '<a href="/gestion_riego/persona_update/' + row.id + '/" class="btn btn-secondary"><i class="fas fa-edit"></i></a> ';
-                    buttons += '<a href="/gestion_riego/persona_delete/' + row.id + '/" class="btn btn-secondary"><i class="fas fa-trash-alt"></i></a>'
+                    var buttons = '<a href="/gestion_riego/tipo_suelo_update/' + row.id + '/" class="btn btn-secondary"><i class="fas fa-edit"></i></a> ';
+                    buttons += '<a href="/gestion_riego/tipo_suelo_delete/' + row.id + '/" class="btn btn-secondary"><i class="fas fa-trash-alt"></i></a>'
                     return buttons;
                 }
             },
