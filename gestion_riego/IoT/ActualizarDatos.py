@@ -25,19 +25,19 @@ class ActualizarDatos:
                 tmp_historial_riego = historial_riego
                 logica_difusa = LogicaDifusa()
                 tiempo_riego_1_variable = round(
-                    logica_difusa.fuzzy_logic_1_variables_image(float(tmp_historial_riego.valor_humed_suelo),
-                                                          str(tmp_historial_riego.id)), 2)
+                    logica_difusa.fuzzy_logic_1_variables(float(tmp_historial_riego.valor_humed_suelo),
+                                                          str(tmp_historial_riego.id),True), 2)
                 tiempo_riego_3_variable = round(
-                    logica_difusa.fuzzy_logic_3_variables_image(float(tmp_historial_riego.valor_humed_suelo),
+                    logica_difusa.fuzzy_logic_3_variables(float(tmp_historial_riego.valor_humed_suelo),
                                                           float(tmp_historial_riego.valor_humed_ambiente),
                                                           float(tmp_historial_riego.valor_temp_ambiente),
-                                                          str(tmp_historial_riego.id)), 2)
+                                                          str(tmp_historial_riego.id),True), 2)
                 tiempo_riego_4_variable = round(
-                    logica_difusa.fuzzy_logic_4_variables_image(float(tmp_historial_riego.valor_humed_suelo),
+                    logica_difusa.fuzzy_logic_4_variables(float(tmp_historial_riego.valor_humed_suelo),
                                                           float(tmp_historial_riego.valor_humed_ambiente),
                                                           float(tmp_historial_riego.valor_temp_ambiente),
                                                           float(tmp_historial_riego.valor_evapotranspiracion),
-                                                          str(tmp_historial_riego.id)), 2)
+                                                          str(tmp_historial_riego.id),True), 2)
                 ruta_imagen_fuzzy1 = 'fuzzy1/' + str(tmp_historial_riego.id) + '.png'
                 ruta_imagen_fuzzy3 = 'fuzzy3/' + str(tmp_historial_riego.id) + '.png'
                 ruta_imagen_fuzzy4 = 'fuzzy4/' + str(tmp_historial_riego.id) + '.png'
