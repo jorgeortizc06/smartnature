@@ -3,7 +3,7 @@ import sys
 #Las configuraciones esta en el proyecto princial, necesito estar alli, asi que primero
 #print(sys.path) veo mi path, estoy dentro de de varias carpetas de la raiz
 #asi que dejo posicionarme en el proyecto raiz como ha continuacion
-PROJECT_ROOT = sys.path.insert(0,"/casaortiz/django/smartnature")
+PROJECT_ROOT = sys.path.insert(0,"/casaortiz/smartnature")
 #print("Tu base es:", PROJECT_ROOT)
 from django.core.asgi import get_asgi_application
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'config.settings')
