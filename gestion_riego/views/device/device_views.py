@@ -215,13 +215,28 @@ class dashboardView(TemplateView):
                 dia = fecha.day
                 mes = fecha.month
                 anio = fecha.year
-                data_historial_riego_month = self.get_graph_historial_riego_month(mes, anio)
+                v3_data_historial_riego_month = self.get_graph_v3_historial_riego_month(mes, anio)
+                v1_data_historial_riego_month = self.get_graph_v1_historial_riego_month(mes, anio)
+                v4_data_historial_riego_month = self.get_graph_v4_historial_riego_month(mes, anio)
                 data = []
-                data = {'historial_riego_month_1': data_historial_riego_month['data_historial_riego_sensor_1'],
-                        'historial_riego_month_2': data_historial_riego_month['data_historial_riego_sensor_2'],
-                        'historial_riego_month_3': data_historial_riego_month['data_historial_riego_sensor_3'],
-                        'historial_riego_month_4': data_historial_riego_month['data_historial_riego_sensor_4'],
-                        'historial_riego_month_5': data_historial_riego_month['data_historial_riego_sensor_5'],
+                data = {'historial_riego_month_1': v3_data_historial_riego_month['data_historial_riego_sensor_1'],
+                        'historial_riego_month_2': v3_data_historial_riego_month['data_historial_riego_sensor_2'],
+                        'historial_riego_month_3': v3_data_historial_riego_month['data_historial_riego_sensor_3'],
+                        'historial_riego_month_4': v3_data_historial_riego_month['data_historial_riego_sensor_4'],
+                        'historial_riego_month_5': v3_data_historial_riego_month['data_historial_riego_sensor_5'],
+
+                        'v1_historial_riego_month_1': v1_data_historial_riego_month['data_historial_riego_sensor_1'],
+                        'v1_historial_riego_month_2': v1_data_historial_riego_month['data_historial_riego_sensor_2'],
+                        'v1_historial_riego_month_3': v1_data_historial_riego_month['data_historial_riego_sensor_3'],
+                        'v1_historial_riego_month_4': v1_data_historial_riego_month['data_historial_riego_sensor_4'],
+                        'v1_historial_riego_month_5': v1_data_historial_riego_month['data_historial_riego_sensor_5'],
+
+                        'v4_historial_riego_month_1': v4_data_historial_riego_month['data_historial_riego_sensor_1'],
+                        'v4_historial_riego_month_2': v4_data_historial_riego_month['data_historial_riego_sensor_2'],
+                        'v4_historial_riego_month_3': v4_data_historial_riego_month['data_historial_riego_sensor_3'],
+                        'v4_historial_riego_month_4': v4_data_historial_riego_month['data_historial_riego_sensor_4'],
+                        'v4_historial_riego_month_5': v4_data_historial_riego_month['data_historial_riego_sensor_5'],
+
                         'dia_riego':  formateo_fecha}
 
             else:
@@ -275,8 +290,8 @@ class dashboardView(TemplateView):
             pass
         return data
 
-    # ==========Funciones para obtener historial de riego de un mes determinado para desglosarlo en días=============
-    def get_graph_historial_riego_month(self, mes, anio):
+    # ==========Funciones para obtener historial de riego de un mes determinado para desglosarlo en días por cada tipo de logica difusa=============
+    def get_graph_v3_historial_riego_month(self, mes, anio):
         data_historial_riego_sensor_1 = []
         data_historial_riego_sensor_2 = []
         data_historial_riego_sensor_3 = []
@@ -315,10 +330,90 @@ class dashboardView(TemplateView):
         except:
             pass
         return data
+
+    def get_graph_v1_historial_riego_month(self, mes, anio):
+        data_historial_riego_sensor_1 = []
+        data_historial_riego_sensor_2 = []
+        data_historial_riego_sensor_3 = []
+        data_historial_riego_sensor_4 = []
+        data_historial_riego_sensor_5 = []
+        data = {}
+        try:
+            for d in range(1,32):
+                sum_riego_sensor_1 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
+                                                                   fecha_riego__year=anio, codigo_sensor=1).aggregate(
+                    r=Coalesce(Sum('tiempo_riego_1_variable'), 0)).get('r')
+                sum_riego_sensor_2 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
+                                                           fecha_riego__year=anio, codigo_sensor=2).aggregate(
+                    r=Coalesce(Sum('tiempo_riego_1_variable'), 0)).get('r')
+                sum_riego_sensor_3 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
+                                                           fecha_riego__year=anio, codigo_sensor=3).aggregate(
+                    r=Coalesce(Sum('tiempo_riego_1_variable'), 0)).get('r')
+                sum_riego_sensor_4 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
+                                                           fecha_riego__year=anio, codigo_sensor=4).aggregate(
+                    r=Coalesce(Sum('tiempo_riego_1_variable'), 0)).get('r')
+                sum_riego_sensor_5 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
+                                                          fecha_riego__year=anio, codigo_sensor=5).aggregate(
+                    r=Coalesce(Sum('tiempo_riego_1_variable'), 0)).get('r')
+                data_historial_riego_sensor_1.append(float(sum_riego_sensor_1))
+                data_historial_riego_sensor_2.append(float(sum_riego_sensor_2))
+                data_historial_riego_sensor_3.append(float(sum_riego_sensor_3))
+                data_historial_riego_sensor_4.append(float(sum_riego_sensor_4))
+                data_historial_riego_sensor_5.append(float(sum_riego_sensor_5))
+            data = {
+                'data_historial_riego_sensor_1': data_historial_riego_sensor_1,
+                'data_historial_riego_sensor_2': data_historial_riego_sensor_2,
+                'data_historial_riego_sensor_3': data_historial_riego_sensor_3,
+                'data_historial_riego_sensor_4': data_historial_riego_sensor_4,
+                'data_historial_riego_sensor_5': data_historial_riego_sensor_5,
+            }
+        except:
+            pass
+        return data
+
+    def get_graph_v4_historial_riego_month(self, mes, anio):
+        data_historial_riego_sensor_1 = []
+        data_historial_riego_sensor_2 = []
+        data_historial_riego_sensor_3 = []
+        data_historial_riego_sensor_4 = []
+        data_historial_riego_sensor_5 = []
+        data = {}
+        try:
+            for d in range(1,32):
+                sum_riego_sensor_1 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
+                                                                   fecha_riego__year=anio, codigo_sensor=1).aggregate(
+                    r=Coalesce(Sum('tiempo_riego_4_variable'), 0)).get('r')
+                sum_riego_sensor_2 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
+                                                           fecha_riego__year=anio, codigo_sensor=2).aggregate(
+                    r=Coalesce(Sum('tiempo_riego_4_variable'), 0)).get('r')
+                sum_riego_sensor_3 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
+                                                           fecha_riego__year=anio, codigo_sensor=3).aggregate(
+                    r=Coalesce(Sum('tiempo_riego_4_variable'), 0)).get('r')
+                sum_riego_sensor_4 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
+                                                           fecha_riego__year=anio, codigo_sensor=4).aggregate(
+                    r=Coalesce(Sum('tiempo_riego_4_variable'), 0)).get('r')
+                sum_riego_sensor_5 = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
+                                                          fecha_riego__year=anio, codigo_sensor=5).aggregate(
+                    r=Coalesce(Sum('tiempo_riego_4_variable'), 0)).get('r')
+                data_historial_riego_sensor_1.append(float(sum_riego_sensor_1))
+                data_historial_riego_sensor_2.append(float(sum_riego_sensor_2))
+                data_historial_riego_sensor_3.append(float(sum_riego_sensor_3))
+                data_historial_riego_sensor_4.append(float(sum_riego_sensor_4))
+                data_historial_riego_sensor_5.append(float(sum_riego_sensor_5))
+            data = {
+                'data_historial_riego_sensor_1': data_historial_riego_sensor_1,
+                'data_historial_riego_sensor_2': data_historial_riego_sensor_2,
+                'data_historial_riego_sensor_3': data_historial_riego_sensor_3,
+                'data_historial_riego_sensor_4': data_historial_riego_sensor_4,
+                'data_historial_riego_sensor_5': data_historial_riego_sensor_5,
+            }
+        except:
+            pass
+        return data
     # Metodo para modificar el context
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        data_historial_riego_month = self.get_graph_historial_riego_month(mes = datetime.now().month, anio = datetime.now().year)
+        data_historial_riego_month = self.get_graph_v3_historial_riego_month(mes = datetime.now().month, anio = datetime.now().year)
         data_historial_riego_day = self.get_graph_historial_riego_day(day = datetime.now().day, mes = datetime.now().month, anio = datetime.now().year)
         context['title'] = 'Dashboard'
         context['entity'] = 'Device'
@@ -336,6 +431,24 @@ class dashboardView(TemplateView):
         context['historial_riego_3'] = data_historial_riego_month['data_historial_riego_sensor_3']
         context['historial_riego_4'] = data_historial_riego_month['data_historial_riego_sensor_4']
         context['historial_riego_5'] = data_historial_riego_month['data_historial_riego_sensor_5']
+        #Tipo de logica difusa de 1 variable
+        data_historial_riego_month_1_variable = self.get_graph_v1_historial_riego_month(
+            mes=datetime.now().month,
+            anio=datetime.now().year)
+        context['v1_historial_riego_1'] = data_historial_riego_month_1_variable['data_historial_riego_sensor_1']
+        context['v1_historial_riego_2'] = data_historial_riego_month_1_variable['data_historial_riego_sensor_2']
+        context['v1_historial_riego_3'] = data_historial_riego_month_1_variable['data_historial_riego_sensor_3']
+        context['v1_historial_riego_4'] = data_historial_riego_month_1_variable['data_historial_riego_sensor_4']
+        context['v1_historial_riego_5'] = data_historial_riego_month_1_variable['data_historial_riego_sensor_5']
+        #Tipo de logica difusa de 4 variables
+        data_historial_riego_month_4_variable = self.get_graph_v4_historial_riego_month(
+            mes=datetime.now().month,
+            anio=datetime.now().year)
+        context['v4_historial_riego_1'] = data_historial_riego_month_4_variable['data_historial_riego_sensor_1']
+        context['v4_historial_riego_2'] = data_historial_riego_month_4_variable['data_historial_riego_sensor_2']
+        context['v4_historial_riego_3'] = data_historial_riego_month_4_variable['data_historial_riego_sensor_3']
+        context['v4_historial_riego_4'] = data_historial_riego_month_4_variable['data_historial_riego_sensor_4']
+        context['v4_historial_riego_5'] = data_historial_riego_month_4_variable['data_historial_riego_sensor_5']
         return context
 
 

@@ -119,6 +119,7 @@
         <h1 class="display-5">HISTORIAL DE RIEGO</h1>
         <p class="lead">Muestra información de riego por dias y horas</p>
         <hr class="my-4">
+        <h4 class="display-5">TIPO DE LÓGICA DIFUSA: 3 VARIABLES</h4>
         <div class="row">
             <div class="col-sm-12 col-lg-6">
                 <label>Elegir días:</label>
@@ -131,6 +132,23 @@
                 <input type="date" id="dateMes">
                 <figure class="highcharts-figure">
                     <div id="c_graph_historial_riego_mes"></div>
+                </figure>
+            </div>
+        </div>
+        <h4 class="display-5">TIPO DE LÓGICA DIFUSA: 1 VARIABLE</h4>
+        <div class="row">
+
+            <div class="col-sm-12 col-lg-12">
+                <figure class="highcharts-figure">
+                    <div id="c_graph_historial_riego_mes_1_variable"></div>
+                </figure>
+            </div>
+        </div>
+        <h4 class="display-5">TIPO DE LÓGICA DIFUSA: 4 VARIABLES</h4>
+        <div class="row">
+            <div class="col-sm-12 col-lg-12">
+                <figure class="highcharts-figure">
+                    <div id="c_graph_historial_riego_mes_4_variable"></div>
                 </figure>
             </div>
         </div>
@@ -215,6 +233,43 @@
             }
 
             var dia = Highcharts.chart('container4', options);
+
+            var options1 = {
+                chart: {
+                    type: 'column'
+                },
+                title: {},
+                subtitle: {
+                    text: 'Reporte de riego'
+                },
+                xAxis: {
+                    categories: [
+                        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'minutos'
+                    }
+                },
+                tooltip: {
+                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                        '<td style="padding:0"><b>{point.y:.1f} minutos</b></td></tr>',
+                    footerFormat: '</table>',
+                    shared: true,
+                    useHTML: true
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0.2,
+                        borderWidth: 0
+                    }
+                },
+                series: []
+            }
 
             var options1 = {
                 chart: {
@@ -357,17 +412,17 @@
             },
                 {
                     name: 'Tiempo Riego: Sensor 1',
-                    data: {{ historial_riego_2|safe }}
+                    data: {{ historial_riego_1|safe }}
 
                 },
                 {
                     name: 'Tiempo Riego: Sensor 2',
-                    data: {{ historial_riego_3|safe }}
+                    data: {{ historial_riego_2|safe }}
 
                 },
                 {
                     name: 'Tiempo Riego: Sensor 3',
-                    data: {{ historial_riego_4|safe }}
+                    data: {{ historial_riego_3|safe }}
 
                 },
                 {
@@ -376,13 +431,220 @@
 
                 }]
         }
+
+        var optionsMonth1Variable = {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Historial del Riego por Día: {{mes}}'
+            },
+            subtitle: {
+                text: 'Reporte de riego'
+            },
+            xAxis: {
+                categories: [
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
+                ],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'minutos'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} minutos</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Tiempo Riego: Promedio',
+                data: {{ v1_historial_riego_5|safe }}
+
+            },
+            {
+                name: 'Tiempo Riego: Sensor 1',
+                data: {{ v1_historial_riego_1|safe }}
+
+            },
+            {
+                name: 'Tiempo Riego: Sensor 2',
+                data: {{ v1_historial_riego_2|safe }}
+
+            },
+            {
+                name: 'Tiempo Riego: Sensor 3',
+                data: {{ v1_historial_riego_3|safe }}
+
+            },
+            {
+                name: 'Tiempo Riego: Sensor 4',
+                data: {{ v1_historial_riego_4|safe }}
+
+            }]
+        }
+
+        var optionsMonth4Variable = {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Historial del Riego por Día: {{mes}}'
+            },
+            subtitle: {
+                text: 'Reporte de riego'
+            },
+            xAxis: {
+                categories: [
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
+                ],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'minutos'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} minutos</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                name: 'Tiempo Riego: Promedio',
+                data: {{ v4_historial_riego_5|safe }}
+
+            },
+                {
+                    name: 'Tiempo Riego: Sensor 1',
+                    data: {{ v4_historial_riego_1|safe }}
+
+                },
+                {
+                    name: 'Tiempo Riego: Sensor 2',
+                    data: {{ v4_historial_riego_2|safe }}
+
+                },
+                {
+                    name: 'Tiempo Riego: Sensor 3',
+                    data: {{ v4_historial_riego_3|safe }}
+
+                },
+                {
+                    name: 'Tiempo Riego: Sensor 4',
+                    data: {{ v4_historial_riego_4|safe }}
+
+                }]
+        }
+
         var mes = Highcharts.chart('c_graph_historial_riego_mes', options);
+        var mes1Variable = Highcharts.chart('c_graph_historial_riego_mes_1_variable', optionsMonth1Variable);
+        var mes4Variable = Highcharts.chart('c_graph_historial_riego_mes_4_variable', optionsMonth4Variable);
 
         var options1 = {
             chart: {
                 type: 'column'
             },
             title: {},
+            subtitle: {
+                text: 'Reporte de riego'
+            },
+            xAxis: {
+                categories: [
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
+                ],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'minutos'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} minutos</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: []
+        }
+
+        var optionsMonth1VariableAjax = {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Historial del Riego por Día: {{mes}}'
+            },
+            subtitle: {
+                text: 'Reporte de riego'
+            },
+            xAxis: {
+                categories: [
+                    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
+                ],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'minutos'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} minutos</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0.2,
+                    borderWidth: 0
+                }
+            },
+            series: []
+        }
+
+        var optionsMonth4VariableAjax = {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'Historial del Riego por Día: {{mes}}'
+            },
             subtitle: {
                 text: 'Reporte de riego'
             },
@@ -452,19 +714,63 @@
                         data: data.historial_riego_month_4
                     })
 
-                    mes.setTitle({
+                     mes.setTitle({
                         text: data.dia_riego
                     });
 
+                    var mes1variable = new Highcharts.chart('c_graph_historial_riego_mes_1_variable', optionsMonth1VariableAjax);
+                    mes1variable.addSeries({
+                        name: 'Tiempo Riego: Promedio',
+                        data: data.v1_historial_riego_month_5
+                    })
+                    mes1variable.addSeries({
+                        name: 'Tiempo Riego: Sensor 1',
+                        data: data.v1_historial_riego_month_1
+                    })
+                    mes1variable.addSeries({
+                        name: 'Tiempo Riego: Sensor 2',
+                        data: data.v1_historial_riego_month_2
 
-                    /*$.each(data, function (key, value) {
-                        dia.addSeries({
-                            name: 'Sensor '+key,
-                            data: value.historial_riego_day_1
-                        })
-                    })*/
+                    })
+                    mes1variable.addSeries({
+                        name: 'Tiempo Riego: Sensor 3',
+                        data: data.v1_historial_riego_month_3
+                    })
+                    mes1variable.addSeries({
+                        name: 'Tiempo Riego: Sensor 4',
+                        data: data.v1_historial_riego_month_4
+                    })
+                     mes1variable.setTitle({
+                        text: data.dia_riego
+                    });
 
-                    //dia.redraw();
+                    var mes4variable = new Highcharts.chart('c_graph_historial_riego_mes_4_variable', optionsMonth4VariableAjax);
+                    mes4variable.addSeries({
+                        name: 'Tiempo Riego: Promedio',
+                        data: data.v4_historial_riego_month_5
+                    })
+                    mes4variable.addSeries({
+                        name: 'Tiempo Riego: Sensor 1',
+                        data: data.v4_historial_riego_month_1
+                    })
+                    mes4variable.addSeries({
+                        name: 'Tiempo Riego: Sensor 2',
+                        data: data.v4_historial_riego_month_2
+
+                    })
+                    mes4variable.addSeries({
+                        name: 'Tiempo Riego: Sensor 3',
+                        data: data.v4_historial_riego_month_3
+                    })
+                    mes4variable.addSeries({
+                        name: 'Tiempo Riego: Sensor 4',
+                        data: data.v4_historial_riego_month_4
+                    })
+
+                    mes4variable.setTitle({
+                        text: data.dia_riego
+                    });
+
 
                     return false;
                 })
