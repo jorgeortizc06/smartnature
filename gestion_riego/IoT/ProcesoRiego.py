@@ -226,6 +226,8 @@ class Regar:
                 if time.strftime("%H:%M:%S") == fin_riego:
                     print("La llave se ha cerrado")
                     self.activacion = False
+                    mqtt = MqttClientDevice()
+                    client = mqtt.conectar(ip_mqtt_broker, port_mqtt)
                     enviando = mqtt.publish(client, "device1/electrovalvula", "OFF")
                     print("Electrovalvula OFF: ", enviando)
                     # client = paho.mqtt.client.Client(client_id='albert-subs')
