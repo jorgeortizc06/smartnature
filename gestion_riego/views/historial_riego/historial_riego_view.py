@@ -52,6 +52,7 @@ class HistorialRiegoListView(ListView):
 class UsoAguaPorTipoLogicaDifusa(TemplateView):
     model = HistorialRiego
     template_name = 'gestion_riego/historial_riego/uso_agua_tipo_logica_difusa.html'
+    caudal_agua = 1.7
 
     @method_decorator(csrf_exempt)
     @method_decorator(login_required)
@@ -100,17 +101,17 @@ class UsoAguaPorTipoLogicaDifusa(TemplateView):
                                                                    fecha_riego__year=anio, codigo_sensor=5).aggregate(
                     r=Coalesce(Sum('tiempo_riego_1_variable'), 0)).get('r')
                 print(sum_riego_1_variable)
-                consumo_agua_1_variable = round(float(sum_riego_1_variable)*2.03,2)
+                consumo_agua_1_variable = round(float(sum_riego_1_variable)*self.caudal_agua,2)
 
                 sum_riego_3_variable = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
                                                                    fecha_riego__year=anio, codigo_sensor=5).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
-                consumo_agua_3_variable = round(float(sum_riego_3_variable)*2.03,2)
+                consumo_agua_3_variable = round(float(sum_riego_3_variable)*self.caudal_agua,2)
 
                 sum_riego_4_variable = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
                                                                      fecha_riego__year=anio, codigo_sensor=5).aggregate(
                     r=Coalesce(Sum('tiempo_riego_4_variable'), 0)).get('r')
-                consumo_agua_4_variable = round(float(sum_riego_4_variable)*2.03,2)
+                consumo_agua_4_variable = round(float(sum_riego_4_variable)*self.caudal_agua,2)
 
                 data.append({'dia': d,'data_historial_riego_1_variable': float(sum_riego_1_variable), 'consumo_agua_1_variable': float(consumo_agua_1_variable),
                              'data_historial_riego_3_variable': float(sum_riego_3_variable), 'consumo_agua_3_variable': float(consumo_agua_3_variable),
@@ -128,17 +129,17 @@ class UsoAguaPorTipoLogicaDifusa(TemplateView):
             sum_riego_1_variable_mensual = HistorialRiego.objects.filter(fecha_riego__month=mes,
                                                                          fecha_riego__year=anio, codigo_sensor=5).aggregate(
                 r=Coalesce(Sum('tiempo_riego_1_variable'), 0)).get('r')
-            consumo_agua_1_variable_mensual = round(float(sum_riego_1_variable_mensual) * 2.03, 2)
+            consumo_agua_1_variable_mensual = round(float(sum_riego_1_variable_mensual) * self.caudal_agua, 2)
             print(consumo_agua_1_variable_mensual)
             sum_riego_3_variable_mensual = HistorialRiego.objects.filter(fecha_riego__month=mes,
                                                                          fecha_riego__year=anio, codigo_sensor=5).aggregate(
                 r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
-            consumo_agua_3_variable_mensual = round(float(sum_riego_3_variable_mensual) * 2.03, 2)
+            consumo_agua_3_variable_mensual = round(float(sum_riego_3_variable_mensual) * self.caudal_agua, 2)
             print(consumo_agua_3_variable_mensual)
             sum_riego_4_variable_mensual = HistorialRiego.objects.filter(fecha_riego__month=mes,
                                                                          fecha_riego__year=anio, codigo_sensor=5).aggregate(
                 r=Coalesce(Sum('tiempo_riego_4_variable'), 0)).get('r')
-            consumo_agua_4_variable_mensual = round(float(sum_riego_4_variable_mensual) * 2.03, 2)
+            consumo_agua_4_variable_mensual = round(float(sum_riego_4_variable_mensual) * self.caudal_agua, 2)
             print(consumo_agua_4_variable_mensual)
             data.append({'consumo_agua_1_variable_mensual': float(consumo_agua_1_variable_mensual),
                         'consumo_agua_3_variable_mensual': float(consumo_agua_3_variable_mensual),
@@ -162,17 +163,17 @@ class UsoAguaPorTipoLogicaDifusa(TemplateView):
                                                                      fecha_riego__year=anio, codigo_sensor=5).aggregate(
                     r=Coalesce(Sum('tiempo_riego_1_variable'), 0)).get('r')
                 print(sum_riego_1_variable)
-                consumo_agua_1_variable = round(float(sum_riego_1_variable) * 2.03, 2)
+                consumo_agua_1_variable = round(float(sum_riego_1_variable) * self.caudal_agua, 2)
 
                 sum_riego_3_variable = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
                                                                      fecha_riego__year=anio, codigo_sensor=5).aggregate(
                     r=Coalesce(Sum('tiempo_riego'), 0)).get('r')
-                consumo_agua_3_variable = round(float(sum_riego_3_variable) * 2.03, 2)
+                consumo_agua_3_variable = round(float(sum_riego_3_variable) * self.caudal_agua, 2)
 
                 sum_riego_4_variable = HistorialRiego.objects.filter(fecha_riego__day=d, fecha_riego__month=mes,
                                                                      fecha_riego__year=anio, codigo_sensor=5).aggregate(
                     r=Coalesce(Sum('tiempo_riego_4_variable'), 0)).get('r')
-                consumo_agua_4_variable = round(float(sum_riego_4_variable) * 2.03, 2)
+                consumo_agua_4_variable = round(float(sum_riego_4_variable) * self.caudal_agua, 2)
                 data_consumo_agua_1_variable_mensual.append(float(consumo_agua_1_variable))
                 data_consumo_agua_3_variable_mensual.append(float(consumo_agua_3_variable))
                 data_consumo_agua_4_variable_mensual.append(float(consumo_agua_4_variable))
