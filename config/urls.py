@@ -17,11 +17,14 @@ from django.contrib import admin
 from django.urls import include, path
 from django.conf import settings
 from django.conf.urls.static import static
+from gestion_riego.views.device.device_views import DeviceCreateView, DeviceUpdateView, DeviceDeleteView, \
+    DeviceListView, dashboardView, DeviceViewSet
 # from gestion_riego.views import list_persona, new_persona, edit_persona, delete_persona
 urlpatterns = [
     path('admin/', admin.site.urls),
     # Vistas basadas en clases, todo lo que hice en view.py, django ya lo hace automaticamente, cambian algunas reglas. class_view.py
-    path('gestion_riego/', include("gestion_riego.urls"))
+    path('gestion_riego/', include("gestion_riego.urls")),
+    path('', dashboardView.as_view())
 
     # usado para los view.py.
     # path('list_persona/', list_persona, name='list_persona'),
