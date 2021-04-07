@@ -23,7 +23,7 @@ from gestion_riego.views.device.device_views import DeviceCreateView, DeviceUpda
 urlpatterns = [
     path('admin/', admin.site.urls),
     # Vistas basadas en clases, todo lo que hice en view.py, django ya lo hace automaticamente, cambian algunas reglas. class_view.py
-    path('gestion_riego/', include("gestion_riego.urls")),
+    path('gestion-riego/', include("gestion_riego.urls")),
     path('', dashboardView.as_view())
 
     # usado para los view.py.

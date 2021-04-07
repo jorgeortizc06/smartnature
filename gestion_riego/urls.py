@@ -27,7 +27,7 @@ app_name = 'gestion_riego'
 
 router = DefaultRouter()
 router.register('srv/sensor', SensorViewSet)
-router.register('srv/historial_riego', HistorialRiegoViewSet)
+router.register('srv/historial-riego', HistorialRiegoViewSet)
 router.register('srv/plataforma', PlataformaViewSet)
 router.register('srv/device', DeviceViewSet)
 
@@ -39,45 +39,45 @@ urlpatterns += [
     path('login/', LoginFormView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
 
-    path('persona_create/', PersonaCreateView.as_view(), name='persona_create'),
-    path('persona_update/<int:pk>/', PersonaUpdateView.as_view(), name='persona_update'),
-    path('persona_delete/<int:pk>/', PersonaDeleteView.as_view(), name='persona_delete'),
-    path('persona_list/', PersonaListView.as_view(), name='persona_list'),
+    path('personas/create', PersonaCreateView.as_view(), name='persona_create'),
+    path('personas/update/<int:pk>/', PersonaUpdateView.as_view(), name='persona_update'),
+    path('personas/delete/<int:pk>/', PersonaDeleteView.as_view(), name='persona_delete'),
+    path('personas/', PersonaListView.as_view(), name='persona_list'),
 
-    path('sensor_create/', SensorCreateView.as_view(), name='sensor_create'),
-    path('sensor_update/<int:pk>/', SensorUpdateView.as_view(), name='sensor_update'),
-    path('sensor_delete/<int:pk>/', SensorDeleteView.as_view(), name='sensor_delete'),
-    path('sensor_list/', SensorListView.as_view(), name='sensor_list'),
+    path('sensores/create', SensorCreateView.as_view(), name='sensor_create'),
+    path('sensores/update/<int:pk>/', SensorUpdateView.as_view(), name='sensor_update'),
+    path('sensores/delete/<int:pk>/', SensorDeleteView.as_view(), name='sensor_delete'),
+    path('sensores/', SensorListView.as_view(), name='sensor_list'),
 
-    path('plataforma_create/', PlataformaCreateView.as_view(), name='plataforma_create'),
-    path('plataforma_update/<int:pk>/', PlataformaUpdateView.as_view(), name='plataforma_update'),
-    path('plataforma_delete/<int:pk>/', PlataformaDeleteView.as_view(), name='plataforma_delete'),
-    path('plataforma_list/', PlataformaListView.as_view(), name='plataforma_list'),
+    path('plataformas/create/', PlataformaCreateView.as_view(), name='plataforma_create'),
+    path('plataformas/update/<int:pk>/', PlataformaUpdateView.as_view(), name='plataforma_update'),
+    path('plataformas/delete/<int:pk>/', PlataformaDeleteView.as_view(), name='plataforma_delete'),
+    path('plataformas/', PlataformaListView.as_view(), name='plataforma_list'),
 
-    path('tipo_sensor_create/', TipoSensorCreateView.as_view(), name='tipo_sensor_create'),
-    path('tipo_sensor_update/<int:pk>/', TipoSensorUpdateView.as_view(), name='tipo_sensor_update'),
-    path('tipo_sensor_delete/<int:pk>/', TipoSensorDeleteView.as_view(), name='tipo_sensor_delete'),
-    path('tipo_sensor_list/', TipoSensorListView.as_view(), name='tipo_sensor_list'),
+    path('tipo-sensores/create/', TipoSensorCreateView.as_view(), name='tipo_sensor_create'),
+    path('tipo-sensores/update/<int:pk>/', TipoSensorUpdateView.as_view(), name='tipo_sensor_update'),
+    path('tipo-sensores/delete/<int:pk>/', TipoSensorDeleteView.as_view(), name='tipo_sensor_delete'),
+    path('tipo-sensores/', TipoSensorListView.as_view(), name='tipo_sensor_list'),
 
-    path('tipo_suelo_create/', TipoSueloCreateView.as_view(), name='tipo_suelo_create'),
-    path('tipo_suelo_update/<int:pk>/', TipoSueloUpdateView.as_view(), name='tipo_suelo_update'),
-    path('tipo_suelo_delete/<int:pk>/', TipoSueloDeleteView.as_view(), name='tipo_suelo_delete'),
-    path('tipo_suelo_list/', TipoSueloListView.as_view(), name='tipo_suelo_list'),
+    path('tipo-suelos/create/', TipoSueloCreateView.as_view(), name='tipo_suelo_create'),
+    path('tipo-suelos/update/<int:pk>/', TipoSueloUpdateView.as_view(), name='tipo_suelo_update'),
+    path('tipo-suelos/delete/<int:pk>/', TipoSueloDeleteView.as_view(), name='tipo_suelo_delete'),
+    path('tipo-suelos', TipoSueloListView.as_view(), name='tipo_suelo_list'),
 
-    path('planta_create/', PlantaCreateView.as_view(), name='planta_create'),
-    path('planta_update/<int:pk>/', PlantaUpdateView.as_view(), name='planta_update'),
-    path('planta_delete/<int:pk>/', PlantaDeleteView.as_view(), name='planta_delete'),
-    path('planta_list/', PlantaListView.as_view(), name='planta_list'),
+    path('plantas/create/', PlantaCreateView.as_view(), name='planta_create'),
+    path('plantas/update/<int:pk>/', PlantaUpdateView.as_view(), name='planta_update'),
+    path('plantas/delete/<int:pk>/', PlantaDeleteView.as_view(), name='planta_delete'),
+    path('plantas', PlantaListView.as_view(), name='planta_list'),
 
-    path('siembra_create/', SiembraCreateView.as_view(), name='siembra_create'),
-    path('siembra_update/<int:pk>/', SiembraUpdateView.as_view(), name='siembra_update'),
-    path('siembra_delete/<int:pk>/', SiembraDeleteView.as_view(), name='siembra_delete'),
-    path('siembra_list/', SiembraListView.as_view(), name='siembra_list'),
+    path('siembras/create/', SiembraCreateView.as_view(), name='siembra_create'),
+    path('siembras/update/<int:pk>/', SiembraUpdateView.as_view(), name='siembra_update'),
+    path('siembras/delete/<int:pk>/', SiembraDeleteView.as_view(), name='siembra_delete'),
+    path('siembras', SiembraListView.as_view(), name='siembra_list'),
 
-    path('device_create/', DeviceCreateView.as_view(), name='device_create'),
-    path('device_update/<int:pk>/', DeviceUpdateView.as_view(), name='device_update'),
-    path('device_delete/<int:pk>/', DeviceDeleteView.as_view(), name='device_delete'),
-    path('device_list/', DeviceListView.as_view(), name='device_list'),
+    path('devices/create/', DeviceCreateView.as_view(), name='device_create'),
+    path('devices/update/<int:pk>/', DeviceUpdateView.as_view(), name='device_update'),
+    path('devices/delete/<int:pk>/', DeviceDeleteView.as_view(), name='device_delete'),
+    path('devices/list/', DeviceListView.as_view(), name='device_list'),
     path('dashboard/', dashboardView.as_view(), name='dashboard'),
 
     path('historial_riego/', HistorialRiegoListView.as_view(), name='historial_riego'),

@@ -26,14 +26,14 @@ print("Tu base es:", BASE_DIR)
 SECRET_KEY = 'n1_r6$u5#xurw8j+5$yx#hra-(4k*gyqyu)97(4)dn9iqp56yg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']  # alojas tu ip servidor
 
 # Application definition
 
 INSTALLED_APPS = [
-    #'gestion_riego.apps.GestionRiegoConfig',
+    # 'gestion_riego.apps.GestionRiegoConfig',
     'gestion_riego',
     'rest_framework',
     'corsheaders',
@@ -61,7 +61,7 @@ MIDDLEWARE = [  # intermediarios, seguridad. Usuario y framework. Seguridad por 
     'django.middleware.common.CommonMiddleware',
 ]
 
-#Jupiter Notebook Settings
+# Jupiter Notebook Settings
 NOTEBOOK_ARGUMENTS = [
     '--ip', '0.0.0.0',
     '--allow-root',
@@ -73,7 +73,7 @@ ROOT_URLCONF = 'config.urls'  # Hace referencia a las rutas principales del proy
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [''],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -111,10 +111,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-#Configuracion de ssl, por ahora esta en True
+# Configuracion de ssl, por ahora esta en True
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = False
-
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
@@ -132,28 +131,30 @@ REST_FRAMEWORK = {
 
 LANGUAGE_CODE = 'es-ec'
 
-#Django por general siempre recupera o setea la hora en formato UTC
+# Django por general siempre recupera o setea la hora en formato UTC
 TIME_ZONE = 'America/Guayaquil'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = False #Me daba problemas con la zona horaria, con esto desabilito la zona horario de django
+USE_TZ = False  # Me daba problemas con la zona horaria, con esto desabilito la zona horario de django
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'gestion_riego/static/')
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
 
 LOGIN_URL = '/gestion_riego/login'
 LOGIN_REDIRECT_URL = '/gestion_riego/dashboard'
 LOGOUT_REDIRECT_URL = '/gestion_riego/login'
 
-#Se utilizo para poder utilizar ORM en jupyter notebook desactivar la async
+# Se utilizo para poder utilizar ORM en jupyter notebook desactivar la async
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"
 
-#Para el guardado de las imagenes de logica difusa
+# Para el guardado de las imagenes de logica difusa
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'gestion_riego/media/')
