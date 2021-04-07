@@ -121,11 +121,15 @@ class SensorListView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         data = {}
+        data_sensores_datatable = {}
         try:
             action = request.POST['action']
             if action == 'searchdata':
                 data = []
-                for i in Sensor.objects.all()[0:300]:
+                # Obtengo datos del mes actual
+                sensores = Sensor.objects.filter(fecha_registro__month=datetime.now().month,
+                                                 fecha_registro__year=datetime.now().year)
+                for i in sensores:
                     data.append(i.toJSON())
             elif action == 'search_historial_sensores_month':
                 fecha_ajax = request.POST['fecha']
@@ -136,13 +140,22 @@ class SensorListView(TemplateView):
                 mes = fecha.month
                 anio = fecha.year
                 data = []
-                data_sensores = self.get_graph_sensores(mes, anio)
+                data_sensores = self.get_data_sensores(mes, anio)
+                #sensores: Para mi datatable
+                sensores_datatable = Sensor.objects.filter(fecha_registro__month=mes,
+                                                 fecha_registro__year=anio)
+                data_sensores_datatable = []
+                for sensor in sensores_datatable:
+                    data_sensores_datatable.append(sensor.toJSON())
+
+                print(sensores_datatable)
                 data = {'historial_sensor_humedad_suelo_month_1': data_sensores['data_humedad_1'],
                         'historial_sensor_humedad_suelo_month_2': data_sensores['data_humedad_2'],
                         'historial_sensor_humedad_suelo_month_3': data_sensores['data_humedad_3'],
                         'historial_sensor_humedad_suelo_month_4': data_sensores['data_humedad_4'],
                         'historial_sensor_humedad_ambiente_month_1': data_sensores['data_humedad_ambiente_1'],
                         'historial_sensor_temperatura_ambiente_month_1': data_sensores['data_temperatura_ambiente_1'],
+                        'data_sensores_datatable': data_sensores_datatable,
                         'mes': formateo_fecha}
             else:
                 data['error'] = 'Ha ocurrido un error'
@@ -153,7 +166,7 @@ class SensorListView(TemplateView):
     # def get_queryset(self):
     #    return self.model.objects.all()[:10]  # Trae solo dos objetos
 
-    def get_graph_sensores(self, mes, anio):
+    def get_data_sensores(self, mes, anio):
         data_humedad_1 = []
         data_humedad_2 = []
         data_humedad_3 = []
@@ -212,12 +225,12 @@ class SensorListView(TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        data_sensores = self.get_graph_sensores(mes = datetime.now().month, anio = datetime.now().year)
+        data_sensores = self.get_data_sensores(mes=datetime.now().month, anio=datetime.now().year)
         context['title'] = 'Lista de Sensores'
         context['entity'] = 'Sensor'
         context['create_url'] = reverse_lazy('gestion_riego:sensor_create')
         context['list_url'] = reverse_lazy('gestion_riego:sensor_list')
-        #Tarda mucho en cargar por lo cual se ha comentado
+        # Tarda mucho en cargar por lo cual se ha comentado
         context['mes'] = datetime.now().strftime('%B')
         context['sensor_humedad_suelo_1'] = data_sensores['data_humedad_1']
         context['sensor_humedad_suelo_2'] = data_sensores['data_humedad_2']

@@ -113,21 +113,21 @@
                     data: {{ sensor_humedad_suelo_1|safe }}
 
                 },
-                {
-                    name: 'Sensor 2',
-                    data: {{ sensor_humedad_suelo_2|safe }}
+                    {
+                        name: 'Sensor 2',
+                        data: {{ sensor_humedad_suelo_2|safe }}
 
-                },
-                {
-                    name: 'Sensor 3',
-                    data: {{ sensor_humedad_suelo_3|safe }}
+                    },
+                    {
+                        name: 'Sensor 3',
+                        data: {{ sensor_humedad_suelo_3|safe }}
 
-                },
-                {
-                    name: 'Sensor 4',
-                    data: {{ sensor_humedad_suelo_4|safe }}
+                    },
+                    {
+                        name: 'Sensor 4',
+                        data: {{ sensor_humedad_suelo_4|safe }}
 
-                }]
+                    }]
             };
 
             var optionsHumedadAmbiente = {
@@ -342,7 +342,42 @@
                     dataType: 'json',
                 }).done(function (data) {
                     //console.log(data);
-                    console.log('ejecutado' + data.historial_sensor_humedad_suelo_month_1);
+                    console.log('ejecutado' + data.data_sensores_datatable[0]['id']);
+                    //data.data_sensores_datatable.forEach(sensor => console.log(sensor))
+                    var table = $('#data').DataTable();
+                    table.clear();
+
+
+                    var newTable = $('#data').DataTable({
+                        destroy: true,
+                        columns: [ //columnas de las tablas, se debe poner los campos del models.py
+                            {"data.data_sensores_datatable": "id"},
+                            {"data.data_sensores_datatable": "codigo_sensor"},
+                            {"data.data_sensores_datatable": "tipo_sensor.nombre"},
+                            {"data.data_sensores_datatable": "fecha_registro"},
+                            {"data.data_sensores_datatable": "value"},
+                            {"data.data_sensores_datatable": "estado"},
+                            {"data.data_sensores_datatable": "device.nombre"},
+                            {"data.data_sensores_datatable": null},
+                        ],
+                        columnDefs: [ //Por columna lo puedes personalizar
+                            {
+                                targets: [-1], //voy de atras hacia arriba
+                                class: 'text-center',
+                                orderable: false,
+                                render: function (data, type, row) {
+                                    //buttons: me creo mis botones con html, recuerda que estoy accediendo mediante objetos
+                                    var buttons = '<a href="/gestion-riego/sensores/update/' + row.id + '/" class="btn btn-primary"><i class="fas fa-edit"></i></a> ';
+                                    buttons += '<a href="/gestion-riego/sensores/delete/' + row.id + '/" class="btn btn-danger"><i class="fas fa-trash-alt"></i></a>'
+                                    return buttons;
+                                }
+                            },
+                        ],
+                        initComplete: function (settings, json) {
+                            //aqui va alguna funcion que se ejecutara despues de cargar la tabla
+                        }
+                    });
+
 
                     //var dia = new Highcharts.chart('container4', options1);
                     var newHighHumedadSuelo = new Highcharts.chart('c_sensor_humedad_suelo', optionsNewHumedadSuelo);
