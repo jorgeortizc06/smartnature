@@ -10,13 +10,12 @@
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.5/plugins/fontawesome-free/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/adminlte/plugins/fontawesome-free/css/all.min.css' %}">
     <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.5/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
     <!-- Theme style -->
-    <link rel="stylesheet" href="{% static 'lib/adminlte-3.0.5/css/adminlte.min.css' %}">
+    <link rel="stylesheet" href="{% static 'lib/adminlte/dist/css/adminlte.min.css' %}">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-
 </head>
 <body class="hold-transition login-page">
 <div class="login-box">
@@ -31,7 +30,6 @@
             <form action="." method="post">
                 <input type="hidden" name="next" value="{{ next }}">
                 {% csrf_token %}
-
                 <div class="input-group mb-3">
                     {{ form.username }}
                     <div class="input-group-append">
@@ -50,13 +48,10 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="col-4">
+                        <div class="col-5">
                             <button type="submit" class="btn btn-primary btn-block">Iniciar Sesión</button>
                         </div>
                     </div>
-                    <!-- /.col -->
-
-                    <!-- /.col -->
                 </div>
             </form>
         </div>
@@ -67,26 +62,26 @@
 <!-- /.login-box -->
 
 <!-- jQuery -->
-<script src="{% static 'lib/adminlte-3.0.5/plugins/jquery/jquery.min.js' %}"></script>
+<script src="{% static 'lib/adminlte/plugins/jquery/jquery.min.js' %}"></script>
 <!-- Bootstrap 4 -->
-<script src="{% static 'lib/adminlte-3.0.5/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+<script src="{% static 'lib/adminlte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
 <!-- AdminLTE App -->
-<script src="{% static 'lib/adminlte-3.0.5/js/adminlte.min.js' %}"></script>
+<script src="{% static 'lib/adminlte/dist/js/adminlte.min.js' %}"></script>
 
 <script type="application/javascript">
-  {% if form.errors %}
-      var errors = 'Credenciales fallidas';
-      {% for field in form %}
-          {% for error in field.errors %}
-              errors+='{{ error }}\n';
-          {% endfor %}
-      {% endfor %}
+    {% if form.errors %}
+        var errors = 'Credenciales fallidas';
+        {% for field in form %}
+            {% for error in field.errors %}
+                errors += '{{ error }}\n';
+            {% endfor %}
+        {% endfor %}
         Swal.fire({
-        title: 'Error!',
-        text: errors,
-        icon: 'error'
-      })
-  {% endif %}
+            title: 'Error!',
+            text: errors,
+            icon: 'error'
+        })
+    {% endif %}
 
 
 </script>

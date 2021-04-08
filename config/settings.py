@@ -148,9 +148,9 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-LOGIN_URL = '/gestion_riego/login'
-LOGIN_REDIRECT_URL = '/gestion_riego/dashboard'
-LOGOUT_REDIRECT_URL = '/gestion_riego/login'
+LOGIN_URL = '/gestion-riego/login'
+LOGIN_REDIRECT_URL = '/gestion-riego/dashboard'
+LOGOUT_REDIRECT_URL = '/gestion-riego/login'
 
 # Se utilizo para poder utilizar ORM en jupyter notebook desactivar la async
 os.environ["DJANGO_ALLOW_ASYNC_UNSAFE"] = "true"

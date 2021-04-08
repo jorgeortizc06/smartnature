@@ -142,20 +142,20 @@ class SensorListView(TemplateView):
                 data = []
                 data_sensores = self.get_data_sensores(mes, anio)
                 #sensores: Para mi datatable
-                sensores_datatable = Sensor.objects.filter(fecha_registro__month=mes,
-                                                 fecha_registro__year=anio)
-                data_sensores_datatable = []
-                for sensor in sensores_datatable:
-                    data_sensores_datatable.append(sensor.toJSON())
+                # sensores_datatable = Sensor.objects.filter(fecha_registro__month=mes,
+                #                                  fecha_registro__year=anio)
+                # data_sensores_datatable = []
+                # for sensor in sensores_datatable:
+                #     data_sensores_datatable.append(sensor.toJSON())
 
-                print(sensores_datatable)
+                # print(sensores_datatable)
                 data = {'historial_sensor_humedad_suelo_month_1': data_sensores['data_humedad_1'],
                         'historial_sensor_humedad_suelo_month_2': data_sensores['data_humedad_2'],
                         'historial_sensor_humedad_suelo_month_3': data_sensores['data_humedad_3'],
                         'historial_sensor_humedad_suelo_month_4': data_sensores['data_humedad_4'],
                         'historial_sensor_humedad_ambiente_month_1': data_sensores['data_humedad_ambiente_1'],
                         'historial_sensor_temperatura_ambiente_month_1': data_sensores['data_temperatura_ambiente_1'],
-                        'data_sensores_datatable': data_sensores_datatable,
+                        # 'data_sensores_datatable': data_sensores_datatable,
                         'mes': formateo_fecha}
             else:
                 data['error'] = 'Ha ocurrido un error'
