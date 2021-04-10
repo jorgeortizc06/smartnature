@@ -4,7 +4,7 @@
 {% block card_title %} Dashboard {% endblock card_title %}
 
 {% block body %}
-    <div class="card">
+    <div class="container-fluid">
         <ol>
             {% for device in object_list %}
                 <li>{{ device }}</li>
@@ -102,15 +102,22 @@
                 </div>
                 <div class="row">
                     <div>
-                        <label>Activar Riego: </label>
+                        <label>Activar Riego Manual: </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-1">
                         <a class="btn btn-success btn-flat" id="on" type="button">
                             <i class="fas fa-on"></i> ON
                         </a>
+                    </div>
+                    <div class="col-1">
                         <a class="btn btn-danger btn-flat" id="off" type="button">
                             <i class="fas fa-on"></i> OFF
                         </a>
-                        <a id="estado">-</a>
+
                     </div>
+                    <a id="estado">_____________</a>
                 </div>
             {% endfor %}
         </ol>
@@ -473,26 +480,26 @@
                 data: {{ v1_historial_riego_5|safe }}
 
             },
-            {
-                name: 'Tiempo Riego: Sensor 1',
-                data: {{ v1_historial_riego_1|safe }}
+                {
+                    name: 'Tiempo Riego: Sensor 1',
+                    data: {{ v1_historial_riego_1|safe }}
 
-            },
-            {
-                name: 'Tiempo Riego: Sensor 2',
-                data: {{ v1_historial_riego_2|safe }}
+                },
+                {
+                    name: 'Tiempo Riego: Sensor 2',
+                    data: {{ v1_historial_riego_2|safe }}
 
-            },
-            {
-                name: 'Tiempo Riego: Sensor 3',
-                data: {{ v1_historial_riego_3|safe }}
+                },
+                {
+                    name: 'Tiempo Riego: Sensor 3',
+                    data: {{ v1_historial_riego_3|safe }}
 
-            },
-            {
-                name: 'Tiempo Riego: Sensor 4',
-                data: {{ v1_historial_riego_4|safe }}
+                },
+                {
+                    name: 'Tiempo Riego: Sensor 4',
+                    data: {{ v1_historial_riego_4|safe }}
 
-            }]
+                }]
         }
 
         var optionsMonth4Variable = {
@@ -714,7 +721,7 @@
                         data: data.historial_riego_month_4
                     })
 
-                     mes.setTitle({
+                    mes.setTitle({
                         text: data.dia_riego
                     });
 
@@ -740,7 +747,7 @@
                         name: 'Tiempo Riego: Sensor 4',
                         data: data.v1_historial_riego_month_4
                     })
-                     mes1variable.setTitle({
+                    mes1variable.setTitle({
                         text: data.dia_riego
                     });
 
