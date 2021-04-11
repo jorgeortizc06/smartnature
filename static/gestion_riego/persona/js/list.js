@@ -17,7 +17,6 @@ $(function () {
             {"data": "apellido"},
             {"data": "email"},
             {"data": "tfno"},
-            {"data": "password"},
             {"data": null},
         ],
         columnDefs: [ //Por columna lo puedes personalizar

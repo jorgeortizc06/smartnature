@@ -14,6 +14,15 @@ class PersonaForm(ModelForm):
         model = Persona
         fields = '__all__'  # tambien ('nombre', 'apellido',....)
 
+        widgets = {
+            'password': TextInput(
+                attrs={
+                    'type': "password",
+                },
+
+            )
+        }
+
     def save(self, commit=True):
         data = {}
         form = super()
