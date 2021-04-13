@@ -71,7 +71,6 @@
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-    <script src="{% static 'gestion_riego/sensor/js/list.js' %}"></script>
     <script>
         //Guardo los datos recuperados de django en una variable de javascript
         var mes = '{{ mes }}';
@@ -82,7 +81,6 @@
         var sensor_humedad_ambiente_1_avgs = {{ sensor_humedad_ambiente_1_avgs|safe }}
         var sensor_temperatura_ambiente_1_avgs = {{ sensor_temperatura_ambiente_1_avgs|safe }}
     </script>
-    <script src="{% static 'gestion_riego/sensor/js/search_for_date_ajax.js' %}"></script>
-
+    <script src="{% static 'gestion_riego/sensor/js/SensorView.js' %}"></script>
 {% endblock javascript %}
 
