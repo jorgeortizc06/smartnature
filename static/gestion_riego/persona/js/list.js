@@ -4,6 +4,9 @@ $(function () {
         autoWidth: false, //respeta el ancho de mi tabla
         destroy: true, //se puede reinicializar con otro proceso
         deferRender: true, //
+        language: {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+        },
         ajax: {
             url: window.location.pathname, //
             type: 'POST',

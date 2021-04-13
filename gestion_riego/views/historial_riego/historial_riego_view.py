@@ -74,13 +74,18 @@ class UsoAguaPorTipoLogicaDifusa(TemplateView):
                 data = []
                 data_consumo_agua_month= self.get_graph_historial_consumo_agua_month(mes, anio)
                 data_consumo_agua_mensual_per_tipo_logica_difusa = self.get_consumo_agua_month_total(mes,anio)
+                data_consumo_agua_month_datatables = self.get_historial_consumo_agua_month(mes, anio)
+
                 data = {'consumo_agua_1_variable': data_consumo_agua_month['data_consumo_agua_1_variable_mensual'],
                         'consumo_agua_3_variable': data_consumo_agua_month['data_consumo_agua_3_variable_mensual'],
                         'consumo_agua_4_variable': data_consumo_agua_month['data_consumo_agua_4_variable_mensual'],
                         'consumo_agua_1_variable_mensual': data_consumo_agua_mensual_per_tipo_logica_difusa[0]['consumo_agua_1_variable_mensual'],
                         'consumo_agua_3_variable_mensual': data_consumo_agua_mensual_per_tipo_logica_difusa[0]['consumo_agua_3_variable_mensual'],
                         'consumo_agua_4_variable_mensual': data_consumo_agua_mensual_per_tipo_logica_difusa[0]['consumo_agua_4_variable_mensual'],
-                        'mes': formateo_fecha}
+                        'mes': formateo_fecha,
+                        'data_consumo_agua_month_datatables':data_consumo_agua_month_datatables}
+            elif action == 'load_consumo_agua':
+                data = self.get_historial_consumo_agua_month(datetime.now().month, datetime.now().year)
             else:
                 data['error'] = 'Ha ocurrido un error'
         except Exception as e:
@@ -191,7 +196,7 @@ class UsoAguaPorTipoLogicaDifusa(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         #data_historial_riego_month = self.get_graph_historial_riego_month(mes = datetime.now().month, anio = datetime.now().year)
-        data_historial_consumo_agua_month = self.get_historial_consumo_agua_month(mes = 12, anio = 2020)
+        data_historial_consumo_agua_month = self.get_historial_consumo_agua_month(mes = datetime.now().month, anio = datetime.now().year)
         data_consumo_agua_mensual_per_tipo_logica_difusa = self.get_consumo_agua_month_total(mes = datetime.now().month, anio = datetime.now().year)
         data_consumo_agua = self.get_graph_historial_consumo_agua_month(mes = datetime.now().month, anio = datetime.now().year)
         context['title'] = 'Consumo de Agua'

@@ -39,20 +39,9 @@
 
                 </tr>
                 </thead>
-
                 <tbody>
-                {% for d in consumo_agua %}
-                    <tr>
-                        <td>{{ d.dia }}</td>
-                        <td>{{ d.data_historial_riego_1_variable }}</td>
-                        <td>{{ d.consumo_agua_1_variable }}</td>
-                        <td>{{ d.data_historial_riego_3_variable }}</td>
-                        <td>{{ d.consumo_agua_3_variable }}</td>
-                        <td>{{ d.data_historial_riego_4_variable }}</td>
-                        <td>{{ d.consumo_agua_4_variable }}</td>
 
-                    </tr>
-                {% endfor %}
+
                 </tbody>
             </table>
         </div>
@@ -66,162 +55,16 @@
     </div>
 {% endblock body %}
 {% block javascript %}
-    <script>
-        $(document).ready(function () {
-            $('#table_uso_agua').DataTable({
-                dom: 'Bfrtip',
-                buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
-                ],
-                "language": {
-                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
-                }
-            });
-        });
-    </script>
-
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/highcharts-more.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
-    <script src="{% static 'gestion_riego/sensor/js/list.js' %}"></script>
     <script>
-        $(document).ready(function () {
-            //Se ha comentado por su tardia respuesta
-            var options_consumo_agua_1_variable = {
-                chart: {
-                    type: 'column'
-                },
-                title: {
-                    text: 'Consumo de Agua'
-                },
-                subtitle: {
-                    text: 'Mes de {{mes}}'
-                },
-                xAxis: {
-                    categories: [
-                        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30
-                    ],
-                    crosshair: true
-                },
-                yAxis: {
-                    min: 0,
-                    title: {
-                        text: 'LITROS'
-                    }
-                },
-                tooltip: {
-                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y:.1f} litros</b></td></tr>',
-                    footerFormat: '</table>',
-                    shared: true,
-                    useHTML: true
-                },
-                plotOptions: {
-                    column: {
-                        pointPadding: 0.2,
-                        borderWidth: 0
-                    }
-                },
-                series: [{
-                    name: '1 Variable',
-                    data: {{ consumo_agua_1_variable|safe }}
-
-                },
-                    {
-                        name: '3 variables',
-                        data: {{ consumo_agua_3_variable|safe }}
-
-                    },
-                    {
-                        name: '4 Variables',
-                        data: {{ consumo_agua_4_variable|safe }}
-
-                    }]
-            };
-
-            var highHumedadSuelo = Highcharts.chart('c_consumo_agua_1_variable', options_consumo_agua_1_variable);
-
-
-            //Para ajax
-            var options_new_consumo_agua_1_variable = {
-                chart: {
-                    type: 'column'
-                },
-                title: {
-                    text: 'Consumo de Agua'
-                },
-                subtitle: {},
-                xAxis: {
-                    categories: [
-                        1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31
-                    ],
-                    crosshair: true
-                },
-                yAxis: {
-                    min: 0,
-                    title: {
-                        text: 'LITROS'
-                    }
-                },
-                tooltip: {
-                    headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-                    pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-                        '<td style="padding:0"><b>{point.y:.1f} litros</b></td></tr>',
-                    footerFormat: '</table>',
-                    shared: true,
-                    useHTML: true
-                },
-                plotOptions: {
-                    column: {
-                        pointPadding: 0.2,
-                        borderWidth: 0
-                    }
-                },
-                series: []
-            }
-
-            $('#dateMes').on('change', function () {
-                var fecha = $(this).val();
-                $.ajax({
-                    url: window.location.pathname,
-                    type: 'POST',
-                    data: {
-                        'action': 'search_consumo_agua_month',
-                        'fecha': fecha
-                    },
-                    dataType: 'json',
-                }).done(function (data) {
-                    //console.log(data);
-                    //console.log('ejecutado' + data.historial_sensor_humedad_suelo_month_1);
-                    $('#consumo_agua').html('Tipo de lógica digusa de 1 variable:' + data.consumo_agua_1_variable_mensual + '<br> Tipo de lógica difusa de 3 variables: ' + data.consumo_agua_3_variable_mensual + '<br> Tipo de lógica difusa de 4 variables: ' + data.consumo_agua_4_variable_mensual);
-                    //var dia = new Highcharts.chart('container4', options1);
-                    var newHighConsumoAgua = new Highcharts.chart('c_consumo_agua_1_variable', options_new_consumo_agua_1_variable);
-                    newHighConsumoAgua.addSeries({
-                        name: '1 Variable',
-                        data: data.consumo_agua_1_variable
-                    })
-                    newHighConsumoAgua.addSeries({
-                        name: '3 variables',
-                        data: data.consumo_agua_3_variable
-                    })
-                    newHighConsumoAgua.addSeries({
-                        name: '4 Variables',
-                        data: data.consumo_agua_4_variable
-                    })
-
-                    newHighConsumoAgua.setSubtitle({
-                        text: 'Consumo de agua:' + data.mes
-                    });
-                    return false;
-                }).fail(function (jqXHR, textStatus, errorThrown) {
-                    alert(textStatus + ': ' + errorThrown);
-                }).always(function (data) {
-                });
-            });
-        });
-
+        var consumo_agua_1_variable = {{ consumo_agua_1_variable|safe }}
+        var consumo_agua_3_variable = {{ consumo_agua_3_variable|safe }}
+        var consumo_agua_4_variable = {{ consumo_agua_4_variable|safe }}
+        var mes = {{mes}}
     </script>
+    <script src="{% static 'gestion_riego/historial_riego/js/ConsumoAgua.js' %}"></script>
 {% endblock javascript %}

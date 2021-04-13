@@ -1,9 +1,12 @@
-function loadSensores(){
+function loadSensores() {
     $('#data').DataTable({
         responsive: true, //se adapta la tabla
         autoWidth: false, //respeta el ancho de mi tabla
         destroy: true, //se puede reinicializar con otro proceso
         deferRender: true, //
+        language: {
+            "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+        },
         ajax: {
             url: window.location.pathname, //
             type: 'POST',
@@ -50,7 +53,7 @@ function loadSensores(){
     });
 }
 
-function loadSensoresCharts(){
+function loadSensoresCharts() {
     var optionsHumedadSuelo = {
         chart: {
             type: 'column'
@@ -59,7 +62,7 @@ function loadSensoresCharts(){
             text: 'Sensor de Humedad de Suelo'
         },
         subtitle: {
-            text: 'Historial por Día: '+mes,
+            text: 'Historial por Día: ' + mes,
         },
         xAxis: {
             categories: [
@@ -200,7 +203,7 @@ function loadSensoresCharts(){
     var highHumedadAmbiente = Highcharts.chart('c_sensor_humedad_ambiente', optionsHumedadAmbiente);
 }
 
-function searchSensoresForDateAjax(){
+function searchSensoresForDateAjax() {
     var optionsNewHumedadSuelo = {
         chart: {
             type: 'column'
@@ -386,6 +389,9 @@ function searchSensoresForDateAjax(){
                 destroy: true,
                 data: data,
                 responsive: true,
+                language: {
+                    "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
+                },
                 columns: [ //columnas de las tablas, se debe poner los campos del models.py
                     {"data": "id"},
                     {"data": "codigo_sensor"},
@@ -416,7 +422,6 @@ function searchSensoresForDateAjax(){
         });
     });
 }
-
 $(function () {
     loadSensoresCharts();
     loadSensores();

@@ -1,4 +1,4 @@
-$(function () {
+function loadSiembras() {
     $('#table_siembras').DataTable({
         responsive: true, //se adapta la tabla
         autoWidth: false, //respeta el ancho de mi tabla
@@ -39,4 +39,8 @@ $(function () {
             //aqui va alguna funcion que se ejecutara despues de cargar la tabla
         }
     });
-})
+}
+
+$(function () {
+    loadSiembras();
+});
