@@ -266,9 +266,9 @@ class Sensor(models.Model):
     def toJSON(self):
         item = model_to_dict(self)
         item['fecha_registro'] = self.fecha_registro.strftime('%d-%m-%Y %H:%M')
-        item['tipo_sensor'] = self.tipo_sensor.toJSON()  # llamar al metodo toJSON() en caso de ser foreignKey
+        item['tipo_sensor'] = self.tipo_sensor.nombre  # llamar al metodo toJSON() en caso de ser foreignKey
         item['value'] = format(self.value, '.2f')
-        item['device'] = self.device.toJSON()
+        item['device'] = self.device.nombre
         return item
 
     class Meta:

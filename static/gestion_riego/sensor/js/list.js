@@ -15,11 +15,11 @@ $(function () {
         columns: [ //columnas de las tablas, se debe poner los campos del models.py
             {"data": "id"},
             {"data": "codigo_sensor"},
-            {"data": "tipo_sensor.nombre"},
+            {"data": "tipo_sensor"},
             {"data": "fecha_registro"},
             {"data": "value"},
             {"data": "estado"},
-            {"data": "device.nombre"},
+            {"data": "device"},
             {"data": null},
         ],
         columnDefs: [ //Por columna lo puedes personalizar

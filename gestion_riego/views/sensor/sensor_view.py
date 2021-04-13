@@ -121,7 +121,6 @@ class SensorListView(TemplateView):
 
     def post(self, request, *args, **kwargs):
         data = {}
-        data_sensores_datatable = {}
         try:
             action = request.POST['action']
             if action == 'searchdata':
@@ -131,6 +130,18 @@ class SensorListView(TemplateView):
                                                  fecha_registro__year=datetime.now().year)
                 for i in sensores:
                     data.append(i.toJSON())
+            elif action == 'search_historial_sensores_month_datatable':
+                fecha_ajax = request.POST['fecha']
+                fecha = datetime.strptime(fecha_ajax, '%Y-%m-%d')  # convierto a fecha para que python lo entienda
+                mes = fecha.month
+                anio = fecha.year
+                data = []
+                sensores = Sensor.objects.filter(fecha_registro__month=mes,
+                                                           fecha_registro__year=anio)
+                print(sensores)
+                for sensor in sensores:
+                    data.append(sensor.toJSON())
+
             elif action == 'search_historial_sensores_month':
                 fecha_ajax = request.POST['fecha']
 
@@ -141,21 +152,12 @@ class SensorListView(TemplateView):
                 anio = fecha.year
                 data = []
                 data_sensores = self.get_data_sensores(mes, anio)
-                #sensores: Para mi datatable
-                # sensores_datatable = Sensor.objects.filter(fecha_registro__month=mes,
-                #                                  fecha_registro__year=anio)
-                # data_sensores_datatable = []
-                # for sensor in sensores_datatable:
-                #     data_sensores_datatable.append(sensor.toJSON())
-
-                # print(sensores_datatable)
                 data = {'historial_sensor_humedad_suelo_month_1': data_sensores['data_humedad_1'],
                         'historial_sensor_humedad_suelo_month_2': data_sensores['data_humedad_2'],
                         'historial_sensor_humedad_suelo_month_3': data_sensores['data_humedad_3'],
                         'historial_sensor_humedad_suelo_month_4': data_sensores['data_humedad_4'],
                         'historial_sensor_humedad_ambiente_month_1': data_sensores['data_humedad_ambiente_1'],
                         'historial_sensor_temperatura_ambiente_month_1': data_sensores['data_temperatura_ambiente_1'],
-                        # 'data_sensores_datatable': data_sensores_datatable,
                         'mes': formateo_fecha}
             else:
                 data['error'] = 'Ha ocurrido un error'
