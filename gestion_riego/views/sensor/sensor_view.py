@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.db.models import Avg
+from django.db.models import Avg, Q
 from django.db.models.functions import Coalesce
 from django.shortcuts import render
 from django.urls import reverse_lazy
@@ -125,19 +125,20 @@ class SensorListView(TemplateView):
             action = request.POST['action']
             if action == 'searchdata':
                 data = []
-                # Obtengo datos del mes actual
+                # Obtengo datos del mes actual, y sin el caudal y consumo de agua
                 sensores = Sensor.objects.filter(fecha_registro__month=datetime.now().month,
-                                                 fecha_registro__year=datetime.now().year)
+                                                 fecha_registro__year=datetime.now().year).exclude(tipo_sensor_id=4).exclude(tipo_sensor_id=5)
                 for i in sensores:
                     data.append(i.toJSON())
             elif action == 'search_historial_sensores_month_datatable':
                 fecha_ajax = request.POST['fecha']
                 fecha = datetime.strptime(fecha_ajax, '%Y-%m-%d')  # convierto a fecha para que python lo entienda
+                dia = fecha.day
                 mes = fecha.month
                 anio = fecha.year
                 data = []
-                sensores = Sensor.objects.filter(fecha_registro__month=mes,
-                                                           fecha_registro__year=anio)
+                sensores = Sensor.objects.filter(fecha_registro__day=dia, fecha_registro__month=mes,
+                                                 fecha_registro__year=anio).exclude(tipo_sensor=4).exclude(tipo_sensor=5)
                 print(sensores)
                 for sensor in sensores:
                     data.append(sensor.toJSON())

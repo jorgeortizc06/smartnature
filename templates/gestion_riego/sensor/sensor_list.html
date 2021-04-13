@@ -411,6 +411,7 @@
                     var newTable = $('#data').DataTable({
                         destroy: true,
                         data: data,
+                        responsive: true,
                         columns: [ //columnas de las tablas, se debe poner los campos del models.py
                             {"data": "id"},
                             {"data": "codigo_sensor"},
