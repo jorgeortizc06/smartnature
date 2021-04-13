@@ -127,38 +127,39 @@ class SensorListView(TemplateView):
                 data = []
                 # Obtengo datos del mes actual, y sin el caudal y consumo de agua
                 sensores = Sensor.objects.filter(fecha_registro__month=datetime.now().month,
-                                                 fecha_registro__year=datetime.now().year).exclude(tipo_sensor_id=4).exclude(tipo_sensor_id=5)
+                                                 fecha_registro__year=datetime.now().year).exclude(
+                    tipo_sensor_id=4).exclude(tipo_sensor_id=5)
                 for i in sensores:
                     data.append(i.toJSON())
             elif action == 'search_historial_sensores_month_datatable':
-                fecha_ajax = request.POST['fecha']
-                fecha = datetime.strptime(fecha_ajax, '%Y-%m-%d')  # convierto a fecha para que python lo entienda
+                dateForDatable = request.POST['fecha']
+                fecha = datetime.strptime(dateForDatable, '%Y-%m-%d')  # convierto a fecha para que python lo entienda
                 dia = fecha.day
                 mes = fecha.month
                 anio = fecha.year
                 data = []
                 sensores = Sensor.objects.filter(fecha_registro__day=dia, fecha_registro__month=mes,
-                                                 fecha_registro__year=anio).exclude(tipo_sensor=4).exclude(tipo_sensor=5)
+                                                 fecha_registro__year=anio).exclude(tipo_sensor=4).exclude(
+                    tipo_sensor=5)
                 print(sensores)
                 for sensor in sensores:
                     data.append(sensor.toJSON())
 
             elif action == 'search_historial_sensores_month':
-                fecha_ajax = request.POST['fecha']
-
-                fecha = datetime.strptime(fecha_ajax, '%Y-%m-%d')  # convierto a fecha para que python lo entienda
+                dateForChart = request.POST['fecha']
+                fecha = datetime.strptime(dateForChart, '%Y-%m-%d')  # convierto a fecha para que python lo entienda
                 formateo_fecha = datetime.strftime(fecha, '%B')  # ne sirve para visualizarlo en el chart
                 dia = fecha.day
                 mes = fecha.month
                 anio = fecha.year
                 data = []
-                data_sensores = self.get_data_sensores(mes, anio)
-                data = {'historial_sensor_humedad_suelo_month_1': data_sensores['data_humedad_1'],
-                        'historial_sensor_humedad_suelo_month_2': data_sensores['data_humedad_2'],
-                        'historial_sensor_humedad_suelo_month_3': data_sensores['data_humedad_3'],
-                        'historial_sensor_humedad_suelo_month_4': data_sensores['data_humedad_4'],
-                        'historial_sensor_humedad_ambiente_month_1': data_sensores['data_humedad_ambiente_1'],
-                        'historial_sensor_temperatura_ambiente_month_1': data_sensores['data_temperatura_ambiente_1'],
+                sensor_avgs = self.get_sensor_avgs(mes, anio)
+                data = {'sensor_humedad_suelo_1_avgs': sensor_avgs['sensor_humedad_suelo_1_avgs'],
+                        'sensor_humedad_suelo_2_avgs': sensor_avgs['sensor_humedad_suelo_2_avgs'],
+                        'sensor_humedad_suelo_3_avgs': sensor_avgs['sensor_humedad_suelo_3_avgs'],
+                        'sensor_humedad_suelo_4_avgs': sensor_avgs['sensor_humedad_suelo_4_avgs'],
+                        'sensor_humedad_ambiente_1_avgs': sensor_avgs['sensor_humedad_ambiente_1_avgs'],
+                        'sensor_temperatura_ambiente_1_avgs': sensor_avgs['sensor_temperatura_ambiente_1_avgs'],
                         'mes': formateo_fecha}
             else:
                 data['error'] = 'Ha ocurrido un error'
@@ -166,81 +167,86 @@ class SensorListView(TemplateView):
             data['error'] = str(e)
         return JsonResponse(data, safe=False)
 
-    # def get_queryset(self):
-    #    return self.model.objects.all()[:10]  # Trae solo dos objetos
-
-    def get_data_sensores(self, mes, anio):
-        data_humedad_1 = []
-        data_humedad_2 = []
-        data_humedad_3 = []
-        data_humedad_4 = []
-        data_humedad_ambiente_1 = []
-        data_temperatura_ambiente_1 = []
-        data = {}
+    #Promedio de los sensores por dia
+    def get_sensor_avgs(self, mes, anio):
+        sensor_humedad_suelo_1_avgs = []
+        sensor_humedad_suelo_2_avgs = []
+        sensor_humedad_suelo_3_avgs = []
+        sensor_humedad_suelo_4_avgs = []
+        sensor_humedad_ambiente_1_avgs = []
+        sensor_temperatura_ambiente_1_avgs = []
+        sensor_avgs = {}
         try:
 
             for d in range(1, 32):
-                avg_sensor_humedad_1 = Sensor.objects.filter(fecha_registro__day=d, fecha_registro__month=mes,
-                                                             fecha_registro__year=anio, codigo_sensor=1,
-                                                             tipo_sensor=1).aggregate(r=Coalesce(Avg('value'), 0)).get(
+                sensor_humedad_suelo_1_avg = Sensor.objects.filter(fecha_registro__day=d, fecha_registro__month=mes,
+                                                                   fecha_registro__year=anio, codigo_sensor=1,
+                                                                   tipo_sensor=1).aggregate(
+                    r=Coalesce(Avg('value'), 0)).get(
                     'r')
-                avg_sensor_humedad_2 = Sensor.objects.filter(fecha_registro__day=d, fecha_registro__month=mes,
-                                                             fecha_registro__year=anio, codigo_sensor=2,
-                                                             tipo_sensor=1).aggregate(r=Coalesce(Avg('value'), 0)).get(
-                    'r')
-
-                avg_sensor_humedad_3 = Sensor.objects.filter(fecha_registro__day=d, fecha_registro__month=mes,
-                                                             fecha_registro__year=anio, codigo_sensor=3,
-                                                             tipo_sensor=1).aggregate(r=Coalesce(Avg('value'), 0)).get(
-                    'r')
-                avg_sensor_humedad_4 = Sensor.objects.filter(fecha_registro__day=d, fecha_registro__month=mes,
-                                                             fecha_registro__year=anio, codigo_sensor=4,
-                                                             tipo_sensor=1).aggregate(r=Coalesce(Avg('value'), 0)).get(
+                sensor_humedad_suelo_2_avg = Sensor.objects.filter(fecha_registro__day=d, fecha_registro__month=mes,
+                                                                   fecha_registro__year=anio, codigo_sensor=2,
+                                                                   tipo_sensor=1).aggregate(
+                    r=Coalesce(Avg('value'), 0)).get(
                     'r')
 
-                avg_sensor_hum_ambiente = Sensor.objects.filter(fecha_registro__day=d, fecha_registro__month=mes,
-                                                                fecha_registro__year=anio, codigo_sensor=1,
-                                                                tipo_sensor=2).aggregate(
+                sensor_humedad_suelo_3_avg = Sensor.objects.filter(fecha_registro__day=d, fecha_registro__month=mes,
+                                                                   fecha_registro__year=anio, codigo_sensor=3,
+                                                                   tipo_sensor=1).aggregate(
+                    r=Coalesce(Avg('value'), 0)).get(
+                    'r')
+                sensor_humedad_suelo_4_avg = Sensor.objects.filter(fecha_registro__day=d, fecha_registro__month=mes,
+                                                                   fecha_registro__year=anio, codigo_sensor=4,
+                                                                   tipo_sensor=1).aggregate(
+                    r=Coalesce(Avg('value'), 0)).get(
+                    'r')
+
+                sensor_humedad_ambiente_1_avg = Sensor.objects.filter(fecha_registro__day=d, fecha_registro__month=mes,
+                                                                      fecha_registro__year=anio, codigo_sensor=1,
+                                                                      tipo_sensor=2).aggregate(
                     r=Coalesce(Avg('value'), 0)).get('r')
 
-                avg_sensor_temp_ambiente = Sensor.objects.filter(fecha_registro__day=d, fecha_registro__month=mes,
-                                                                 fecha_registro__year=anio, codigo_sensor=1,
-                                                                 tipo_sensor=3).aggregate(
+                sensor_temperatura_ambiente_1_avg = Sensor.objects.filter(fecha_registro__day=d,
+                                                                          fecha_registro__month=mes,
+                                                                          fecha_registro__year=anio, codigo_sensor=1,
+                                                                          tipo_sensor=3).aggregate(
                     r=Coalesce(Avg('value'), 0)).get('r')
 
-                data_humedad_1.append(float(avg_sensor_humedad_1))
-                data_humedad_2.append(float(avg_sensor_humedad_2))
-                data_humedad_3.append(float(avg_sensor_humedad_3))
-                data_humedad_4.append(float(avg_sensor_humedad_4))
-                data_humedad_ambiente_1.append(float(avg_sensor_hum_ambiente))
-                data_temperatura_ambiente_1.append(float(avg_sensor_temp_ambiente))
+                sensor_humedad_suelo_1_avgs.append(float(sensor_humedad_suelo_1_avg))
+                sensor_humedad_suelo_2_avgs.append(float(sensor_humedad_suelo_2_avg))
+                sensor_humedad_suelo_3_avgs.append(float(sensor_humedad_suelo_3_avg))
+                sensor_humedad_suelo_4_avgs.append(float(sensor_humedad_suelo_4_avg))
+                sensor_humedad_ambiente_1_avgs.append(float(sensor_humedad_ambiente_1_avg))
+                sensor_temperatura_ambiente_1_avgs.append(float(sensor_temperatura_ambiente_1_avg))
 
-            data = {'data_humedad_1': data_humedad_1,
-                    'data_humedad_2': data_humedad_2,
-                    'data_humedad_3': data_humedad_3,
-                    'data_humedad_4': data_humedad_4,
-                    'data_humedad_ambiente_1': data_humedad_ambiente_1,
-                    'data_temperatura_ambiente_1': data_temperatura_ambiente_1}
+            sensor_avgs = {
+                'sensor_humedad_suelo_1_avgs': sensor_humedad_suelo_1_avgs,
+                'sensor_humedad_suelo_2_avgs': sensor_humedad_suelo_2_avgs,
+                'sensor_humedad_suelo_3_avgs': sensor_humedad_suelo_3_avgs,
+                'sensor_humedad_suelo_4_avgs': sensor_humedad_suelo_4_avgs,
+                'sensor_humedad_ambiente_1_avgs': sensor_humedad_ambiente_1_avgs,
+                'sensor_temperatura_ambiente_1_avgs': sensor_temperatura_ambiente_1_avgs
+            }
 
         except:
             pass
-        return data
+        return sensor_avgs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        data_sensores = self.get_data_sensores(mes=datetime.now().month, anio=datetime.now().year)
-        context['title'] = 'Lista de Sensores'
+        sensor_avgs = self.get_sensor_avgs(mes=datetime.now().month, anio=datetime.now().year)
+        context['title'] = 'Promedio de datos de los Sensores'
         context['entity'] = 'Sensor'
         context['create_url'] = reverse_lazy('gestion_riego:sensor_create')
         context['list_url'] = reverse_lazy('gestion_riego:sensor_list')
         # Tarda mucho en cargar por lo cual se ha comentado
         context['mes'] = datetime.now().strftime('%B')
-        context['sensor_humedad_suelo_1'] = data_sensores['data_humedad_1']
-        context['sensor_humedad_suelo_2'] = data_sensores['data_humedad_2']
-        context['sensor_humedad_suelo_3'] = data_sensores['data_humedad_3']
-        context['sensor_humedad_suelo_4'] = data_sensores['data_humedad_4']
-        context['sensor_humedad_ambiente_1'] = data_sensores['data_humedad_ambiente_1']
-        context['sensor_temperatura_ambiente_1'] = data_sensores['data_temperatura_ambiente_1']
+        context['sensor_humedad_suelo_1_avgs'] = sensor_avgs['sensor_humedad_suelo_1_avgs']
+        context['sensor_humedad_suelo_2_avgs'] = sensor_avgs['sensor_humedad_suelo_1_avgs']
+        context['sensor_humedad_suelo_3_avgs'] = sensor_avgs['sensor_humedad_suelo_1_avgs']
+        context['sensor_humedad_suelo_4_avgs'] = sensor_avgs['sensor_humedad_suelo_1_avgs']
+        context['sensor_humedad_ambiente_1_avgs'] = sensor_avgs['sensor_humedad_ambiente_1_avgs']
+        context['sensor_temperatura_ambiente_1_avgs'] = sensor_avgs['sensor_temperatura_ambiente_1_avgs']
         return context
 
 
