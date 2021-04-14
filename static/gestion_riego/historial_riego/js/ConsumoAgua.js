@@ -15,11 +15,11 @@ function loadConsumoAguaForMonth() {
         },
         columns: [ //columnas de las tablas, se debe poner los campos del models.py
             {"data": "dia"},
-            {"data": "data_historial_riego_1_variable"},
+            {"data": "tiempo_riego_1_variable"},
             {"data": "consumo_agua_1_variable"},
-            {"data": "data_historial_riego_3_variable"},
+            {"data": "tiempo_riego_3_variable"},
             {"data": "consumo_agua_3_variable"},
-            {"data": "data_historial_riego_4_variable"},
+            {"data": "tiempo_riego_4_variable"},
             {"data": "consumo_agua_4_variable"}
             //{"data": "persona"},
             //{"data": "tipo_logica_difusa"},
@@ -33,7 +33,7 @@ function loadConsumoAguaForMonth() {
     });
 }
 
-function loadChartConsumoAguaForDay() {
+function loadChartConsumoAguaForMonth() {
     var options_consumo_agua_1_variable = {
         chart: {
             type: 'column'
@@ -169,18 +169,15 @@ function searchForDateConsumoAgua() {
                 language: {
                     "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/Spanish.json"
                 },
-                data: data.data_consumo_agua_month_datatables,
+                data: data.consumo_agua_months,
                 columns: [ //columnas de las tablas, se debe poner los campos del models.py
                     {"data": "dia"},
-                    {"data": "data_historial_riego_1_variable"},
+                    {"data": "tiempo_riego_1_variable"},
                     {"data": "consumo_agua_1_variable"},
-                    {"data": "data_historial_riego_3_variable"},
+                    {"data": "tiempo_riego_3_variable"},
                     {"data": "consumo_agua_3_variable"},
-                    {"data": "data_historial_riego_4_variable"},
+                    {"data": "tiempo_riego_4_variable"},
                     {"data": "consumo_agua_4_variable"}
-                    //{"data": "persona"},
-                    //{"data": "tipo_logica_difusa"},
-                    //{"data": "tipo_rol"},
                 ],
                 order: [[0, 'desc']],
                 initComplete: function (settings, json) {
@@ -200,6 +197,6 @@ function searchForDateConsumoAgua() {
 
 $(function () {
     loadConsumoAguaForMonth();
-    loadChartConsumoAguaForDay();
+    loadChartConsumoAguaForMonth();
     searchForDateConsumoAgua();
 })

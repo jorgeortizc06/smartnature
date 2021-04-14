@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 
 from gestion_riego.views.dashboard.dashboard_view import dashboard
 from gestion_riego.views.device.device_views import DeviceCreateView, DeviceUpdateView, DeviceDeleteView, \
-    DeviceListView, dashboardView, DeviceViewSet
+    DeviceListView, DashboardView, DeviceViewSet
 from gestion_riego.views.historial_riego.historial_riego_view import HistorialRiegoListView, HistorialRiegoViewSet, UsoAguaPorTipoLogicaDifusa
 from gestion_riego.views.login.views import LoginFormView, LogoutView
 from gestion_riego.views.persona.persona_view import PersonaCreateView, PersonaUpdateView, PersonaDeleteView, \
@@ -78,7 +78,7 @@ urlpatterns += [
     path('devices/update/<int:pk>/', DeviceUpdateView.as_view(), name='device_update'),
     path('devices/delete/<int:pk>/', DeviceDeleteView.as_view(), name='device_delete'),
     path('devices/list/', DeviceListView.as_view(), name='device_list'),
-    path('dashboard/', dashboardView.as_view(), name='dashboard'),
+    path('dashboard/', DashboardView.as_view(), name='dashboard'),
 
     path('historial_riego/', HistorialRiegoListView.as_view(), name='historial_riego'),
     path('uso_agua/', UsoAguaPorTipoLogicaDifusa.as_view(), name='uso_agua'),

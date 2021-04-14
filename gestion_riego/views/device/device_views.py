@@ -49,16 +49,6 @@ class DeviceCreateView(CreateView):
         # context['object_list'] = Device.objects.all()
         return context
 
-    """def post(self, request, *args, **kwargs):
-        print(request.POST)
-        form = DeviceForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(self.success_url)
-        self.object = None
-        return render(request, self.template_name, {'form':form})"""
-
-
 class DeviceUpdateView(UpdateView):
     model = Device
     form_class = DeviceForm
@@ -119,8 +109,7 @@ class DeviceDeleteView(DeleteView):
         return context
 
 
-class DeviceListView(ListView):
-    model = Device
+class DeviceListView(TemplateView):
     template_name = 'gestion_riego/device/device_list.html'
 
     ####Sobreescribir metodos####
@@ -178,7 +167,7 @@ class DeviceListView(ListView):
         # context['object_list'] = Device.objects.all()
         return context
 
-class dashboardView(TemplateView):
+class DashboardView(TemplateView):
     model = Device
     template_name = 'gestion_riego/dashboard/dashboard.html'
 
