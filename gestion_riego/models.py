@@ -108,7 +108,7 @@ class Device(models.Model):
     ip = models.CharField(max_length=20, default='192.168.100.254')
     topic = models.CharField(max_length=300, default='device1/#', unique=True, verbose_name='tópico')
     puerto = models.IntegerField(default=9001)
-    frecuencia_actualizacion = models.IntegerField(default=30, verbose_name='frecuencia de actualización')
+    frecuencia_actualizacion = models.IntegerField(default=30, verbose_name='frecuencia de actualización (minutos)')
     tipo_logica_difusa = models.ForeignKey(TipoLogicaDifusa, on_delete=models.PROTECT)
 
     def __str__(self):

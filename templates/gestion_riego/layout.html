@@ -83,28 +83,34 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{% url 'gestion_riego:dashboard' %}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-tachometer-alt nav-icon"></i>
                                     <p>Dashboard</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'gestion_riego:presentacion' %}" class="nav-link" target="_blank">
+                                    <i class="far fa-file-powerpoint nav-icon"></i>
+                                    <p>Presentación</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="https://github.com/jorgeortizc05/smartnature/blob/master/jupyter_notebook/FuzzyLogic_Irrigation_1variable.ipynb"
                                    class="nav-link" target="_blank">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-chart-area nav-icon"></i>
                                     <p>Lógica Difusa de 1 variables</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="https://github.com/jorgeortizc05/smartnature/blob/master/jupyter_notebook/FuzzyLogic_Irrigation_3variables.ipynb"
                                    class="nav-link" target="_blank">
-                                    <i class="far fa-circle nav-icon" ></i>
+                                    <i class="fas fa-chart-area nav-icon" ></i>
                                     <p>Lógica Difusa de 3 variables</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="https://github.com/jorgeortizc05/smartnature/blob/master/jupyter_notebook/FuzzyLogic_Irrigation_4variable.ipynb"
                                    class="nav-link" target="_blank">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-chart-area nav-icon"></i>
                                     <p>Lógica Difusa de 4 variables</p>
                                 </a>
                             </li>
@@ -121,13 +127,13 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{% url 'gestion_riego:persona_create' %}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-plus nav-icon"></i>
                                     <p>Nueva Persona</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{% url 'gestion_riego:persona_list' %}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-list nav-icon"></i>
                                     <p>Listar Persona</p>
                                 </a>
                             </li>
@@ -144,13 +150,13 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{% url 'gestion_riego:planta_create' %}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-plus nav-icon"></i>
                                     <p>Nueva Planta</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{% url 'gestion_riego:planta_list' %}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-list nav-icon"></i>
                                     <p>Listar Plantas</p>
                                 </a>
                             </li>
@@ -167,13 +173,13 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{% url 'gestion_riego:tipo_suelo_create' %}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-plus nav-icon"></i>
                                     <p>Nuevo Suelo</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{% url 'gestion_riego:tipo_suelo_list' %}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-list nav-icon"></i>
                                     <p>Listar Suelos</p>
                                 </a>
                             </li>
@@ -190,13 +196,13 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{% url 'gestion_riego:device_create' %}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-plus nav-icon"></i>
                                     <p>Nuevo Dispositivo</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{% url 'gestion_riego:device_list' %}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-list nav-icon"></i>
                                     <p>Listar Dispositivos</p>
                                 </a>
                             </li>
@@ -213,13 +219,13 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{% url 'gestion_riego:tipo_sensor_create' %}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-plus nav-icon"></i>
                                     <p>Nuevo Tipo Sensor</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{% url 'gestion_riego:tipo_sensor_list' %}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-list nav-icon"></i>
                                     <p>Listar Tipo de Sensores</p>
                                 </a>
                             </li>
@@ -236,35 +242,35 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{% url 'gestion_riego:plataforma_create' %}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-plus nav-icon"></i>
                                     <p>Nueva Plataforma</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{% url 'gestion_riego:plataforma_list' %}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-list nav-icon"></i>
                                     <p>Listar Plataformas</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{% url 'gestion_riego:historial_riego' %}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-chart-bar"></i>
                                     <p>Reporte de Riego</p>
                                 </a>
                             <li class="nav-item">
                                 <a href="{% url 'gestion_riego:uso_agua' %}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-tint nav-icon"></i>
                                     <p>Consumo de agua</p>
                                 </a>
                             <li class="nav-item">
                                 <a href="{% url 'gestion_riego:siembra_create' %}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-plus nav-icon"></i>
                                     <p>Nueva Siembra</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{% url 'gestion_riego:siembra_list' %}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-list nav-icon"></i>
                                     <p>Listar Siembras</p>
                                 </a>
                             </li>
@@ -281,13 +287,13 @@
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
                                 <a href="{% url 'gestion_riego:sensor_create' %}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-plus nav-icon"></i>
                                     <p>Nuevo Sensor</p>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a href="{% url 'gestion_riego:sensor_list' %}" class="nav-link">
-                                    <i class="far fa-circle nav-icon"></i>
+                                    <i class="fas fa-list nav-icon"></i>
                                     <p>Listar Sensores</p>
                                 </a>
                             </li>
