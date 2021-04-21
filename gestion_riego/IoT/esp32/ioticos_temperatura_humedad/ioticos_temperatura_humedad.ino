@@ -24,7 +24,7 @@
 //**************************************
 //*********** MQTT CONFIG **************
 //**************************************
-const char *mqtt_server = "192.168.100.254";
+const char *mqtt_server = "192.168.0.254";
 const int mqtt_port = 1883;
 const char *mqtt_user = "nOkjkvS9JJPhbRN";
 const char *mqtt_pass = "AlmjrvUeyfxygz4";
