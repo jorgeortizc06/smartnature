@@ -24,7 +24,7 @@
 //**************************************
 //*********** MQTT CONFIG **************
 //**************************************
-const char *mqtt_server = "192.168.0.254";
+const char *mqtt_server = "192.168.100.254";
 const int mqtt_port = 1883;
 const char *mqtt_user = "nOkjkvS9JJPhbRN";
 const char *mqtt_pass = "AlmjrvUeyfxygz4";
@@ -119,7 +119,7 @@ void setup() {
   pinMode(pinHumedadSuelo3, INPUT);
   pinMode(pinHumedadSuelo4, INPUT);
   pinMode(pinElectrovalvula, OUTPUT);
-  digitalWrite(pinElectrovalvula,HIGH);
+  digitalWrite(pinElectrovalvula,LOW);
   dht.begin();
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback); //Cuando llega un mensaje
@@ -317,13 +317,13 @@ void callback(char* topic, byte* payload, unsigned int length){
     incoming += (char)payload[i];
   }
   incoming.trim(); //el rele funciona al revez, jqc 3ff sz
-  if(incoming.equals("OFF")){
-    digitalWrite(pinElectrovalvula,HIGH);
-    Serial.println("CERRADA");
-  }
   if(incoming.equals("ON")){
-    digitalWrite(pinElectrovalvula,LOW);
+    digitalWrite(pinElectrovalvula,HIGH);
     Serial.println("ABIERTA");
+  }
+  if(incoming.equals("OFF")){
+    digitalWrite(pinElectrovalvula,LOW);
+    Serial.println("CERRADA");
   }
   Serial.println("Mensaje -> " + incoming);
 

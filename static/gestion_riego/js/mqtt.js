@@ -1,4 +1,4 @@
-var MQTTbroker = "192.168.0.254";
+var MQTTbroker = "192.168.100.254";
 var MQTTport = 8083
 var MQTTsubTopic = "device1/#"
 var chart; // global variuable for chart
@@ -190,7 +190,7 @@ $(function () {
     client.onMessageArrived = onMessageArrived;
     var options = {
         timeout: 3,
-        useSSL: false,
+        useSSL: true,
         onSuccess: function () {
             console.log("mqtt connected");
             // Connection succeeded; subscribe to our topics
