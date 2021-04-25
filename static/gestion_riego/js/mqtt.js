@@ -1,6 +1,6 @@
-var MQTTbroker = "192.168.100.254";
-var MQTTport = 8083
-var MQTTsubTopic = "device1/#"
+var MQTTbroker = $("#iptxt").val();
+var MQTTport = parseInt($("#puertotxt").val());
+var MQTTsubTopic = $("#topictxt").val();
 var chart; // global variuable for chart
 var dataTopics = new Array();
 var humedadSueloTopics = new Array();
@@ -157,7 +157,7 @@ function graficarChartsSensores(destinationName, payloadString) {
 function plotSensorAmbientalCaudal(point, chartno) {
     var series = chartSensorAmbientalCaudal.series[0],
         shift = series.data.length > 20; // shift if the series is
-    console.log("Series", series);
+    //console.log("Series", series);
 
     // longer than 20
     // add the point
@@ -169,7 +169,7 @@ function plotSensorHumedadSuelo(point, chartno) {
         shift = series.data.length > 20; // shift if the series is
     // longer than 20
     // add the point
-    console.log("Series", series);
+    //console.log("Series", series);
 
     chartSensorHumedadSuelo.series[chartno].addPoint(point, true, shift);
 };
